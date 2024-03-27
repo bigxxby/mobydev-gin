@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/reg.css">
+    <title>Registration</title>
+</head>
+
+<body>
+    <header>
+        <h1>go-test-mobydev</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/reg">Register</a></li>
+                <li><a href="/projects">Projects</a></li>
+                <li><a href="/createProject">Create Project</a></li>
+                <li><a href="/admin">Admin Panel</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Registration</h1>
+    <div class="block">
+        <label for="email">Email:</label><br>
+        <input type="email" id="email" name="email" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <label for="confirm_password">Confirm Password:</label><br>
+        <input type="password" id="confirm_password" name="confirm_password" required><br>
+        <input type="submit" onclick="sumbit()" value="Register">
+        <p>Already have an account? <a href="/login">Login here</a>.</p>
+    </div>
+    <script>
+        
+        function sumbit() {
+            let email = document.getElementById('email').value
+            let password = document.getElementById('password').value
+            let confirm_password = document.getElementById('confirm_password').value
+            data = {
+                email: email,
+                password: password,
+                confirm_password: confirm_password
+            }
+
+            fetch("/reg", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`Ошибка HTTP, статус ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => {
+                    console.log('Произошла ошибка:', error.message);
+                });
+        }
+    </script>
+</body>
+
+</html>
