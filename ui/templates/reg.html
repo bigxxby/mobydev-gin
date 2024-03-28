@@ -23,57 +23,114 @@
         </nav>
     </header>
     <h1>Registration</h1>
-    <div class="block">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required oninput="validateInput()"><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required oninput="validateInput()"><br>
-        <label for="confirm_password">Confirm Password:</label><br>
-        <input type="password" id="confirmPassword" name="confirmPassword" required oninput="validateInput()"><br>
-        <div class="validationBlock" id="validationBlock"></div>
-        <input type="submit" onclick="submit()" id="submitButton" value="Register" >
-        <p>Already have an account? <a href="/login">Login here</a>.</p>
+    <div class="main">
+
+
+
+        <div id="popupNotification" class="popup-notification">
+            <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+            <p id="popupMessage"></p>
+        </div>
+
+        <div class="form">
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required oninput="validateInput()"><br>
+            <div class="validationBlock">
+                <div class="validationBlockEmail" id="validationBlockEmail"></div>
+            </div>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" required oninput="validateInput()"><br>
+            <div class="validationBlock">
+                <div class="validationBlockPassword" id="validationBlockPassword"></div>
+            </div>
+            <label for="confirm_password">Confirm Password:</label><br>
+            <input type="password" id="confirmPassword" name="confirmPassword" required oninput="validateInput()"><br>
+            <div class="validationBlock">
+                <div class="validationBlockPasswordC" id="validationBlockPasswordC"></div>
+            </div>
+            <div class="submitBlock">
+                <input type="submit" onclick="submit()" id="submitButton" value="Register">
+
+                <div class="loading" id="loading"></div>
+            </div>
+
+
+
+
+            <div class="validationBlock">
+            </div>
+            <p>Already have an account? <a href="/login">Login here</a>.</p>
+        </div>
+    </div>
     </div>
     <script>
-
         function validateInput() {
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let confirmPassword = document.getElementById('confirmPassword').value;
 
-            const validationBlock = document.getElementById('validationBlock');
-            validationBlock.innerHTML = ''; // очищаем валидационный блок перед проверкой
+            const validationBlockEmail = document.getElementById('validationBlockEmail');
+            const validationBlockPassword = document.getElementById('validationBlockPassword');
+            const validationBlockPasswordC = document.getElementById('validationBlockPasswordC');
+            validationBlockEmail.innerHTML = ''; // очищаем валидационный блок перед проверкой
+            validationBlockPassword.innerHTML = ''; // очищаем валидационный блок перед проверкой
+            validationBlockPasswordC.innerHTML = ''; // очищаем валидационный блок перед проверкой
 
             // Валидация email
             if (!email) {
-                validationBlock.innerHTML += '<p>Email is required</p>';
+                validationBlockEmail.innerHTML += '<p>Email is required</p>';
             } else if (!validateEmail(email)) {
-                validationBlock.innerHTML += '<p>Invalid email format</p>';
+                validationBlockEmail.innerHTML += '<p>Invalid email format</p>';
             }
 
             // Валидация пароля
             if (!password) {
-                validationBlock.innerHTML += '<p>Password is required</p>';
-            } else if (password.length < 6) {
-                validationBlock.innerHTML += '<p>Password should be at least 6 characters long</p>';
+                validationBlockPassword.innerHTML += '<p>Password is required</p>';
+            } else {
+                if (!validatePasswordContainsUppercase(password)) {
+                    validationBlockPassword.innerHTML += '<p>At least one uppercase letter</p>';
+                }
+                if (!validatePasswordContainsLowercase(password)) {
+                    validationBlockPassword.innerHTML += '<p>At least one lowercase letter</p>';
+                }
+                if (!validatePasswordContainsDigit(password)) {
+                    validationBlockPassword.innerHTML += '<p>At least one digit</p>';
+                }
+                if (!validatePasswordContainsSpecialChar(password)) {
+                    validationBlockPassword.innerHTML += '<p>At least one special character</p>';
+                }
+                if (password.length < 8) {
+                    validationBlockPassword.innerHTML += '<p>At least 8 characters long</p>';
+                }
             }
 
             // Подтверждение пароля
             if (password !== confirmPassword) {
-                validationBlock.innerHTML += '<p>Passwords do not match</p>';
+                validationBlockPasswordC.innerHTML += '<p>Passwords do not match</p>';
             }
-
-            const submitButton = document.getElementById('submitButton');
-            valid = (validationBlock.innerHTML === '');
-            if (valid) {
-                submitButton.style.backgroundColor='blue'
-                submitButton.disabled = false
-                
-            }else {
-                submitButton.style.backgroundColor='gray'
+            if ((validationBlockEmail.innerHTML !== '') || (validationBlockPassword.innerHTML !== '') || (validationBlockPasswordC.innerHTML !== '')) {
                 submitButton.disabled = true
-
+                submitButton.style.backgroundColor = 'gray'
+            } else {
+                submitButton.disabled = false
+                submitButton.style.backgroundColor = 'blue'
             }
+        }
+
+        function validatePasswordContainsUppercase(password) {
+            return /[A-Z]/.test(password);
+        }
+
+        function validatePasswordContainsLowercase(password) {
+            return /[a-z]/.test(password);
+        }
+
+        function validatePasswordContainsDigit(password) {
+            return /\d/.test(password);
+        }
+
+        function validatePasswordContainsSpecialChar(password) {
+            return /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(password);
         }
 
         function validateEmail(email) {
@@ -92,6 +149,12 @@
                 confirmPassword: confirmPassword,
             };
 
+            const loading = document.getElementById('loading');
+            const submitButton = document.getElementById('submitButton');
+
+            loading.style.display = 'block';  // показать индикатор загрузки
+            submitButton.disabled = true;     // деактивировать кнопку отправки
+
             fetch("/reg", {
                 method: 'POST',
                 headers: {
@@ -100,6 +163,9 @@
                 body: JSON.stringify(data)
             })
                 .then(response => {
+                    loading.style.display = 'none'; // скрыть индикатор загрузки
+                    submitButton.disabled = false;  // активировать кнопку отправки
+
                     return response.json().then(json => {
                         if (!response.ok) {
                             throw new Error(`Ошибка HTTP, статус ${response.status}: ${json.message}`);
@@ -108,12 +174,33 @@
                     });
                 })
                 .then(data => {
-                    alert(data.message || 'Успешная регистрация'); // выводим сообщение из ответа или стандартное сообщение
+                    // alert(data.message || 'Успешная регистрация'); // выводим сообщение из ответа или стандартное сообщение
+                    
+                    showPopupNotification(data.message)
+                    
                 })
                 .catch(error => {
-                    alert('Произошла ошибка: ' + error.message);
+                    showPopupNotification('Произошла ошибка: ' + error.message);
                 });
         }
+        function showPopupNotification(message) {
+            const popupNotification = document.getElementById('popupNotification');
+            const popupMessage = document.getElementById('popupMessage');
+
+            popupMessage.textContent = message;
+            popupNotification.style.display = 'block';
+
+            setTimeout(() => {
+                closePopupNotification();
+            }, 4000); 
+        }
+
+        function closePopupNotification() {
+            const popupNotification = document.getElementById('popupNotification');
+            popupNotification.style.display = 'none';
+        }
+
+
 
     </script>
 </body>

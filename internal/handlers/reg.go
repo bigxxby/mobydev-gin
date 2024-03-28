@@ -5,6 +5,7 @@ import (
 	"project/internal/logic"
 
 	"github.com/gin-gonic/gin"
+	"github.com/lib/pq"
 )
 
 func (m *Manager) RegHandler(c *gin.Context) {
@@ -30,14 +31,22 @@ func (m *Manager) RegHandler(c *gin.Context) {
 		}
 		err = m.DB.AddUser(data.Email, data.Password)
 		if err != nil {
+			if pgErr, ok := err.(*pq.Error); ok {
+				if pgErr.Code == "23505" {
+					c.JSON(400, gin.H{
+						"message": "User with this email already exists",
+					})
+					return
+				}
+			}
 			c.JSON(500, gin.H{
 				"message": "Internal server Error",
 			})
-			return
+
 		}
-		// После успешного добавления пользователя, вы можете перенаправить пользователя на другую страницу или отправить ответ об успешной регистрации
 		c.JSON(200, gin.H{
 			"message": "Registration successful",
 		})
+
 	}
 }
