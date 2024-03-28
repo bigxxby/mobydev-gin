@@ -2,28 +2,37 @@ package main
 
 import (
 	"log"
-	"project/internal/database"
+	"project/internal/handlers"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// router := gin.Default()
-	// router.LoadHTMLGlob("ui/templates/*")
-	// router.Static("/static", "./ui/static")
-	// router.GET("/", handlers.Index)
-	// router.GET("/reg", handlers.RegHandler)
-	// router.POST("/reg", handlers.RegHandler)
-	// router.GET("/login", handlers.LogHandler)
-	// // router.GET("/", handlers.ProfileHandler)
-	// // router.GET("/", handlers.LogoutHandler)
-	// // router.GET("/", handlers.ProjectsHandler)
-	// // router.GET("/", handlers.CreateProjectsHandler)
-	_, err := database.CreateConnection()
+	// creating main manager
+	main, err := handlers.Init()
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
+	main.DB.CreateAdmin()
+	router := gin.Default()
+	// static templates
+	router.LoadHTMLGlob("ui/templates/*")
+	// static css
+	router.Static("/static", "./ui/static")
+	// -> /
+	router.GET("/", main.Index)
+	// -> /reg
+	router.GET("/reg", main.RegHandler)
+	router.POST("/reg", main.RegHandler)
+	// -> /login
+	router.GET("/login", main.LogHandler)
+	// router.GET("/", handlers.ProfileHandler)
+	// router.GET("/", handlers.LogoutHandler)
+	// router.GET("/", handlers.ProjectsHandler)
+	// router.GET("/", handlers.CreateProjectsHandler)
 	log.Println("http://localhost:8080/")
-	// router.Run(":8080")
+	router.Run(":8080")
 }
 
 // mHandler := handlers.Init_handler()

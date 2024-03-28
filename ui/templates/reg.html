@@ -25,25 +25,72 @@
     <h1>Registration</h1>
     <div class="block">
         <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
+        <input type="email" id="email" name="email" required oninput="validateInput()"><br>
         <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
+        <input type="password" id="password" name="password" required oninput="validateInput()"><br>
         <label for="confirm_password">Confirm Password:</label><br>
-        <input type="password" id="confirm_password" name="confirm_password" required><br>
-        <input type="submit" onclick="sumbit()" value="Register">
+        <input type="password" id="confirmPassword" name="confirmPassword" required oninput="validateInput()"><br>
+        <div class="validationBlock" id="validationBlock"></div>
+        <input type="submit" onclick="submit()" id="submitButton" value="Register" >
         <p>Already have an account? <a href="/login">Login here</a>.</p>
     </div>
     <script>
-        
-        function sumbit() {
-            let email = document.getElementById('email').value
-            let password = document.getElementById('password').value
-            let confirm_password = document.getElementById('confirm_password').value
-            data = {
+
+        function validateInput() {
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
+
+            const validationBlock = document.getElementById('validationBlock');
+            validationBlock.innerHTML = ''; // очищаем валидационный блок перед проверкой
+
+            // Валидация email
+            if (!email) {
+                validationBlock.innerHTML += '<p>Email is required</p>';
+            } else if (!validateEmail(email)) {
+                validationBlock.innerHTML += '<p>Invalid email format</p>';
+            }
+
+            // Валидация пароля
+            if (!password) {
+                validationBlock.innerHTML += '<p>Password is required</p>';
+            } else if (password.length < 6) {
+                validationBlock.innerHTML += '<p>Password should be at least 6 characters long</p>';
+            }
+
+            // Подтверждение пароля
+            if (password !== confirmPassword) {
+                validationBlock.innerHTML += '<p>Passwords do not match</p>';
+            }
+
+            const submitButton = document.getElementById('submitButton');
+            valid = (validationBlock.innerHTML === '');
+            if (valid) {
+                submitButton.style.backgroundColor='blue'
+                submitButton.disabled = false
+                
+            }else {
+                submitButton.style.backgroundColor='gray'
+                submitButton.disabled = true
+
+            }
+        }
+
+        function validateEmail(email) {
+            const re = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function submit() {
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let confirmPassword = document.getElementById('confirmPassword').value;
+
+            const data = {
                 email: email,
                 password: password,
-                confirm_password: confirm_password
-            }
+                confirmPassword: confirmPassword,
+            };
 
             fetch("/reg", {
                 method: 'POST',
@@ -53,18 +100,21 @@
                 body: JSON.stringify(data)
             })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error(`Ошибка HTTP, статус ${response.status}`);
-                    }
-                    return response.json();
+                    return response.json().then(json => {
+                        if (!response.ok) {
+                            throw new Error(`Ошибка HTTP, статус ${response.status}: ${json.message}`);
+                        }
+                        return json;
+                    });
                 })
                 .then(data => {
-                    console.log(data);
+                    alert(data.message || 'Успешная регистрация'); // выводим сообщение из ответа или стандартное сообщение
                 })
                 .catch(error => {
-                    console.log('Произошла ошибка:', error.message);
+                    alert('Произошла ошибка: ' + error.message);
                 });
         }
+
     </script>
 </body>
 

@@ -22,3 +22,14 @@ func CreateConnection() (*sql.DB, error) {
 	log.Println("Database connected")
 	return db, nil
 }
+
+func CreateDatabaseStruct() (*Database, error) {
+	db, err := CreateConnection()
+	if err != nil {
+		return nil, err
+	}
+	manager := Database{
+		Database: db,
+	}
+	return &manager, err
+}
