@@ -1,7 +1,65 @@
 package handlers
 
-import "github.com/gin-gonic/gin"
+import (
+	"log"
+	"project/internal/database"
+	"project/internal/logic"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (m *Manager) LogHandler(c *gin.Context) {
-	c.HTML(200, "login.html", nil)
+	switch c.Request.Method {
+	case "GET":
+		c.HTML(200, "login.html", nil)
+	case "POST":
+		var data database.LoginData
+
+		if err := c.BindJSON(&data); err != nil {
+			c.JSON(400, gin.H{
+				"message": "Неверный формат данных",
+			})
+			return
+		}
+		user, boolean, err := m.DB.CheckIfUserExists(data.Email, data.Password)
+		if err != nil {
+			log.Println(err.Error())
+			c.JSON(500, gin.H{
+				"message": "Internal server Error",
+			})
+			return
+
+		}
+		if !boolean { // not authorised
+			c.JSON(400, gin.H{
+				"message": "Пользователя не существует или пароль не верный",
+			})
+			return
+		} else { // authorised
+			sessionId, err := logic.GenerateSessionID()
+			if err != nil {
+				log.Println(err.Error())
+				c.JSON(500, gin.H{
+					"message": "Internal server error",
+				})
+				return
+			}
+			err = m.DB.AuthoreseUserById(user.Id, sessionId)
+			if err != nil {
+				log.Println(err.Error())
+				c.JSON(500, gin.H{
+					"message": "Internal server error",
+				})
+				return
+			}
+			// c.Cookie()
+			// c.SetCookie()
+			// Установка cookie
+			c.SetCookie("session_id", sessionId, 86400, "/", "", false, true) // name of cookie , sesison id of cookie , max age if cookie , path for cookie , domain  , secure , http only
+			c.JSON(200, gin.H{
+				"message": "Успешная авторизация",
+			})
+
+		}
+	}
 }

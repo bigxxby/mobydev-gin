@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"log"
 	"project/internal/database"
 	"project/internal/logic"
 
@@ -17,7 +18,7 @@ func (m *Manager) RegHandler(c *gin.Context) {
 
 		if err := c.BindJSON(&data); err != nil {
 			c.JSON(400, gin.H{
-				"message": "Invalid JSON payload",
+				"message": "Неверный формат данных",
 			})
 			return
 		}
@@ -34,18 +35,20 @@ func (m *Manager) RegHandler(c *gin.Context) {
 			if pgErr, ok := err.(*pq.Error); ok {
 				if pgErr.Code == "23505" {
 					c.JSON(400, gin.H{
-						"message": "User with this email already exists",
+						"message": "Пользователь уже существует",
 					})
 					return
 				}
 			}
+			log.Println(err.Error())
 			c.JSON(500, gin.H{
 				"message": "Internal server Error",
 			})
+			return
 
 		}
 		c.JSON(200, gin.H{
-			"message": "Registration successful",
+			"message": "Успешно зарегистрирован",
 		})
 
 	}
