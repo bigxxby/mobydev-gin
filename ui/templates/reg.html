@@ -9,29 +9,27 @@
 </head>
 
 <body>
-    <header>
-        <h1>go-test-mobydev</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/reg">Register</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/createProject">Create Project</a></li>
-                <li><a href="/admin">Admin Panel</a></li>
-            </ul>
-        </nav>
-    </header>
-    <h1>Регистрация</h1>
     <div class="main">
 
+        <div class="mainBlock">
 
+            <div class="header">
+                <h1>OZINSHE</h1>
+                Lorem ipsum dolor sit.
+                
+        </div>
 
+        <div class="greet">
+        <h1>Добро пожаловать</h1>
+        <h2>Войдите в систему чтобы продолжить</h2>
+        
+    </div>
+    <div class="formBlock">
         <div id="popupNotification" class="popup-notification">
             <span class="close-popup" onclick="closePopupNotification()">&times;</span>
             <p id="popupMessage"></p>
         </div>
-
+        
         <div class="form">
             <label for="email">Почта:</label><br>
             <input type="email" id="email" name="email" required oninput="validateInput()"><br>
@@ -53,22 +51,24 @@
 
                 <div class="loading" id="loading"></div>
             </div>
+            
 
 
-
-
+            
             <div class="validationBlock">
             </div>
             <p>Уже есть аккаунт? <a href="/login">Авторизация</a>.</p>
         </div>
+        </div>
     </div>
-    </div>
+</div>
+</div>
     <script>
         function validateInput() {
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let confirmPassword = document.getElementById('confirmPassword').value;
-
+            
             const validationBlockEmail = document.getElementById('validationBlockEmail');
             const validationBlockPassword = document.getElementById('validationBlockPassword');
             const validationBlockPasswordC = document.getElementById('validationBlockPasswordC');
