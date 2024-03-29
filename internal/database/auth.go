@@ -70,6 +70,9 @@ func (d *Database) AuthoreseUserById(id int, sessionId string) error {
 	return nil
 }
 
+// func (db *Database) FindUserBySessionId(sessionId string) (*User, error) { // CONITNUEEEEEEEEEEEEEEEEE
+// }
+
 // func (db *Database) IsAuthorised(sessionId string) (*User, bool, error) {
 // 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 // 	tx, err := db.Database.Begin()

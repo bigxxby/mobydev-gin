@@ -1,13 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OZINSHE</title>
     <link rel="stylesheet" href="static/css/index.css">
 </head>
+
 <body>
     <div class="container">
+        <h1>
+
+            OZINSHE
+        </h1>
+        <div id="popupNotification" class="popup-notification">
+            <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+            <p id="popupMessage"></p>
+        </div>
+
+        <div class="profileWindow">
+
+        </div>
+
     </div>
+    <script>
+        window.onload = function () {
+            // ваш код или вызов функции здесь
+            getProfile()
+        };
+        function getProfile() {
+            let sessionId = getSessionId();
+
+            data = {
+                sessionId: sessionId,
+            }
+
+            // Отправка запроса на сервер
+            fetch("/get-profile", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    return response.json().then(json => {
+                        if (!response.ok) {
+                            throw new Error(`${response.status}: ${json.message}`);
+                        }
+                        return json;
+                    });
+                })
+                .then(data => {
+                    showPopupNotification(data.message)
+
+
+                })
+                .catch(error => {
+                    showPopupNotification(error.message);
+                });
+
+        }
+
+
+        function getSessionId() {
+            // Разбиваем все куки по ";"
+            const cookies = document.cookie.split(';');
+
+            // Проходимся по каждому элементу массива cookies
+            for (let i = 0; i < cookies.length; i++) {
+                // Удаляем пробелы в начале и конце строки
+                let cookie = cookies[i].trim();
+
+                // Проверяем, начинается ли текущая куки с "session_id="
+                if (cookie.startsWith('session_id=')) {
+                    // Возвращаем значение куки, удаляя "session_id="
+                    return cookie.substring(11);
+                }
+            }
+            // Если куки с именем "session_id" не найдено, возвращаем null или можно вывести соответствующее сообщение
+            return null;
+
+
+
+
+
+
+
+        }
+
+            function showPopupNotification(message) {
+                const popupNotification = document.getElementById('popupNotification');
+                const popupMessage = document.getElementById('popupMessage');
+
+                popupMessage.textContent = message;
+                popupNotification.style.display = 'block';
+
+                setTimeout(() => {
+                    closePopupNotification();
+                }, 4000);
+            }
+
+            function closePopupNotification() {
+                const popupNotification = document.getElementById('popupNotification');
+                popupNotification.style.display = 'none';
+            }
+
+
+
+
+
+
+
+
+
+
+    </script>
 </body>
+
 </html>

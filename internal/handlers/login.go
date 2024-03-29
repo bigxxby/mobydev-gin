@@ -52,10 +52,7 @@ func (m *Manager) LogHandler(c *gin.Context) {
 				})
 				return
 			}
-			// c.Cookie()
-			// c.SetCookie()
-			// Установка cookie
-			c.SetCookie("session_id", sessionId, 86400, "/", "", false, true) // name of cookie , sesison id of cookie , max age if cookie , path for cookie , domain  , secure , http only
+			c.SetCookie("session_id", sessionId, 86400, "/", "", false, false) // name of cookie , sesison id of cookie , max age if cookie , path for cookie , domain  , secure , http only
 			c.JSON(200, gin.H{
 				"message": "Успешная авторизация",
 			})

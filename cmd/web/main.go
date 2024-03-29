@@ -30,6 +30,7 @@ func main() {
 	// -> /login
 	router.GET("/login", main.LogHandler)
 	router.POST("/login", main.LogHandler)
+	router.POST("/get-profile", main.GetProfile)
 	// router.GET("/", handlers.ProfileHandler)
 	// router.GET("/", handlers.LogoutHandler)
 	// router.GET("/", handlers.ProjectsHandler)
