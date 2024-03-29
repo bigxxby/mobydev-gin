@@ -3,37 +3,47 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
-}
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
+}
+.mainBlock{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
+    height: 50%;
+    background-color: #aaa;
+
+}
+.main {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(186, 186, 186);
+    width: 50%;
+    height: 100%;
+
 }
 
 h1 {
     text-align: center;
 }
+.greet {
+    text-align:  center;
+}
+.greet h1{
+    font-size: 1vw;
+    color: #333;
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    text-align: center;
 }
 
-nav ul li {
-    display: inline;
-    margin-right: 20px;
-}
-
-nav ul li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-nav ul li a:hover {
-    text-decoration: underline;
+.greet h2 {
+    color: grey;
+    /* height: vw; */
+    font-size: 0.5vw;
 }
 
 form {
@@ -56,12 +66,12 @@ flex-direction: column;
 
 .validationBlock {
     font-size: 0.5vw;
-    background-color: rgb(183, 183, 183);
+    background-color: rgb(180, 110, 110);
     border-radius: 10px;
     margin-top: 10px;
     margin-bottom: 10px;
 }
-.main {
+.formBlock {
     display: flex;
     justify-content: center;
 

@@ -8,7 +8,7 @@ import (
 )
 
 func CreateConnection() (*sql.DB, error) {
-	connStr := "user=postgres password=postgres host=test-database.c12yiigcoe0w.eu-north-1.rds.amazonaws.com port=5432" // use env next time
+	connStr := "user=postgres password=verysecurepassword host=test-database.c12yiigcoe0w.eu-north-1.rds.amazonaws.com port=5432" // use env next time
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err

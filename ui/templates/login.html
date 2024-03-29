@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/login.css">
-    <title>Login</title>
+    <link rel="stylesheet" href="static/css/reg.css">
+    <title>Авторизация</title>
 </head>
+
 <body>
     <header>
         <h1>go-test-mobydev</h1>
@@ -20,14 +22,115 @@
             </ul>
         </nav>
     </header>
-    <h1>Login</h1>
-    <form action="/login" method="POST">
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        <input type="submit" value="Login">
-    </form>
-    <p>Dont have an account? <a href="/reg">Sign in</a>.</p>
+    <h1>Авторизация</h1>
+    <div class="main">
+
+
+
+        <div id="popupNotification" class="popup-notification">
+            <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+            <p id="popupMessage"></p>
+        </div>
+
+        <div class="form">
+            <label for="email">Почта:</label><br>
+            <input type="email" id="email" name="email" oninput="checkForinput()" required><br>
+            <div class="validationBlock">
+                <div class="validationBlockEmail" id="validationBlockEmail"></div>
+            </div>
+            <label for="password">Пароль:</label><br>
+            <input type="password" id="password" name="password" oninput="checkForinput()" required><br>
+            <div class="submitBlock">
+                <input type="submit" onclick="submit()" id="submitButton" value="Авторизация">
+
+                <div class="loading" id="loading"></div>
+            </div>
+
+
+
+
+            <p>Нету аккаунта? <a href="/reg">Регистрация</a>.</p>
+        </div>
+    </div>
+    </div>
+    <script>
+        function checkForinput() {
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+            let button = document.getElementById('submitButton');
+
+            if (email === '' || password === '') {
+                button.style.backgroundColor = 'gray';
+                button.disabled = true;   
+            } else {
+                button.style.backgroundColor = 'blue';
+                button.disabled = false; 
+            }
+        }
+
+        function submit() {
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
+
+            const data = {
+                email: email,
+                password: password,
+            };
+
+            const loading = document.getElementById('loading');
+            const submitButton = document.getElementById('submitButton');
+
+            loading.style.display = 'block';  // показать индикатор загрузки
+            submitButton.disabled = true;     // деактивировать кнопку отправки
+
+            fetch("/login", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    loading.style.display = 'none'; // скрыть индикатор загрузки
+                    submitButton.disabled = false;  // активировать кнопку отправки
+
+                    return response.json().then(json => {
+                        if (!response.ok) {
+                            throw new Error(`${response.status}: ${json.message}`);
+                        }
+                        return json;
+                    });
+                })
+                .then(data => {
+                    showPopupNotification(data.message)
+                    
+                    
+                })
+                .catch(error => {
+                    showPopupNotification(error.message);
+                });
+        }
+        function showPopupNotification(message) {
+            const popupNotification = document.getElementById('popupNotification');
+            const popupMessage = document.getElementById('popupMessage');
+
+            popupMessage.textContent = message;
+            popupNotification.style.display = 'block';
+
+            setTimeout(() => {
+                closePopupNotification();
+                window.location.href = '/'
+            }, 2000);
+        }
+
+        function closePopupNotification() {
+            const popupNotification = document.getElementById('popupNotification');
+            popupNotification.style.display = 'none';
+        }
+
+
+
+    </script>
 </body>
+
 </html>

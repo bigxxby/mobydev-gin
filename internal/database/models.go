@@ -12,6 +12,15 @@ type RegisterData struct {
 	ConfirmPassword string `json:"confirmPassword" binding:"required"`
 }
 
+type SessionData struct {
+	SessionID string `json:"sessionId"`
+}
+
+type LoginData struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+}
+
 type User struct {
 	Id          int            `json:"id"`
 	Email       string         `json:"email"`

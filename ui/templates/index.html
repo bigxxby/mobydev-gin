@@ -1,43 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MobyDev Test Project</title>
+    <title>OZINSHE</title>
     <link rel="stylesheet" href="static/css/index.css">
 </head>
+
 <body>
-    <header>
-        <h1>go-test-mobydev</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/reg">Register</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/createProject">Create Project</a></li>
-                <li><a href="/admin">Admin Panel</a></li>
-            </ul>
-        </nav>
-    </header>
     <div class="container">
-        <h2>Welcome to MobyDev Test Project</h2>
-        <p>Here you can:</p>
-        <ul>
-            <li>Register as a new user</li>
-            <li>Login to your account</li>
-            <li>View existing projects</li>
-            <li>Access the admin panel</li>
-            <li>Create a new project</li>
-            <li>View your profile</li>
-        </ul>
-        <p>Please choose an option:</p>
-        <a href="/reg" class="btn">Register</a>
-        <a href="/login" class="btn">Login</a>
-        <a href="/profile" class="btn">Profile</a>
-        <a href="/projects" class="btn">Projects</a>
-        <a href="/createProject" class="btn">Create Project</a>
-        <a href="/admin" class="btn">Admin Panel</a>
+        <h1>
+
+            OZINSHE
+        </h1>
+        <div id="popupNotification" class="popup-notification">
+            <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+            <p id="popupMessage"></p>
+        </div>
+
+        <div class="profileWindow">
+
+        </div>
+
     </div>
+    <script>
+        window.onload = function () {
+            // ваш код или вызов функции здесь
+            getProfile()
+        };
+        function getProfile() {
+            let sessionId = getSessionId();
+
+            data = {
+                sessionId: sessionId,
+            }
+
+            // Отправка запроса на сервер
+            fetch("/get-profile", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    return response.json().then(json => {
+                        if (!response.ok) {
+                            throw new Error(`${response.status}: ${json.message}`);
+                        }
+                        return json;
+                    });
+                })
+                .then(data => {
+                    showPopupNotification(data.message)
+
+
+                })
+                .catch(error => {
+                    showPopupNotification(error.message);
+                });
+
+        }
+
+
+        function getSessionId() {
+            // Разбиваем все куки по ";"
+            const cookies = document.cookie.split(';');
+
+            // Проходимся по каждому элементу массива cookies
+            for (let i = 0; i < cookies.length; i++) {
+                // Удаляем пробелы в начале и конце строки
+                let cookie = cookies[i].trim();
+
+                // Проверяем, начинается ли текущая куки с "session_id="
+                if (cookie.startsWith('session_id=')) {
+                    // Возвращаем значение куки, удаляя "session_id="
+                    return cookie.substring(11);
+                }
+            }
+            // Если куки с именем "session_id" не найдено, возвращаем null или можно вывести соответствующее сообщение
+            return null;
+
+
+
+
+
+
+
+        }
+
+            function showPopupNotification(message) {
+                const popupNotification = document.getElementById('popupNotification');
+                const popupMessage = document.getElementById('popupMessage');
+
+                popupMessage.textContent = message;
+                popupNotification.style.display = 'block';
+
+                setTimeout(() => {
+                    closePopupNotification();
+                }, 4000);
+            }
+
+            function closePopupNotification() {
+                const popupNotification = document.getElementById('popupNotification');
+                popupNotification.style.display = 'none';
+            }
+
+
+
+
+
+
+
+
+
+
+    </script>
 </body>
+
 </html>

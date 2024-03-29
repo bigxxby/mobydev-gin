@@ -5,70 +5,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/reg.css">
-    <title>Registration</title>
+    <title>Регистрация</title>
 </head>
 
 <body>
-    <header>
-        <h1>go-test-mobydev</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/reg">Register</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/createProject">Create Project</a></li>
-                <li><a href="/admin">Admin Panel</a></li>
-            </ul>
-        </nav>
-    </header>
-    <h1>Registration</h1>
     <div class="main">
 
+        <div class="mainBlock">
 
+            <div class="header">
+                <h1>OZINSHE</h1>
+                Lorem ipsum dolor sit.
+                
+        </div>
 
+        <div class="greet">
+        <h1>Добро пожаловать</h1>
+        <h2>Войдите в систему чтобы продолжить</h2>
+        
+    </div>
+    <div class="formBlock">
         <div id="popupNotification" class="popup-notification">
             <span class="close-popup" onclick="closePopupNotification()">&times;</span>
             <p id="popupMessage"></p>
         </div>
-
+        
         <div class="form">
-            <label for="email">Email:</label><br>
+            <label for="email">Почта:</label><br>
             <input type="email" id="email" name="email" required oninput="validateInput()"><br>
             <div class="validationBlock">
                 <div class="validationBlockEmail" id="validationBlockEmail"></div>
             </div>
-            <label for="password">Password:</label><br>
+            <label for="password">Пароль:</label><br>
             <input type="password" id="password" name="password" required oninput="validateInput()"><br>
             <div class="validationBlock">
                 <div class="validationBlockPassword" id="validationBlockPassword"></div>
             </div>
-            <label for="confirm_password">Confirm Password:</label><br>
+            <label for="confirm_password">Подтверждение пароля:</label><br>
             <input type="password" id="confirmPassword" name="confirmPassword" required oninput="validateInput()"><br>
             <div class="validationBlock">
                 <div class="validationBlockPasswordC" id="validationBlockPasswordC"></div>
             </div>
             <div class="submitBlock">
-                <input type="submit" onclick="submit()" id="submitButton" value="Register">
+                <input type="submit" onclick="submit()" id="submitButton" value="Зарегистрироваться">
 
                 <div class="loading" id="loading"></div>
             </div>
+            
 
 
-
-
+            
             <div class="validationBlock">
             </div>
-            <p>Already have an account? <a href="/login">Login here</a>.</p>
+            <p>Уже есть аккаунт? <a href="/login">Авторизация</a>.</p>
+        </div>
         </div>
     </div>
-    </div>
+</div>
+</div>
     <script>
         function validateInput() {
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let confirmPassword = document.getElementById('confirmPassword').value;
-
+            
             const validationBlockEmail = document.getElementById('validationBlockEmail');
             const validationBlockPassword = document.getElementById('validationBlockPassword');
             const validationBlockPasswordC = document.getElementById('validationBlockPasswordC');
@@ -78,35 +78,35 @@
 
             // Валидация email
             if (!email) {
-                validationBlockEmail.innerHTML += '<p>Email is required</p>';
+                validationBlockEmail.innerHTML += '<p>Почта обязательна</p>';
             } else if (!validateEmail(email)) {
-                validationBlockEmail.innerHTML += '<p>Invalid email format</p>';
+                validationBlockEmail.innerHTML += '<p>Неверный формат почты</p>';
             }
 
             // Валидация пароля
             if (!password) {
-                validationBlockPassword.innerHTML += '<p>Password is required</p>';
+                validationBlockPassword.innerHTML += '<p>Пароль обязателен</p>';
             } else {
                 if (!validatePasswordContainsUppercase(password)) {
-                    validationBlockPassword.innerHTML += '<p>At least one uppercase letter</p>';
+                    validationBlockPassword.innerHTML += '<p>Хотя бы одна буква высшего регистра</p>';
                 }
                 if (!validatePasswordContainsLowercase(password)) {
-                    validationBlockPassword.innerHTML += '<p>At least one lowercase letter</p>';
+                    validationBlockPassword.innerHTML += '<p>Хотя бы одна буква нижнего регистра</p>';
                 }
                 if (!validatePasswordContainsDigit(password)) {
-                    validationBlockPassword.innerHTML += '<p>At least one digit</p>';
+                    validationBlockPassword.innerHTML += '<p>Хотя бы одна цифра</p>';
                 }
                 if (!validatePasswordContainsSpecialChar(password)) {
-                    validationBlockPassword.innerHTML += '<p>At least one special character</p>';
+                    validationBlockPassword.innerHTML += '<p>Хотя бы один специальный символ</p>';
                 }
                 if (password.length < 8) {
-                    validationBlockPassword.innerHTML += '<p>At least 8 characters long</p>';
+                    validationBlockPassword.innerHTML += '<p>Хотя бы 8 символов</p>';
                 }
             }
 
             // Подтверждение пароля
             if (password !== confirmPassword) {
-                validationBlockPasswordC.innerHTML += '<p>Passwords do not match</p>';
+                validationBlockPasswordC.innerHTML += '<p>Пароли не совпадают</p>';
             }
             if ((validationBlockEmail.innerHTML !== '') || (validationBlockPassword.innerHTML !== '') || (validationBlockPasswordC.innerHTML !== '')) {
                 submitButton.disabled = true
@@ -168,7 +168,7 @@
 
                     return response.json().then(json => {
                         if (!response.ok) {
-                            throw new Error(`Ошибка HTTP, статус ${response.status}: ${json.message}`);
+                            throw new Error(`${response.status}: ${json.message}`);
                         }
                         return json;
                     });
@@ -180,7 +180,7 @@
                     
                 })
                 .catch(error => {
-                    showPopupNotification('Произошла ошибка: ' + error.message);
+                    showPopupNotification(error.message);
                 });
         }
         function showPopupNotification(message) {
