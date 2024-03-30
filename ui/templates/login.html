@@ -61,10 +61,10 @@
 
             if (email === '' || password === '') {
                 button.style.backgroundColor = 'gray';
-                button.disabled = true;   
+                button.disabled = true;
             } else {
                 button.style.backgroundColor = 'blue';
-                button.disabled = false; 
+                button.disabled = false;
             }
         }
 
@@ -103,12 +103,17 @@
                 })
                 .then(data => {
                     showPopupNotification(data.message)
-                    
-                    
+
+                    setTimeout(() => {
+                        redirect();
+                    }, 2000);
                 })
                 .catch(error => {
                     showPopupNotification(error.message);
                 });
+        }
+        function redirect() {
+            window.location.href = '/'
         }
         function showPopupNotification(message) {
             const popupNotification = document.getElementById('popupNotification');
@@ -119,7 +124,6 @@
 
             setTimeout(() => {
                 closePopupNotification();
-                window.location.href = '/'
             }, 2000);
         }
 

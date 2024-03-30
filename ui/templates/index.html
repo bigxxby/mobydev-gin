@@ -10,25 +10,111 @@
 
 <body>
     <div class="container">
-        <h1>
+        <style>
+            /* Стили для основного контейнера */
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
 
-            OZINSHE
-        </h1>
-        <div id="popupNotification" class="popup-notification">
-            <span class="close-popup" onclick="closePopupNotification()">&times;</span>
-            <p id="popupMessage"></p>
+            /* Стили для заголовка */
+            h1 {
+                text-align: center;
+                margin-bottom: 20px;
+                font-size: 2em;
+            }
+
+            /* Стили для кнопок в хедере */
+            .header a {
+                text-decoration: none;
+                margin-right: 10px;
+            }
+
+            .header button {
+                padding: 10px 20px;
+                font-size: 1em;
+                cursor: pointer;
+                background-color: #007BFF;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+            }
+
+            .header button:hover {
+                background-color: #0056b3;
+            }
+
+            /* Стили для профиля */
+            .profile {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-top: 20px;
+            }
+
+            .profileWindow {
+                height: 100vh;
+                overflow-y: auto;
+                padding: 20px;
+                box-sizing: border-box;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+            }
+
+            .profileWindow div {
+                margin-bottom: 15px;
+                font-size: 1.2em;
+            }
+
+            /* Стили для всплывающего уведомления */
+            .popup-notification {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background-color: #f44336;
+                color: #fff;
+                padding: 15px;
+                border-radius: 5px;
+                display: none;
+            }
+
+            .close-popup {
+                cursor: pointer;
+                float: right;
+                font-size: 1.5em;
+                margin-left: 10px;
+            }
+        </style>
+        <div class="main">
+
+            <div class="header">
+                <a href="http://"><button>Lorem.</button></a>
+                <a href="http://"><button>Lorem.</button></a>
+                <a href="http://"><button>Lorem.</button></a>
+                <a href="http://"><button>Lorem.</button></a>
+
+                <div class="profile">
+                    <div class="profileWindow">
+                    </div>
+
+                </div>
+            </div>
+
+            <h1>OZINSHE</h1>
+
+            <div id="popupNotification" class="popup-notification">
+                <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+                <p id="popupMessage"></p>
+            </div>
         </div>
-
-        <div class="profileWindow">
-
-        </div>
-
     </div>
     <script>
         window.onload = function () {
-            // ваш код или вызов функции здесь
-            getProfile()
+            getProfile();
         };
+
         function getProfile() {
             let sessionId = getSessionId();
 
@@ -36,7 +122,6 @@
                 sessionId: sessionId,
             }
 
-            // Отправка запроса на сервер
             fetch("/get-profile", {
                 method: 'POST',
                 headers: {
@@ -53,68 +138,68 @@
                     });
                 })
                 .then(data => {
-                    showPopupNotification(data.message)
-
-
+                    displayUser(data);
                 })
                 .catch(error => {
                     showPopupNotification(error.message);
                 });
+        }
+        function displayUser(user) {
+            const profileWindow = document.querySelector('.profileWindow');
 
+
+            // const userIdDiv = document.createElement('div');
+            // userIdDiv.textContent = `ID: ${user.id}`;
+            // profileWindow.appendChild(userIdDiv);
+
+            const userEmailDiv = document.createElement('div');
+            userEmailDiv.textContent = `${user.email}`;
+            profileWindow.appendChild(userEmailDiv);
+
+            if (user.name == null) {
+
+                const userNameDiv = document.createElement('div');
+                userNameDiv.textContent = `Добро пожаловать, Пользователь!`;
+                profileWindow.appendChild(userNameDiv);
+            }
+
+            // const userPhoneDiv = document.createElement('div');
+            // userPhoneDiv.textContent = `Phone: ${user.phone || 'N/A'}`;
+            // profileWindow.appendChild(userPhoneDiv);
+
+            // const userDOBDiv = document.createElement('div');
+            // userDOBDiv.textContent = `Date of Birth: ${user.dot || 'N/A'}`;
+            // profileWindow.appendChild(userDOBDiv);
         }
 
 
         function getSessionId() {
-            // Разбиваем все куки по ";"
             const cookies = document.cookie.split(';');
-
-            // Проходимся по каждому элементу массива cookies
             for (let i = 0; i < cookies.length; i++) {
-                // Удаляем пробелы в начале и конце строки
                 let cookie = cookies[i].trim();
-
-                // Проверяем, начинается ли текущая куки с "session_id="
                 if (cookie.startsWith('session_id=')) {
-                    // Возвращаем значение куки, удаляя "session_id="
                     return cookie.substring(11);
                 }
             }
-            // Если куки с именем "session_id" не найдено, возвращаем null или можно вывести соответствующее сообщение
             return null;
-
-
-
-
-
-
-
         }
 
-            function showPopupNotification(message) {
-                const popupNotification = document.getElementById('popupNotification');
-                const popupMessage = document.getElementById('popupMessage');
+        function showPopupNotification(message) {
+            const popupNotification = document.getElementById('popupNotification');
+            const popupMessage = document.getElementById('popupMessage');
 
-                popupMessage.textContent = message;
-                popupNotification.style.display = 'block';
+            popupMessage.textContent = message;
+            popupNotification.style.display = 'block';
 
-                setTimeout(() => {
-                    closePopupNotification();
-                }, 4000);
-            }
+            setTimeout(() => {
+                closePopupNotification();
+            }, 4000);
+        }
 
-            function closePopupNotification() {
-                const popupNotification = document.getElementById('popupNotification');
-                popupNotification.style.display = 'none';
-            }
-
-
-
-
-
-
-
-
-
+        function closePopupNotification() {
+            const popupNotification = document.getElementById('popupNotification');
+            popupNotification.style.display = 'none';
+        }
 
     </script>
 </body>

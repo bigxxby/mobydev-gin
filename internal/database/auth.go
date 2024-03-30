@@ -69,6 +69,41 @@ func (d *Database) AuthoreseUserById(id int, sessionId string) error {
 	}
 	return nil
 }
+func (db *Database) FindUserAllDataBySessionId(sessionId string) (*User, error) {
+	query := "SELECT * FROM users WHERE session_id = $1"
+	var user User
+	err := db.Database.QueryRow(query, sessionId).Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.Phone, &user.DateOfBirth, &user.SessionId, &user.IsAdmin, &user.CreatedAt, &user.UpdatedAt, &user.DeletedAt)
+
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+func (db *Database) FindUserBySessionId(sessionId string) (*User, error) {
+	query := "SELECT id , email , name , phone,date_of_birth FROM users WHERE session_id = $1"
+	var user User
+	err := db.Database.QueryRow(query, sessionId).Scan(&user.Id, &user.Email, &user.Name, &user.Phone, &user.DateOfBirth)
+
+	if err != nil {
+		return nil, err
+	}
+	return &user, nil
+}
+
+// CREATE TABLE IF NOT EXISTS users (
+// 	id SERIAL PRIMARY KEY,
+// 	email TEXT NOT NULL UNIQUE,
+// 	password TEXT NOT NULL,
+// 	name TEXT,
+// 	phone TEXT,
+// 	date_of_birth DATE,
+// 	session_id TEXT,
+// 	is_admin INTEGER,
+// 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+// 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+// 	deleted_at TIMESTAMP
+// )
+// `)
 
 // func (db *Database) FindUserBySessionId(sessionId string) (*User, error) { // CONITNUEEEEEEEEEEEEEEEEE
 // }
