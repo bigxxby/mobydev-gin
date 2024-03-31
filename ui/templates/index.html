@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OZINSHE</title>
     <link rel="stylesheet" href="static/css/index.css">
+    <script src="static/script/index.js"></script>
 </head>
 
 <body>
@@ -13,35 +14,30 @@
         <div class="container">
             <div class="header">
                 <div class="nav">
-
                     <a href="http://"><button>Lorem.</button></a>
                     <a href="http://"><button>Lorem.</button></a>
                     <a href="http://"><button>Lorem.</button></a>
                     <a href="http://"><button>Lorem.</button></a>
                 </div>
 
-                <div class="profile">
-                    <div class="profileWindow">
-                        <img src="static/images/default.jpg" alt="img">
-                        <div class="profileData">
-
-                        </div>
+                <div  class="profileWindow" id="profileWindow">
+                    <img src="static/images/default.jpg" alt="img">
+                    <div class="profileData">
+                        <!-- Profile data here -->
                     </div>
-
                 </div>
             </div>
 
             <div class="name">
                 <h1>OZINSHE</h1>
-
             </div>
+
             <div class="desc">
                 <h2>
                     Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores nulla nihil doloremque
                     omnis optio sequi repudiandae commodi eum est! Voluptates, animi aspernatur. Explicabo accusamus,
                     dolores neque perferendis dolor quas?
                 </h2>
-
             </div>
 
             <div id="popupNotification" class="popup-notification">
@@ -49,279 +45,220 @@
                 <p id="popupMessage"></p>
             </div>
         </div>
+
         <footer>
             &copy; 2024 OZINSHE. All Rights Reserved.
         </footer>
-        <style>
-            /* Общие стили для страницы */
-            /* Общие стили для страницы */
-            body {
-                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-                margin: 0;
-                padding: 0;
-                min-height: 100vh;
-                background-color: rgb(110, 172, 229);
-                color: #2a2a2a;
-            }
-
-            /* Главный контейнер */
-            .main {
-                display: flex;
-                justify-content: center;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px;
-            }
-
-            /* Основной контейнер страницы */
-            .container {
-                border: 3px solid #007BFF;
-                width: 50%;
-                height: 100vh;
-                display: flex;
-                align-items: center;
-                flex-direction: column;
-                margin: 20px;
-                padding: 40px;
-                background-color: #4a3c9a;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                border-radius: 15px;
-            }
-
-            /* Изображения */
-            img {
-                border-radius: 50%;
-                max-width: 100px;
-                max-height: 100px;
-                border: 3px solid #91abcd;
-                transition: transform 0.3s ease-in-out;
-            }
-
-            img:hover {
-                transform: scale(1.1);
-            }
-
-            /* Заголовок */
-            h1 {
-
-                text-align: center;
-                margin-bottom: 30px;
-                color: #007BFF;
-                font-size: 10rem;
-                
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
-                animation: colorChange 5s infinite alternate;
-            }
-
-            /* Навигация */
-            .header {
-                padding-bottom: 20px;
-                justify-content: center;
-                display: flex;
-                align-items: center;
-            }
-
-            .header a {
-                text-decoration: none;
-                margin: 0 10px;
-            }
-
-            .header button {
-                padding: 12px 24px;
-                font-size: 1.1em;
-                cursor: pointer;
-                background-color: #007BFF;
-                color: #fff;
-                border: none;
-                border-radius: 8px;
-                transition: background-color 0.3s ease;
-            }
-
-            .header button:hover {
-                background-color: #0056b3;
-            }
-
-            /* Профиль пользователя */
-            .profile {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 30px;
-            }
-
-            .profileData {
-                margin-left: 30px;
-                display: flex;
-                color: rgb(171, 255, 255);
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .profileData div {
-                padding: 10px;
-                border-radius: 8px;
-                background-color: rgba(171, 255, 255, 0.2);
-                margin-bottom: 10px;
-            }
-
-            .profileWindow {
-                align-items: center;
-                overflow-y: auto;
-                padding: 20px;
-                display: flex;
-                font-size: 1rem;
-                box-sizing: border-box;
-                border: 2px solid #007BFF;
-                border-radius: 15px;
-                background-color: #4a3c9a;
-            }
-
-            /* Описание */
-            .desc {
-                text-align: center;
-                color: rgb(171, 255, 255);
-                margin-bottom: 30px;
-            }
-
-
-            @keyframes colorChange {
-                0% {
-                    color: #007BFF;
-                    /* начальный цвет */
-                }
-
-                50% {
-                    color: #0056b3;
-                    /* промежуточный цвет */
-                }
-
-                100% {
-                    color: #0099cc;
-                    /* конечный цвет */
-                }
-            }
-
-            /* Футер */
-            footer {
-                margin-top: 30px;
-                text-align: center;
-                font-size: 1em;
-                color: #777;
-            }
-
-            @media (max-width: 768px) {
-                .container {
-                    max-width: 90%;
-                }
-
-                img {
-                    max-width: 80px;
-                    max-height: 80px;
-                }
-
-                h1 {
-                    font-size: 2em;
-                }
-
-                .profileWindow {
-                    font-size: 0.9rem;
-                }
-            }
-        </style>
     </div>
-    <script>
-        window.onload = function () {
-            getProfile();
-        };
-
-        function getProfile() {
-            let sessionId = getSessionId();
-
-            data = {
-                sessionId: sessionId,
-            }
-
-            fetch("/get-profile", {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(response => {
-                    return response.json().then(json => {
-                        if (!response.ok) {
-                            throw new Error(`${response.status}: ${json.message}`);
-                        }
-                        return json;
-                    });
-                })
-                .then(data => {
-                    displayUser(data);
-                })
-                .catch(error => {
-                    showPopupNotification(error.message);
-                });
-        }
-        function displayUser(user) {
-            const profileData = document.querySelector('.profileData');
-
-
-            // const userIdDiv = document.createElement('div');
-            // userIdDiv.textContent = `ID: ${user.id}`;
-            // profileWindow.appendChild(userIdDiv);
-
-            const userEmailDiv = document.createElement('div');
-            userEmailDiv.textContent = `${user.email}`;
-            profileData.appendChild(userEmailDiv);
-
-            if (user.name == null) {
-
-                const userNameDiv = document.createElement('div');
-                userNameDiv.textContent = `Добро пожаловать, Пользователь!`;
-
-                profileData.appendChild(userNameDiv);
-            }
-
-            // const userPhoneDiv = document.createElement('div');
-            // userPhoneDiv.textContent = `Phone: ${user.phone || 'N/A'}`;
-            // profileWindow.appendChild(userPhoneDiv);
-
-            // const userDOBDiv = document.createElement('div');
-            // userDOBDiv.textContent = `Date of Birth: ${user.dot || 'N/A'}`;
-            // profileWindow.appendChild(userDOBDiv);
-        }
-
-
-        function getSessionId() {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                let cookie = cookies[i].trim();
-                if (cookie.startsWith('session_id=')) {
-                    return cookie.substring(11);
-                }
-            }
-            return null;
-        }
-
-        function showPopupNotification(message) {
-            const popupNotification = document.getElementById('popupNotification');
-            const popupMessage = document.getElementById('popupMessage');
-
-            popupMessage.textContent = message;
-            popupNotification.style.display = 'block';
-
-            setTimeout(() => {
-                closePopupNotification();
-            }, 4000);
-        }
-
-        function closePopupNotification() {
-            const popupNotification = document.getElementById('popupNotification');
-            popupNotification.style.display = 'none';
-        }
-
-    </script>
 </body>
 
 </html>
+
+<style>
+    body {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background-color: rgb(110, 172, 229);
+        color: #2a2a2a;
+        background-image: url('static/images/back2.jpg');
+        background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    }
+
+    /* Main container */
+    .main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0px;
+        margin: 0px;
+        
+    }
+
+
+    /* Main page container */
+    .container {
+        background-image: url('static/images/back3.jpg');
+        background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+        border: 3px solid #007BFF;
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #4a3c9a;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        border-radius: 20px;
+    }
+
+    /* Profile image */
+    .profileWindow img {
+        border-radius: 50%;
+        max-width: 5vw;
+        margin: 1vw;
+        max-height: 5vw;
+        border: 4px solid #91abcd;
+        transition: transform 0.4s ease-in-out;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .profileWindow img:hover {
+        transform: scale(1.15);
+    }
+
+    /* Page title */ 
+    h1 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #e2b4ff;
+    font-size: 12rem;
+    text-shadow: 
+        0px 0px 15px rgba(226, 180, 255, 0.6);
+    background: linear-gradient(45deg, #e2b4ff, #b486ea, #a66bd8);
+    -webkit-background-clip: text;
+    animation: colorChange 5s infinite alternate, glowEffect 2s infinite alternate;
+}
+
+    /* Header */
+    .header {
+        justify-content: center;
+        display: flex;
+        padding: 1.5vw;
+        align-items: center;
+        border-radius: 1.5vw;
+        background: linear-gradient(45deg, #2b2356, #31567e);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .nav {
+        min-height: 2.5vw;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-radius: 0.7vw;
+        width: 100%;
+    }
+
+    .header a {
+        text-decoration: none;
+        margin: 0 15px;
+    }
+
+    .header button {
+        padding: 14px 28px;
+        font-size: 1.2em;
+        cursor: pointer;
+        background-color: #31567e;
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        transition: background-color 0.4s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .header button:hover {
+        background-color: #0056b3;
+    }
+
+    /* User profile */
+    .profileData {
+        margin-left: 35px;
+        margin-right: 35px;
+        display: flex;
+        color: rgb(171, 255, 255);
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .profileData div {
+        min-height: 2.5vw;
+        display: flex;
+        align-items: center;
+        border-radius: 0.7vw;
+        width: 100%;
+        text-align: center;
+        font-size: 0.8rem;
+        background: linear-gradient(45deg, rgba(171, 255, 255, 0.2), rgba(151, 225, 255, 0.3));
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .profileWindow {
+        display: none;
+        cursor: pointer;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        box-sizing: border-box;
+        border-radius: 20px;
+        background: linear-gradient(45deg, #4a3c9a, #5a4eaa);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Description */
+    .desc {
+        text-align: center;
+        color: rgb(171, 255, 255);
+        padding: 20px 0;
+        background: linear-gradient(45deg, #4a3c9a, #5a4eaa);
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        transition: all 0.5s;
+    }
+
+    .desc :hover {
+        color: #0099cc;
+        transition: all 0.5s;
+
+
+    }
+
+
+    @keyframes colorChange {
+    0% {
+        color: #ad2aff;
+    }
+    50% {
+        color: #902fff;
+    }
+    100% {
+        color: #4c018d;
+    }
+}
+
+@keyframes glowEffect {
+    0% {
+        text-shadow: 
+            3px 3px 6px rgba(255, 255, 255, 0.3),
+            0px 0px 10px rgba(226, 180, 255, 0.8),
+            0px 0px 15px rgba(225, 175, 255, 0.6);
+    }
+    50% {
+        text-shadow: 
+            4px 4px 8px rgba(255, 255, 255, 0.4),
+            0px 0px 15px rgba(196, 100, 255, 0.9),
+            0px 0px 20px rgba(199, 109, 255, 0.7);
+    }
+    100% {
+        text-shadow: 
+            3px 3px 6px rgba(255, 255, 255, 0.3),
+            0px 0px 10px rgba(166, 22, 255, 0.8),
+            0px 0px 15px rgba(157, 0, 255, 0.6);
+    }
+}
+
+    /* Footer */
+    footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 1.2em;
+        color: #777;
+        background-color: #2b2356;
+        padding: 15px;
+        border-radius: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+</style>
