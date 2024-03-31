@@ -57,13 +57,6 @@ function displayUser(user) {
         profileData.appendChild(userNameDiv);
     }
 
-    // const userPhoneDiv = document.createElement('div');
-    // userPhoneDiv.textContent = `Phone: ${user.phone || 'N/A'}`;
-    // profileWindow.appendChild(userPhoneDiv);
-
-    // const userDOBDiv = document.createElement('div');
-    // userDOBDiv.textContent = `Date of Birth: ${user.dot || 'N/A'}`;
-    // profileWindow.appendChild(userDOBDiv);
 }
 
 
@@ -94,3 +87,21 @@ function closePopupNotification() {
     const popupNotification = document.getElementById('popupNotification');
     popupNotification.style.display = 'none';
 }
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleThemeButton = document.querySelector('.toggle-theme');
+    const body = document.body;
+    
+    toggleThemeButton.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
+            // Switch to light mode
+            body.classList.remove('dark-mode');
+            toggleThemeButton.textContent = '🌙';
+        } else {
+            // Switch to dark mode
+            body.classList.add('dark-mode');
+            toggleThemeButton.textContent = '☀️';
+        }
+    });
+});
