@@ -14,6 +14,7 @@ func (m *Manager) LogHandler(c *gin.Context) {
 	case "GET":
 		c.HTML(200, "login.html", nil)
 	case "POST":
+		time.Sleep(2 * time.Second) ////// art. delay
 		var data database.LoginData
 
 		if err := c.BindJSON(&data); err != nil {
@@ -32,13 +33,11 @@ func (m *Manager) LogHandler(c *gin.Context) {
 
 		}
 		if !boolean { // not authorised
-			time.Sleep(2 * time.Second) /////// art. delay
 			c.JSON(400, gin.H{
 				"message": "Пользователя не существует или пароль не верный",
 			})
 			return
 		} else { // authorised
-			time.Sleep(2 * time.Second) ////// art. delay
 			sessionId, err := logic.GenerateSessionID()
 			if err != nil {
 				log.Println(err.Error())

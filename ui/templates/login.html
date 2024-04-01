@@ -18,10 +18,9 @@
                 <div class="nav">
                     <div class="buttons">
         
-                        <a href="/reg"><button>Sign In.</button></a>
-                        <a href="/login"><button>Log In</button></a>
-                        <a href="/projects"><button>Projects</button></a>
-                        <a href="/mobile"><button>Mobile App</button></a>
+                        <a href="/reg"><button>Регистрация</button></a>
+                        <a href="/mobile"><button>Мобильное приложение</button></a>
+                        <a href="/projects"><button>Проекты</button></a>
                     </div>
                 </div>
                 
@@ -40,15 +39,15 @@
                     <div class="form"> 
                             <label for="email">Почта:</label><br>
                             <input type="email" id="email" name="email" oninput="checkForinput()" required><br>
-                            <div class="validationBlock">
-                                <div class="validationBlockEmail" id="validationBlockEmail"></div>
+                            <label for="password">Пароль:</label><br>
+                            <input type="password" id="password" name="password" oninput="checkForinput()" required><br>
+                            <div class="submitBlock">
+                                <input disabled type="submit" onclick="submit()" id="submitButton" value="Авторизация">
+                                <div class="loading" id="loading"></div>
                             </div>
-                        <label for="password">Пароль:</label><br>
-                        <input type="password" id="password" name="password" oninput="checkForinput()" required><br>
-                        <div class="submitBlock">
-                            <input type="submit" onclick="submit()" id="submitButton" value="Авторизация">
-                            <div class="loading" id="loading"></div>
                         </div>
+                        <style> 
+                        </style>
                         
                         
                         
@@ -152,5 +151,26 @@
 
     </script>
 </body>
+<div class="switch">
+    <button class="toggle-theme">🌙</button>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const toggleThemeButton = document.querySelector('.toggle-theme');
+    const body = document.body;
+    
+    toggleThemeButton.addEventListener('click', () => {
+        if (body.classList.contains('dark-mode')) {
+            // Switch to light mode
+            body.classList.remove('dark-mode');
+            toggleThemeButton.textContent = '🌙';
+        } else {
+            // Switch to dark mode
+            body.classList.add('dark-mode');
+            toggleThemeButton.textContent = '☀️';
+        }
+    });
+});
+</script>
 
 </html>
