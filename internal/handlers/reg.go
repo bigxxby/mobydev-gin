@@ -4,6 +4,7 @@ import (
 	"log"
 	"project/internal/database"
 	"project/internal/logic"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/lib/pq"
@@ -14,6 +15,8 @@ func (m *Manager) RegHandler(c *gin.Context) {
 	case "GET":
 		c.HTML(200, "reg.html", nil)
 	case "POST":
+		// time.Sleep(2 )
+		time.Sleep(2 * time.Second) //art. delay
 		var data database.RegisterData
 
 		if err := c.BindJSON(&data); err != nil {
