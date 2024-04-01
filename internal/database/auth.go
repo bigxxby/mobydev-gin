@@ -47,7 +47,7 @@ func (db *Database) CheckIfUserExists(email, password string) (*User, bool, erro
 	return nil, false, nil
 }
 
-func (d *Database) AuthoreseUserById(id int, sessionId string) error {
+func (d *Database) AuthoriseUserById(id int, sessionId string) error {
 	tx, err := d.Database.Begin()
 	if err != nil {
 		return err

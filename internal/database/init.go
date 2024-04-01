@@ -2,17 +2,27 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 
 	_ "github.com/lib/pq"
 )
 
+const (
+	host     = "localhost"
+	port     = 5432
+	user     = "postgres"
+	password = "postgres"
+	dbname   = "postgres"
+)
+
 func CreateConnection() (*sql.DB, error) {
-	connStr := "user=postgres password=verysecurepassword host=test-database.c12yiigcoe0w.eu-north-1.rds.amazonaws.com port=5432" // use env next time
+	var connStr = fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, err
 	}
+
 	log.Println("trying to connect...")
 	err = db.Ping()
 	if err != nil {

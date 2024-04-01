@@ -4,6 +4,7 @@ import (
 	"log"
 	"project/internal/database"
 	"project/internal/logic"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -31,11 +32,13 @@ func (m *Manager) LogHandler(c *gin.Context) {
 
 		}
 		if !boolean { // not authorised
+			time.Sleep(2 * time.Second) /////// art. delay
 			c.JSON(400, gin.H{
 				"message": "Пользователя не существует или пароль не верный",
 			})
 			return
 		} else { // authorised
+			time.Sleep(2 * time.Second) ////// art. delay
 			sessionId, err := logic.GenerateSessionID()
 			if err != nil {
 				log.Println(err.Error())
@@ -44,7 +47,7 @@ func (m *Manager) LogHandler(c *gin.Context) {
 				})
 				return
 			}
-			err = m.DB.AuthoreseUserById(user.Id, sessionId)
+			err = m.DB.AuthoriseUserById(user.Id, sessionId)
 			if err != nil {
 				log.Println(err.Error())
 				c.JSON(500, gin.H{

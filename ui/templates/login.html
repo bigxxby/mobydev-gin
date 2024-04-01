@@ -4,53 +4,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/reg.css">
+    <link rel="stylesheet" href="static/css/login.css">
     <title>Авторизация</title>
 </head>
 
 <body>
-    <header>
-        <h1>go-test-mobydev</h1>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li>
-                <li><a href="/reg">Register</a></li>
-                <li><a href="/projects">Projects</a></li>
-                <li><a href="/createProject">Create Project</a></li>
-                <li><a href="/admin">Admin Panel</a></li>
-            </ul>
-        </nav>
-    </header>
-    <h1>Авторизация</h1>
+        <h1>OZINSHE</h1>
+
     <div class="main">
+        
+        <div class="container">
+            <div class="header">
+                <div class="nav">
+                    <div class="buttons">
+        
+                        <a href="/reg"><button>Sign In.</button></a>
+                        <a href="/login"><button>Log In</button></a>
+                        <a href="/projects"><button>Projects</button></a>
+                        <a href="/mobile"><button>Mobile App</button></a>
+                    </div>
+                </div>
+                
+                
+            </div>
 
 
+            
 
+                <div class="block">
+                    <h2>Авторизация</h2>
+                    
+                    <h3>Войдите чтобы продолжить</h3>
+
+
+                    <div class="form"> 
+                            <label for="email">Почта:</label><br>
+                            <input type="email" id="email" name="email" oninput="checkForinput()" required><br>
+                            <div class="validationBlock">
+                                <div class="validationBlockEmail" id="validationBlockEmail"></div>
+                            </div>
+                        <label for="password">Пароль:</label><br>
+                        <input type="password" id="password" name="password" oninput="checkForinput()" required><br>
+                        <div class="submitBlock">
+                            <input type="submit" onclick="submit()" id="submitButton" value="Авторизация">
+                            <div class="loading" id="loading"></div>
+                        </div>
+                        
+                        
+                        
+                        
+                        <p>Нету аккаунта? <a href="/reg">Регистрация</a>.</p>
+                    </div>
+                </div>
+            
+            
+            </div>
+            
+        
+            
+            
+        </div>
         <div id="popupNotification" class="popup-notification">
             <span class="close-popup" onclick="closePopupNotification()">&times;</span>
             <p id="popupMessage"></p>
-        </div>
-
-        <div class="form">
-            <label for="email">Почта:</label><br>
-            <input type="email" id="email" name="email" oninput="checkForinput()" required><br>
-            <div class="validationBlock">
-                <div class="validationBlockEmail" id="validationBlockEmail"></div>
-            </div>
-            <label for="password">Пароль:</label><br>
-            <input type="password" id="password" name="password" oninput="checkForinput()" required><br>
-            <div class="submitBlock">
-                <input type="submit" onclick="submit()" id="submitButton" value="Авторизация">
-
-                <div class="loading" id="loading"></div>
-            </div>
-
-
-
-
-            <p>Нету аккаунта? <a href="/reg">Регистрация</a>.</p>
-        </div>
     </div>
     </div>
     <script>
@@ -58,7 +74,7 @@
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let button = document.getElementById('submitButton');
-
+            
             if (email === '' || password === '') {
                 button.style.backgroundColor = 'gray';
                 button.disabled = true;

@@ -14,8 +14,8 @@ func main() {
 		log.Println(err.Error())
 		return
 	}
-	// main.DB.CreateProjectsTable() //////////////////////////////
-	// main.DB.CreateUsersTable() ///////////////////////////////
+	main.DB.CreateProjectsTable() //////////////////////////////
+	main.DB.CreateUsersTable()    ///////////////////////////////
 	// main.DB.CreateAdmin()
 	router := gin.Default()
 	// static templates
