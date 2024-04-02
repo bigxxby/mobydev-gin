@@ -35,9 +35,13 @@ function getProfile() {
         })
         .catch(error => {
             showPopupNotification(error.message);
+            deleteCookie()
         });
-}
-function displayUser(user) {
+    }
+    function deleteCookie() {
+        document.cookie = "session_id" + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+    function displayUser(user) {
     const profileData = document.querySelector('.profileData');
 
 
@@ -52,12 +56,53 @@ function displayUser(user) {
     if (user.name == null) {
 
         const userNameDiv = document.createElement('div');
+        
         userNameDiv.textContent = `Добро пожаловать, Пользователь!`;
 
         profileData.appendChild(userNameDiv);
-    }
+    }else {
+        const userNameDiv = document.createElement('div');
+        
+        userNameDiv.textContent = `Добро пожаловать, ` +user.name;
 
-}
+        profileData.appendChild(userNameDiv);
+
+    }
+    const logoutBtn = document.createElement('div');
+    logoutBtn.textContent = `Выйти` ;
+    logoutBtn.className = 'logout'
+    let sessionId = getSessionId();
+    let data = {
+        sessionId:sessionId
+    }
+    logoutBtn.onclick = function() {
+        fetch("/logout", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => {
+                return response.json().then(json => {
+                    if (!response.ok) {
+                        throw new Error(`${response.status}: ${json.message}`);
+                    }
+                    return json;
+                });
+            })
+            .then(data => {
+                showPopupNotification('Выход из аккаунта...')
+                profileWindow.style.display = 'none'
+            })
+            .catch(error => {
+                showPopupNotification(error.message);
+            });
+        }
+        profileData.appendChild(logoutBtn);
+    }
+    
+
 
 
 function getSessionId() {

@@ -36,6 +36,10 @@ body {
     text-decoration: none;
     margin: 0 15px;
 }
+.validationBlock {
+    background-color: #292649;
+    border-radius: 1vw;
+}
 .header button {
     padding: 14px 28px;
     font-size: 1.2em;

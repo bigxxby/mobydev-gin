@@ -1,3 +1,19 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleThemeButton = document.querySelector('.toggle-theme');
+        const body = document.body;
+        
+    toggleThemeButton.addEventListener('click', () => {
+            if (body.classList.contains('dark-mode')) {
+                // Switch to light mode
+                body.classList.remove('dark-mode');
+                toggleThemeButton.textContent = '🌙';
+            } else {
+                // Switch to dark mode
+                body.classList.add('dark-mode');
+                toggleThemeButton.textContent = '☀️';
+            }
+        });
+    });
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const toggleButton = document.getElementById("togglePasswordBtn");
@@ -152,19 +168,6 @@ validateInput()
             const popupNotification = document.getElementById('popupNotification');
             popupNotification.style.display = 'none';
         }
-        document.addEventListener('DOMContentLoaded', () => {
-    const toggleThemeButton = document.querySelector('.toggle-theme');
-    const body = document.body;
-    
-    toggleThemeButton.addEventListener('click', () => {
-        if (body.classList.contains('dark-mode')) {
-            // Switch to light mode
-            body.classList.remove('dark-mode');
-            toggleThemeButton.textContent = '🌙';
-        } else {
-            // Switch to dark mode
-            body.classList.add('dark-mode');
-            toggleThemeButton.textContent = '☀️';
-        }
-    });
-});
+
+
+

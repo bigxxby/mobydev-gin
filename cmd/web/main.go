@@ -14,8 +14,11 @@ func main() {
 		log.Println(err.Error())
 		return
 	}
-	main.DB.CreateProjectsTable() //////////////////////////////
-	main.DB.CreateUsersTable()    ///////////////////////////////
+	err = main.DB.CreateProjectsTable() //////////////////////////////
+	if err != nil {
+		log.Println(err.Error())
+	}
+	main.DB.CreateUsersTable() ///////////////////////////////
 	// main.DB.CreateAdmin()
 	router := gin.Default()
 	// static templates
@@ -31,6 +34,7 @@ func main() {
 	router.GET("/login", main.LogHandler)
 	router.POST("/login", main.LogHandler)
 	router.POST("/get-profile", main.GetProfile)
+	router.POST("/logout", main.Logout)
 	// router.GET("/", handlers.ProfileHandler)
 	// router.GET("/", handlers.LogoutHandler)
 	// router.GET("/", handlers.ProjectsHandler)
