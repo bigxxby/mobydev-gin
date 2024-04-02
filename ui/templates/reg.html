@@ -31,17 +31,38 @@
             </div>
             <div class="block">
                 <h2>Регистрация</h2>
-            <label for="email">Почта:</label><br>
-            <input type="email" id="email" name="email" required oninput="validateInput()"><br>
+            <label for="email">Почта:</label>
+            <input type="email" id="email" name="email" required oninput="validateInput()">
             <div class="validationBlock">
                 <div class="validationBlockEmail" id="validationBlockEmail"></div>
             </div>
-            <label for="password">Пароль:</label><br>
-            <input type="password" id="password" name="password" required oninput="validateInput()"><br>
+            <label for="password">Пароль:</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required oninput="validateInput()">
+                <button type="button" onclick="togglePasswordVisibility()" class="togglePasswordBtn"
+                    id="togglePasswordBtn">(X)</button>
+            </div>
+            <script>
+                function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const toggleButton = document.getElementById("togglePasswordBtn");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleButton.innerHTML = '(X)'
+    } else {
+        passwordInput.type = "password";
+        toggleButton.innerHTML = '(O)'
+    }
+}
+
+            </script>
+            <!-- <button type="button" onclick="togglePasswordVisibility()" class="togglePasswordBtn"
+                            id="togglePasswordBtn">(X)</button> -->
             <div class="validationBlock">
                 <div class="validationBlockPassword" id="validationBlockPassword"></div>
             </div>
-            <label for="confirm_password">Подтверждение пароля:</label><br>
+            <label for="confirm_password">Подтверждение пароля:</label>
             <input type="password" id="confirmPassword" name="confirmPassword" required oninput="validateInput()"><br>
             <div class="validationBlock">
                 <div class="validationBlockPasswordC" id="validationBlockPasswordC"></div>
@@ -102,12 +123,14 @@
                 if (!validatePasswordContainsSpecialChar(password)) {
                     validationBlockPassword.innerHTML += '<p>Хотя бы один специальный символ</p>';
                 }
+                if (!validateLatin(password)) {
+                    validationBlockPassword.innerHTML += '<p>Только латинские буквы</p>';
+                }
                 if (password.length < 8) {
                     validationBlockPassword.innerHTML += '<p>Хотя бы 8 символов</p>';
                 }
             }
 
-            // Подтверждение пароля
             if (password !== confirmPassword) {
                 validationBlockPasswordC.innerHTML += '<p>Пароли не совпадают</p>';
             }
@@ -119,6 +142,10 @@
                 submitButton.style.backgroundColor = 'blue'
             }
         }
+        function validateLatin(password) {
+            var nonLatinPattern = /[^a-zA-Z\s\d!@#$%^&*()-=_+[\]{}|;':",.<>/?\\]/;
+            return !nonLatinPattern.test(password);
+}
 
         function validatePasswordContainsUppercase(password) {
             return /[A-Z]/.test(password);
