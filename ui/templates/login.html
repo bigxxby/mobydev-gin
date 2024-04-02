@@ -51,38 +51,7 @@
                             id="togglePasswordBtn">(X)</button>
                     </div>
                     <style>
-                        .password-container {
-                            position: relative;
-                        }
 
-                        .togglePasswordBtn {
-                            position: absolute;
-                            right: 3px;
-                            top: 41%;
-                            transform: translateY(-50%);
-                            background: none;
-                            cursor: pointer;
-                            margin: 0;
-                            padding: 0;
-                        }
-
-                        .togglePasswordBtn {
-                            border: 0;
-                            color: #a1a1a1;
-                            opacity: 0.4;
-
-                            font-size: larger;
-                            height: 74%;
-                            border-radius: 5px;
-                            box-sizing: border-box;
-                            text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.7);
-                            /* Text shadow */
-                            font-weight: bold;
-                            /* Bold text */
-                            line-height: 1.4;
-                            /* Line height */
-
-                        }
                     </style>
 
                     <div class="submitBlock">
@@ -92,18 +61,7 @@
                 </div>
 
                 <script>
-                    function togglePasswordVisibility() {
-                        const passwordInput = document.getElementById("password");
-                        const toggleButton = document.getElementById("togglePasswordBtn");
 
-                        if (passwordInput.type === "password") {
-                            passwordInput.type = "text";
-                            toggleButton.innerHTML = '(X)'
-                        } else {
-                            passwordInput.type = "password";
-                            toggleButton.innerHTML = '(O)'
-                        }
-                    }
                 </script>
 
                 <style>
