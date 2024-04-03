@@ -28,14 +28,14 @@ body {
 
 .buttons {
     color: #4a3c9a;
-    display: flex;
-    flex-wrap: wrap;
+    text-align: center;
 
 }
 
-
-
 .header button {
+    white-space: nowrap;  /* Текст не переносится на новую строку */
+    overflow: hidden;     /* Скрытие части текста, которая не помещается */
+    text-overflow: ellipsis; /* Отображение многоточия для обрезанного текста */
     padding: 14px 28px;
     margin: 1vw;
     background-color: #31567e;
