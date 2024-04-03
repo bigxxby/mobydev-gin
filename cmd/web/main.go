@@ -34,7 +34,7 @@ func main() {
 	router.GET("/login", main.LogHandler)
 	router.POST("/login", main.LogHandler)
 	router.POST("/get-profile", main.GetProfile)
-	router.POST("/logout", main.Logout)
+	router.POST("/logout/:sessionId", main.Logout)
 	// router.GET("/", handlers.ProfileHandler)
 	// router.GET("/", handlers.LogoutHandler)
 	// router.GET("/", handlers.ProjectsHandler)

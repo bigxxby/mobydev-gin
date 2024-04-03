@@ -28,17 +28,16 @@ body {
 
 .buttons {
     color: #4a3c9a;
-    
+    display: flex;
+    flex-wrap: wrap;
+
 }
 
 
-.header a {
-    text-decoration: none;
-    margin: 0 15px;
-}
 
 .header button {
     padding: 14px 28px;
+    margin: 1vw;
     background-color: #31567e;
     color: #fff;
     border: none;
@@ -206,7 +205,7 @@ border: 2px solid white;
 h1 {
     text-align: center;
     color: #e2b4ff;
-    font-size: 4rem;
+    font-size: 3rem;
     text-shadow:
         0px 0px 15px rgba(226, 180, 255, 0.6);
     background: linear-gradient(45deg, #e2b4ff, #b486ea, #a66bd8);

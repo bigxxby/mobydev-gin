@@ -160,12 +160,7 @@ func (db *Database) LogoutUser(sessionId string) error {
 		log.Println(err.Error())
 		return err
 	}
-	defer func() {
-		if err != nil {
-			tx.Rollback()
-			log.Println("Transaction rolled back due to error:", err.Error())
-		}
-	}()
+	defer tx.Rollback()
 
 	_, err = tx.Exec("UPDATE users SET session_id = '' WHERE session_id = $1", sessionId)
 	if err != nil {

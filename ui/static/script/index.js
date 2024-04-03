@@ -75,13 +75,13 @@ function getProfile() {
     let data = {
         sessionId:sessionId
     }
+    // LOGOUT function
     logoutBtn.onclick = function() {
-        fetch("/logout", {
+        fetch("/logout/${sessionId}", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
+            }
         })
             .then(response => {
                 return response.json().then(json => {
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-function Change(selected) {
+function change(selected) {
     // Hide all carValue divs
     const elements = document.querySelectorAll('.carValue');
     elements.forEach(element => {
@@ -172,7 +172,7 @@ function check() {
     // Loop through each radio button to find the selected one
     radios.forEach((radio) => {
         if (radio.checked) {
-            Change(radio.value);
+            change(radio.value);
             return;
         }
     });
