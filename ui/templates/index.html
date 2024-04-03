@@ -10,38 +10,68 @@
 </head>
 
 <body>
+    <style>
+    </style>
     <div class="main">
+        <div class="name">
+            <h1>OZINSHE</h1>
+        </div>
 
-        </script>
         <div class="container">
             <div class="header">
-                    <div class="buttons">
+                <div class="buttons">
 
-                        <a href="/reg"><button>Регистрация</button></a>
-                        <a href="/login"><button>Авторизироваться</button></a>
-                        <a href="/projects"><button>Проекты</button></a>
-                        <a href="/mobile"><button>Мобильное приложение</button></a>
-                    </div>
+                    <a href="/reg"><button>Регистрация</button></a>
+                    <a href="/login"><button>Авторизироваться</button></a>
+                    <a href="/projects"><button>Проекты</button></a>
+                    <a href="/mobile"><button>Мобильное приложение</button></a>
+                </div>
                 <div class="profileWindow" id="profileWindow">
                     <img src="static/images/default.jpg" alt="img">
                     <div class="profileData">
 
-                        
+
                     </div>
                 </div>
             </div>
 
-            <div class="name">
-                <h1>OZINSHE</h1>
-            </div>
-            <div class="desc">
-                <h2>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores nulla nihil doloremque
-                    omnis optio sequi repudiandae commodi eum est! Voluptates, animi aspernatur. Explicabo accusamus,
-                    dolores neque perferendis dolor quas?
-                </h2>
-            </div>
+            <style>
+                img {
+                    max-width: 14vw;
 
+                }
+
+                .desc {
+                    padding: 1vw;
+                }
+            </style>
+            <div class="desc">
+                <div class="carBlock">
+                    <div class="carValue" id="carValue1">
+                        <img src="static/images/icons/logo.png" alt="img">
+                        <h3>Фильмы, сериалы, ситкомы, анимационные проекты, телепередачи и реалити-шоу, аниме и многое
+                            другое.</h3>
+                    </div>
+                    <div class="carValue" id="carValue2">
+                        <!-- <img src="static/images/icons/union.png" alt="img"> -->
+                        <img src="static/images/icons/logo.png" alt="img">
+                        <h3>Смотрите с любого устройства
+                            Смотрите любимый фильм на телефоне, планшете или ноутбуке бесплатно</h3>
+                    </div>
+                    <div class="carValue" id="carValue3">
+                        <!-- <img src="static/images/icons/.png" alt="img"> -->
+                        <img src="static/images/icons/logo.png" alt="img">
+                        <h3>Зарегистрироваться легко. Зарегистрируйтесь <a href="/reg">сейчас</a> и получите желаемый
+                            фильм</h3>
+                    </div>
+                </div>
+                <div class="radio">
+                    <input oninput="check()" class="radionBtn" type="radio" name="carousel" value="1" checked>
+                    <input oninput="check()" class="radionBtn" type="radio" name="carousel" value="2">
+                    <input oninput="check()" class="radionBtn" type="radio" name="carousel" value="3">
+                </div>
+
+            </div>
         </div>
 
 

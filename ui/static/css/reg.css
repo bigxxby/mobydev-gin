@@ -37,8 +37,8 @@ body {
     margin: 0 15px;
 }
 .validationBlock {
-    background-color: #292649;
-    border-radius: 1vw;
+    background: linear-gradient(30deg, #2c2949, #390e97);
+    border-radius: 0.5vw;
 }
 .header button {
     padding: 14px 28px;
@@ -183,7 +183,7 @@ a:hover {
 }
 /* Container */
 .container {
-    background-image: url('../images/back2.jpg');
+    background: linear-gradient(30deg, #2c2949, #3400a5);
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -193,7 +193,6 @@ a:hover {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    background-color: #4a3c9a;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     border-radius: 20px;
 }

@@ -12,6 +12,7 @@ import (
 
 func (m *Manager) RegHandler(c *gin.Context) {
 	switch c.Request.Method {
+		
 	case "GET":
 		c.HTML(200, "reg.html", nil)
 	case "POST":
