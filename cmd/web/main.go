@@ -34,11 +34,7 @@ func main() {
 	router.GET("/login", main.LogHandler)
 	router.POST("/login", main.LogHandler)
 	router.POST("/get-profile", main.GetProfile)
-	router.POST("/logout/:sessionId", main.Logout)
-	// router.GET("/", handlers.ProfileHandler)
-	// router.GET("/", handlers.LogoutHandler)
-	// router.GET("/", handlers.ProjectsHandler)
-	// router.GET("/", handlers.CreateProjectsHandler)
+	router.POST("/logout", main.Logout)
 	log.Println("http://localhost:8080/")
 	router.Run(":8080")
 }

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
+	"project/internal/database"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,15 +16,24 @@ func (m *Manager) Logout(c *gin.Context) {
 		})
 		return
 	} else {
-		sessionID := c.Param("sessionId")
-		if sessionID == "" {
+
+		var sessionData database.SessionData
+		if err := c.BindJSON(&sessionData); err != nil {
+			c.JSON(400, gin.H{
+				"message": "Неверный формат данных",
+			})
+			return
+		}
+		log.Println(sessionData)
+
+		if sessionData.SessionID == "" {
 			c.JSON(400, gin.H{
 				"message": "SessionId cant be empty string",
 			})
 			return
 		}
 
-		err := m.DB.LogoutUser(sessionID)
+		err := m.DB.LogoutUser(sessionData.SessionID)
 		if err == sql.ErrNoRows {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{
