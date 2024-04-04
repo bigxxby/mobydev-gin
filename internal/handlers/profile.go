@@ -8,22 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GetProfile(c *gin.Context) {
-	if c.Request.Method != "POST" {
-		c.JSON(http.StatusMethodNotAllowed, gin.H{
-			"message": "Method not allowed",
+func (m *Manager) GET_Profile(c *gin.Context) {
+	sessionId := c.Param("sessionId")
+	if sessionId == "" {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Session not found",
 		})
 		return
 	}
-	var sessionData database.SessionData
-
-	if err := c.BindJSON(&sessionData); err != nil {
-		c.JSON(400, gin.H{
-			"error": "Невозможно привязать JSON",
-		})
-		return
-	}
-	user, err := m.DB.FindUserBySessionId(sessionData.SessionID)
+	user, err := m.DB.FindUserBySessionId(sessionId)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "Internal server Error",

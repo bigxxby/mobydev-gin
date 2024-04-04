@@ -43,7 +43,7 @@ function submit() {
     loading.style.display = 'block';  // показать индикатор загрузки
     submitButton.disabled = true;     // деактивировать кнопку отправки
 
-    fetch("/login", {
+    fetch("/api/login", {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -7,20 +7,16 @@ function getProfile() {
     let element = document.getElementById('profileWindow')
     if (sessionId !== null) {
         element.style.display = 'flex'
-    }else {
-        return 
-    }
-    
-    data = {
-        sessionId: sessionId,
+    } else {
+        return
     }
 
-    fetch("/get-profile", {
-        method: 'POST',
+
+    fetch(`api/profile/${sessionId}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+        }
     })
         .then(response => {
             return response.json().then(json => {
@@ -37,17 +33,13 @@ function getProfile() {
             showPopupNotification(error.message);
             deleteCookie()
         });
-    }
-    function deleteCookie() {
-        document.cookie = "session_id" + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    }
-    function displayUser(user) {
+}
+function deleteCookie() {
+    document.cookie = "session_id" + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+function displayUser(user) {
     const profileData = document.querySelector('.profileData');
 
-
-    // const userIdDiv = document.createElement('div');
-    // userIdDiv.textContent = `ID: ${user.id}`;
-    // profileWindow.appendChild(userIdDiv);
 
     const userEmailDiv = document.createElement('div');
     userEmailDiv.textContent = `${user.email}`;
@@ -56,53 +48,58 @@ function getProfile() {
     if (user.name == null) {
 
         const userNameDiv = document.createElement('div');
-        
+
         userNameDiv.textContent = `Добро пожаловать, Пользователь!`;
 
         profileData.appendChild(userNameDiv);
-    }else {
+    } else {
         const userNameDiv = document.createElement('div');
-        
-        userNameDiv.textContent = `Добро пожаловать, ` +user.name;
+
+        userNameDiv.textContent = `Добро пожаловать, ` + user.name;
 
         profileData.appendChild(userNameDiv);
 
     }
     const logoutBtn = document.createElement('div');
-    logoutBtn.textContent = `Выйти` ;
+    logoutBtn.textContent = `Выйти`;
     logoutBtn.className = 'logout'
+    logoutBtn.onclick = clickHandler; // Присвоение обработчика кнопке
+    profileData.appendChild(logoutBtn);
+}
+
+
+function clickHandler() {
     let sessionId = getSessionId();
+    logout(sessionId); // Вызов функции logout с передачей sessionId
+}
+function logout(sessionId) {
     let data = {
-        sessionId:sessionId
+        sessionId: sessionId,
     }
-    // LOGOUT function
-    logoutBtn.onclick = function() {
-        fetch("/logout", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(response => {
-                return response.json().then(json => {
-                    if (!response.ok) {
-                        throw new Error(`${response.status}: ${json.message}`);
-                    }
-                    return json;
-                });
-            })
-            .then(data => {
-                showPopupNotification('Выход из аккаунта...')
-                profileWindow.style.display = 'none'
-            })
-            .catch(error => {
-                showPopupNotification(error.message);
+    fetch("/api/logout", {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => {
+            return response.json().then(json => {
+                if (!response.ok) {
+                    throw new Error(`${response.status}: ${json.message}`);
+                }
+                return json;
             });
-        }
-        profileData.appendChild(logoutBtn);
-    }
-    
+        })
+        .then(data => {
+            showPopupNotification('Выход из аккаунта...')
+            profileWindow.style.display = 'none'
+        })
+        .catch(error => {
+            showPopupNotification(error.message);
+        });
+}
+
 
 
 
@@ -138,7 +135,7 @@ function closePopupNotification() {
 document.addEventListener('DOMContentLoaded', () => {
     const toggleThemeButton = document.querySelector('.toggle-theme');
     const body = document.body;
-    
+
     toggleThemeButton.addEventListener('click', () => {
         if (body.classList.contains('dark-mode')) {
             // Switch to light mode
