@@ -1,4 +1,4 @@
-package handlers
+package routes
 
 import (
 	"log"
@@ -16,7 +16,7 @@ func (m *Manager) GET_Reg(c *gin.Context) {
 }
 func (m *Manager) POST_Reg(c *gin.Context) {
 
-	time.Sleep(2 * time.Second) //art. delay
+	time.Sleep(1 * time.Second) //art. delay
 	var data database.RegisterData
 
 	if err := c.BindJSON(&data); err != nil {
@@ -33,7 +33,7 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.AddUser(data.Email, data.Password)
+	err = m.DB.CreateUser(data.Email, data.Password)
 	if err != nil {
 		if pgErr, ok := err.(*pq.Error); ok {
 			if pgErr.Code == "23505" {

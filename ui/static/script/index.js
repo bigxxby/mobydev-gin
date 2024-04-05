@@ -3,19 +3,18 @@ window.onload = function () {
 };
 
 function getProfile() {
-    let sessionId = getSessionId();
+    let token = getTokenFromLocalStorage()
     let element = document.getElementById('profileWindow')
-    if (sessionId !== null) {
+    if (token !== null) {
         element.style.display = 'flex'
     } else {
         return
     }
-
-
-    fetch(`api/profile/${sessionId}`, {
+    fetch(`api/profile`, {
         method: 'GET',
         headers: {
-            'Content-Type': 'application/json'
+            'Authorization': `Bearer ${token}`
+            
         }
     })
         .then(response => {
@@ -28,15 +27,25 @@ function getProfile() {
         })
         .then(data => {
             displayUser(data);
+            // console.log()
         })
         .catch(error => {
             showPopupNotification(error.message);
-            deleteCookie()
+            localStorage.removeItem('token');
         });
 }
-function deleteCookie() {
-    document.cookie = "session_id" + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-}
+function getTokenFromLocalStorage() {
+    const token = localStorage.getItem('token');
+  
+    if (token) {
+      return token;
+    } else {
+      console.error('Token not found in localStorage');
+      return null;
+    }
+  }
+
+
 function displayUser(user) {
     const profileData = document.querySelector('.profileData');
 
@@ -69,50 +78,18 @@ function displayUser(user) {
 
 
 function clickHandler() {
-    let sessionId = getSessionId();
-    logout(sessionId); // Вызов функции logout с передачей sessionId
+    let token   = getTokenFromLocalStorage();
+    logout(token ); // Вызов функции logout с передачей sessionId
 }
-function logout(sessionId) {
-    let data = {
-        sessionId: sessionId,
-    }
-    fetch("/api/logout", {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-    })
-        .then(response => {
-            return response.json().then(json => {
-                if (!response.ok) {
-                    throw new Error(`${response.status}: ${json.message}`);
-                }
-                return json;
-            });
-        })
-        .then(data => {
-            showPopupNotification('Выход из аккаунта...')
-            profileWindow.style.display = 'none'
-        })
-        .catch(error => {
-            showPopupNotification(error.message);
-        });
-}
+function logout() {
+    localStorage.removeItem("token")
+    showPopupNotification('Выход из аккаунта...')
+    profileWindow.style.display = 'none'
+}   
 
 
 
 
-function getSessionId() {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-        let cookie = cookies[i].trim();
-        if (cookie.startsWith('session_id=')) {
-            return cookie.substring(11);
-        }
-    }
-    return null;
-}
 
 function showPopupNotification(message) {
     const popupNotification = document.getElementById('popupNotification');

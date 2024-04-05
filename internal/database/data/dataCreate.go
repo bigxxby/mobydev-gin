@@ -1,10 +1,12 @@
 package database
 
 import (
+	"project/internal/database"
+
 	"golang.org/x/crypto/bcrypt"
 )
 
-func (db *Database) CreateUsersTable() error {
+func CreateUsersTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -38,7 +40,7 @@ func (db *Database) CreateUsersTable() error {
 	return nil
 }
 
-func (db *Database) CreateProjectsTable() error {
+func CreateProjectsTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -74,7 +76,7 @@ func (db *Database) CreateProjectsTable() error {
 	return nil
 }
 
-func (db *Database) CreateAdmin() error {
+func CreateAdmin(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err

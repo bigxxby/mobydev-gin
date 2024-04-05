@@ -1,35 +1,45 @@
-package handlers
+package routes
 
 import (
 	"log"
 	"net/http"
 	"project/internal/database"
+	"project/internal/logic"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (m *Manager) GET_Profile(c *gin.Context) {
-	sessionId := c.Param("sessionId")
-	if sessionId == "" {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Session not found",
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	token := c.GetHeader("Authorization")
+	if token == "" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Invalid token",
 		})
 		return
 	}
-	user, err := m.DB.FindUserBySessionId(sessionId)
+	userId, err := logic.VerifyToken(token)
 	if err != nil {
-		c.JSON(500, gin.H{
-			"message": "Internal server Error",
-		})
 		log.Println(err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
 		return
 	}
-	userJson := sendBackUser(*user)
+
+	user, err := m.DB.GetUserById(userId)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+	}
+	userJson := sendBackUserTrim(*user)
 	c.JSON(200, userJson)
 }
 
 // query := "SELECT id , email , name , phone,date_of_birth FROM users WHERE session_id = $1"
-func sendBackUser(user database.User) gin.H {
+func sendBackUserTrim(user database.User) gin.H {
 	userJson := gin.H{}
 
 	userJson["id"] = user.Id

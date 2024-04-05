@@ -1,8 +1,9 @@
-package database
+package init
 
 import (
 	"database/sql"
 	"log"
+	"project/internal/database"
 
 	_ "github.com/lib/pq"
 )
@@ -24,12 +25,12 @@ func CreateConnection() (*sql.DB, error) {
 	return db, nil
 }
 
-func CreateDatabaseStruct() (*Database, error) {
+func CreateDatabaseStruct() (*database.Database, error) {
 	db, err := CreateConnection()
 	if err != nil {
 		return nil, err
 	}
-	manager := Database{
+	manager := database.Database{
 		Database: db,
 	}
 	return &manager, err

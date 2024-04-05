@@ -58,6 +58,12 @@ function submit() {
                 if (!response.ok) {
                     throw new Error(`${response.status}: ${json.message}`);
                 }
+                // const token = response.headers.get('Authorization');
+                let token = json.token
+                if (!token) {
+                  throw new Error('Authorization header is missing');
+                }
+                localStorage.setItem('token', token.replace('Bearer ', ''));
                 return json;
             });
         })

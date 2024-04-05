@@ -2,65 +2,52 @@ package logic
 
 import (
 	"errors"
-	"net/mail"
-	"regexp"
-	"unicode"
+	"strings"
+	"time"
 
-	"github.com/google/uuid"
-	"golang.org/x/crypto/bcrypt"
+	"github.com/dgrijalva/jwt-go"
 )
 
-func IsValidPassword(password string) bool {
-	if len(password) < 8 {
-		return false
-	}
-	onlyLatin := containsNonLatinLetters(password)
-	hasUpperCase := regexp.MustCompile(`[A-Z]`).MatchString
-	hasLowerCase := regexp.MustCompile(`[a-z]`).MatchString
-	hasDigit := regexp.MustCompile(`\d`).MatchString
-	hasSpecialChar := regexp.MustCompile(`[@#$%^&+=!]`).MatchString
+var secretKey = []byte("asdji0-c5mu34i0pdsdfjksod")
 
-	return !onlyLatin && hasUpperCase(password) && hasLowerCase(password) && hasDigit(password) && hasSpecialChar(password)
-}
+func CreateJWTToken(userId int, email, name string) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
+		jwt.MapClaims{
+			"userId": userId,
+			"email":  email,
+			"name":   name,
+			"exp":    time.Now().Add(time.Hour * 24).Unix(),
+		})
 
-func containsNonLatinLetters(str string) bool { // checks if password has not latin symbols
-	for _, char := range str {
-		if !unicode.IsLetter(char) {
-			continue
-		}
-		if !unicode.Is(unicode.Latin, char) {
-			return true
-		}
-	}
-	return false
-}
-
-func HashPassword(password string) (string, error) {
-	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	tokenString, err := token.SignedString(secretKey)
 	if err != nil {
 		return "", err
 	}
-	return string(hashedPassword), nil
-}
 
-func GenerateSessionID() (string, error) {
-	sessionID, err := uuid.NewUUID()
-	if err != nil {
-		return "", err
-	}
-	return sessionID.String(), nil
+	return tokenString, nil
 }
+func VerifyToken(tokenString string) (int, error) {
+	tokenString = strings.Replace(tokenString, "Bearer ", "", 1)
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return secretKey, nil
+	})
 
-func CheckValidForReg(email, password, confirmPassword string) error {
-	if password != confirmPassword {
-		return errors.New("Passwords Does Not Match")
-	}
-	_, err := mail.ParseAddress(email)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	if !IsValidPassword(password) {
-		return errors.New("Password is not valid")
+
+	if !token.Valid {
+		return 0, errors.New("invalid token")
 	}
-	return nil
+
+	claims, ok := token.Claims.(jwt.MapClaims) //get user id
+	if !ok {
+		return 0, errors.New("invalid token claims")
+	}
+
+	userId, ok := claims["userId"].(float64) // Предполагая, что userId - целое число
+	if !ok {
+		return 0, errors.New("invalid userId")
+	}
+	return int(userId), nil
 }

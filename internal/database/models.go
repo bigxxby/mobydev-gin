@@ -6,6 +6,18 @@ type Database struct {
 	Database *sql.DB
 }
 
+type GET interface {
+	GetUserById(id int) (*User, error)
+}
+
+type CREATE interface {
+	CreateUser(email, password string) error
+}
+type UPDATE interface {
+	UpdateUser(userID string, newName, newPhone string, newDOB string) error               //not used
+	UpdateUserByAdmin(userID string, newName, newPhone, newDOB string, isAdmin bool) error // not used
+}
+
 type RegisterData struct {
 	Email           string `json:"email" binding:"required"`
 	Password        string `json:"password" binding:"required"`

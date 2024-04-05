@@ -1,7 +1,8 @@
-package handlers
+package routes
 
 import (
 	"log"
+	"net/http"
 	"project/internal/database"
 	"project/internal/logic"
 	"time"
@@ -13,7 +14,8 @@ func (m *Manager) GET_Login(c *gin.Context) {
 	c.HTML(200, "login.html", nil)
 }
 func (m *Manager) POST_Login(c *gin.Context) {
-	time.Sleep(2 * time.Second) ////// art. delay
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	time.Sleep(1 * time.Second) ////// art. delay
 	var data database.LoginData
 
 	if err := c.BindJSON(&data); err != nil {
@@ -22,7 +24,7 @@ func (m *Manager) POST_Login(c *gin.Context) {
 		})
 		return
 	}
-	user, boolean, err := m.DB.CheckIfUserExists(data.Email, data.Password)
+	user, boolean, err := m.DB.CheckUserExists(data.Email, data.Password)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -32,12 +34,12 @@ func (m *Manager) POST_Login(c *gin.Context) {
 
 	}
 	if !boolean { // not authorised
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Пользователя не существует или пароль не верный",
 		})
 		return
 	} else { // authorised
-		sessionId, err := logic.GenerateSessionID()
+		token, err := logic.CreateJWTToken(user.Id, user.Email, user.Name.String)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{
@@ -45,17 +47,9 @@ func (m *Manager) POST_Login(c *gin.Context) {
 			})
 			return
 		}
-		err = m.DB.AuthoriseUserById(user.Id, sessionId)
-		if err != nil {
-			log.Println(err.Error())
-			c.JSON(500, gin.H{
-				"message": "Internal server error",
-			})
-			return
-		}
-		c.SetCookie("session_id", sessionId, 86400, "/", "", false, false) // name of cookie , sesison id of cookie , max age if cookie , path for cookie , domain  , secure , http only
 		c.JSON(200, gin.H{
 			"message": "Успешная авторизация",
+			"token":   token,
 		})
 
 	}
