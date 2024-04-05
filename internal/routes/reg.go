@@ -3,7 +3,7 @@ package routes
 import (
 	"log"
 	"project/internal/database"
-	"project/internal/logic"
+	logic "project/internal/utils"
 	"time"
 
 	"github.com/gin-gonic/gin"

@@ -1,4 +1,4 @@
-package logic
+package utils
 
 import (
 	"errors"
@@ -45,7 +45,7 @@ func VerifyToken(tokenString string) (int, error) {
 		return 0, errors.New("invalid token claims")
 	}
 
-	userId, ok := claims["userId"].(float64) // Предполагая, что userId - целое число
+	userId, ok := claims["userId"].(float64)
 	if !ok {
 		return 0, errors.New("invalid userId")
 	}

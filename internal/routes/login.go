@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"project/internal/database"
-	"project/internal/logic"
+	"project/internal/utils"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -39,7 +39,7 @@ func (m *Manager) POST_Login(c *gin.Context) {
 		})
 		return
 	} else { // authorised
-		token, err := logic.CreateJWTToken(user.Id, user.Email, user.Name.String)
+		token, err := utils.CreateJWTToken(user.Id, user.Email, user.Name.String)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{

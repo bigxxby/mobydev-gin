@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 	"project/internal/database"
-	"project/internal/logic"
+	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -18,7 +18,7 @@ func (m *Manager) GET_Profile(c *gin.Context) {
 		})
 		return
 	}
-	userId, err := logic.VerifyToken(token)
+	userId, err := utils.VerifyToken(token)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -34,12 +34,12 @@ func (m *Manager) GET_Profile(c *gin.Context) {
 			"message": "Unauthorized",
 		})
 	}
-	userJson := sendBackUserTrim(*user)
+	userJson := SendBackUserTrim(*user)
 	c.JSON(200, userJson)
 }
 
 // query := "SELECT id , email , name , phone,date_of_birth FROM users WHERE session_id = $1"
-func sendBackUserTrim(user database.User) gin.H {
+func SendBackUserTrim(user database.User) gin.H {
 	userJson := gin.H{}
 
 	userJson["id"] = user.Id

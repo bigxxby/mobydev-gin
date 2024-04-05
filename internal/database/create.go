@@ -3,7 +3,7 @@ package database
 import (
 	"errors"
 	"log"
-	"project/internal/logic"
+	"project/internal/utils"
 )
 
 func (db *Database) CreateUser(email, password string) (bool, error) {
@@ -23,7 +23,7 @@ func (db *Database) CreateUser(email, password string) (bool, error) {
 		return false, err
 	}
 	defer tx.Rollback()
-	hashedPassword, err := logic.HashPassword(password)
+	hashedPassword, err := utils.HashPassword(password)
 	if err != nil {
 		log.Println("Error Hashing password : ", err.Error())
 		return false, err
