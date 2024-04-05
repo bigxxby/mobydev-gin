@@ -21,15 +21,13 @@ func Start() {
 	router.LoadHTMLGlob("ui/templates/*")
 	router.Static("/static", "./ui/static")
 
-	//routes
-
 	//GET
 	router.GET("/", main.GET_Index)
 	router.GET("/reg", main.GET_Reg)
 	router.GET("/login", main.GET_Login)
 	router.GET("/api/profile", main.GET_Profile)
 	//POST
-	router.POST("/reg", main.POST_Reg)
+	router.POST("api/reg", main.POST_Reg)
 	router.POST("/api/login", main.POST_Login)
 	router.Run(":8080")
 }
