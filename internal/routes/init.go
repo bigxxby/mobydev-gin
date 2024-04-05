@@ -6,8 +6,7 @@ import (
 )
 
 type Manager struct {
-	DB  *database.Database
-	GET database.GET
+	DB *database.Database
 }
 
 func Init() (*Manager, error) {

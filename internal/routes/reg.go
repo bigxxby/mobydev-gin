@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lib/pq"
 )
 
 func (m *Manager) GET_Reg(c *gin.Context) {
@@ -33,22 +32,19 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.CreateUser(data.Email, data.Password)
+	exists, err := m.DB.CreateUser(data.Email, data.Password)
+	if exists {
+		c.JSON(400, gin.H{
+			"message": "Пользователь уже существует",
+		})
+		return
+	}
 	if err != nil {
-		if pgErr, ok := err.(*pq.Error); ok {
-			if pgErr.Code == "23505" {
-				c.JSON(400, gin.H{
-					"message": "Пользователь уже существует",
-				})
-				return
-			}
-		}
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server Error",
 		})
 		return
-
 	}
 	c.JSON(200, gin.H{
 		"message": "Успешно зарегистрирован",

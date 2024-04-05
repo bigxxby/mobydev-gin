@@ -2,7 +2,6 @@ package logic
 
 import (
 	"errors"
-	"log"
 	"net/mail"
 	"regexp"
 	"unicode"
@@ -23,7 +22,6 @@ func CheckValidForReg(email, password, confirmPassword string) error {
 }
 
 func isValidPassword(password string) bool {
-	log.Println(len(password))
 	if len(password) < 8 {
 		return false
 	}

@@ -13,10 +13,6 @@ func Start() {
 		log.Println(err.Error())
 		return
 	}
-	if err != nil {
-		log.Println(err.Error())
-	}
-
 	// main.DB.CreateUsersTable() ///////////////////////////////
 	// main.DB.CreateAdmin()
 
