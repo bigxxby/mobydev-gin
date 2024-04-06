@@ -30,10 +30,22 @@ type User struct {
 	UpdatedAt   sql.NullTime   `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 }
+type MovieJson struct {
+	Id              int    `json:"id"`
+	Name            string `json:"name"`
+	Category        string `json:"category"`
+	ProjectType     string `json:"project_type"`
+	Year            int    `json:"year"`
+	AgeCategory     string `json:"age_category"`
+	DurationMinutes int    `json:"duration_minutes"`
+	Keywords        string `json:"keywords"`
+	Description     string `json:"description"`
+	Director        string `json:"director"`
+	Producer        string `json:"producer"`
+}
 
-type Project struct {
+type Movie struct {
 	Id              int            `json:"id"`
-	UserId          int            `json:"user_id"`
 	Name            sql.NullString `json:"name"`
 	Category        sql.NullString `json:"category"`
 	ProjectType     sql.NullString `json:"project_type"`

@@ -30,8 +30,8 @@ func CreateDatabaseStruct() (*database.Database, error) {
 	if err != nil {
 		return nil, err
 	}
-	manager := database.Database{
+	database := database.Database{
 		Database: db,
 	}
-	return &manager, err
+	return &database, err
 }

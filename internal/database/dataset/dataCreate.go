@@ -39,7 +39,7 @@ func CreateUsersTable(db *database.Database) error {
 	return nil
 }
 
-func CreateProjectsTable(db *database.Database) error {
+func CreateMoviesTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -47,9 +47,8 @@ func CreateProjectsTable(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        CREATE TABLE IF NOT EXISTS projects (
+        CREATE TABLE IF NOT EXISTS movies (
             id SERIAL PRIMARY KEY,
-            user_id INTEGER,
             name TEXT,
             category TEXT,
             project_type TEXT,
@@ -59,8 +58,7 @@ func CreateProjectsTable(db *database.Database) error {
             keywords TEXT,
             description TEXT,
             director TEXT,
-            producer TEXT,
-            FOREIGN KEY(user_id) REFERENCES users(id)
+            producer TEXT
         )
     `)
 	if err != nil {

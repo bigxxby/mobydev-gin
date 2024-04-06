@@ -21,3 +21,52 @@ func (db *Database) GetUserById(id int) (*User, error) {
 
 	return &user, nil
 }
+func (db *Database) GetMovies() ([]Movie, error) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+
+	var movies []Movie
+	stmt, err := tx.Prepare("SELECT * FROM movies")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var movie Movie
+		err := rows.Scan(
+			&movie.Id,
+			&movie.Name,
+			&movie.Category,
+			&movie.ProjectType,
+			&movie.Year,
+			&movie.AgeCategory,
+			&movie.DurationMinutes,
+			&movie.Keywords,
+			&movie.Description,
+			&movie.Director,
+			&movie.Producer,
+		)
+		if err != nil {
+			return nil, err
+		}
+		movies = append(movies, movie)
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
+
+	return movies, nil
+}

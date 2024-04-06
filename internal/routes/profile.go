@@ -3,8 +3,8 @@ package routes
 import (
 	"log"
 	"net/http"
-	"project/internal/database"
 	"project/internal/utils"
+	"project/internal/utils/mapping"
 
 	"github.com/gin-gonic/gin"
 )
@@ -34,25 +34,6 @@ func (m *Manager) GET_Profile(c *gin.Context) {
 			"message": "Unauthorized",
 		})
 	}
-	userJson := SendBackUserTrim(*user)
+	userJson := mapping.TrimUser(*user)
 	c.JSON(200, userJson)
-}
-
-// query := "SELECT id , email , name , phone,date_of_birth FROM users WHERE session_id = $1"
-func SendBackUserTrim(user database.User) gin.H {
-	userJson := gin.H{}
-
-	userJson["id"] = user.Id
-	userJson["email"] = user.Email
-	if user.Name.Valid {
-		userJson["name"] = user.Name.String
-	}
-	if user.Phone.Valid {
-		userJson["phone"] = user.Phone.String
-	}
-	if user.DateOfBirth.Valid {
-		userJson["dot"] = user.DateOfBirth.Time.String()
-	}
-
-	return userJson
 }
