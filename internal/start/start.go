@@ -6,22 +6,32 @@ import (
 	"project/internal/routes"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/swaggo/gin-swagger/example/basic/docs"
 )
 
 func Start() {
-
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	//init
 	main, err := routes.Init()
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
-	err = database.CreateMoviesTable(main.DB)
+
+	err = database.DropTables(main.DB.Database) ///////////////
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
+	err = database.CreateTables(main.DB)
+	if err != nil {
+		return
+	}
+	err = database.CreateTestData(main.DB) /////////////
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+
 	router := gin.Default()
 	router.LoadHTMLGlob("ui/templates/*")
 	router.Static("/static", "./ui/static")
@@ -37,4 +47,5 @@ func Start() {
 	router.POST("/api/login", main.POST_Login)
 
 	router.Run(":8080")
+
 }

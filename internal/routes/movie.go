@@ -2,7 +2,6 @@ package routes
 
 import (
 	"log"
-	"project/internal/utils/mapping"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,6 +16,7 @@ func (m *Manager) GET_Movie(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"movies": mapping.TrimMovies(movies),
+		// "movies": mapping.TrimMovies(movies),
+		"movies": movies,
 	})
 }

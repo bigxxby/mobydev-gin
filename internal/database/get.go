@@ -23,13 +23,13 @@ func (db *Database) GetUserById(id int) (*User, error) {
 }
 func (db *Database) GetMovies() ([]Movie, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return nil, err
 	}
 	defer tx.Rollback()
 
-	var movies []Movie
 	stmt, err := tx.Prepare("SELECT * FROM movies")
 	if err != nil {
 		return nil, err
@@ -42,10 +42,14 @@ func (db *Database) GetMovies() ([]Movie, error) {
 	}
 	defer rows.Close()
 
+	var movies []Movie
+
 	for rows.Next() {
 		var movie Movie
 		err := rows.Scan(
 			&movie.Id,
+			&movie.UserId,
+			&movie.ImageUrl,
 			&movie.Name,
 			&movie.Category,
 			&movie.ProjectType,
@@ -61,6 +65,10 @@ func (db *Database) GetMovies() ([]Movie, error) {
 			return nil, err
 		}
 		movies = append(movies, movie)
+	}
+
+	if err = rows.Err(); err != nil {
+		return nil, err
 	}
 
 	err = tx.Commit()

@@ -23,26 +23,27 @@ func TrimUser(user database.User) gin.H {
 
 	return userJson
 }
-func TrimMovies(movies []database.Movie) []database.MovieJson {
-	var trimmedMovies []database.MovieJson
 
-	for _, movie := range movies {
-		trimmedMovie := database.MovieJson{
-			Id:              movie.Id,
-			Name:            movie.Name.String,
-			Category:        movie.Category.String,
-			ProjectType:     movie.ProjectType.String,
-			Year:            int(movie.Year.Int32),
-			AgeCategory:     movie.AgeCategory.String,
-			DurationMinutes: int(movie.DurationMinutes.Int32),
-			Keywords:        movie.Keywords.String,
-			Description:     movie.Description.String,
-			Director:        movie.Director.String,
-			Producer:        movie.Producer.String,
-		}
+// func TrimMovies(movies []database.Movie) []database.MovieJson {
+// 	var trimmedMovies []database.MovieJson
 
-		trimmedMovies = append(trimmedMovies, trimmedMovie)
-	}
+// 	for _, movie := range movies {
+// 		trimmedMovie := database.MovieJson{
+// 			Id:              movie.Id,
+// 			Name:            movie.Name.String,
+// 			Category:        movie.Category.String,
+// 			ProjectType:     movie.ProjectType.String,
+// 			Year:            int(movie.Year.Int32),
+// 			AgeCategory:     movie.AgeCategory.String,
+// 			DurationMinutes: int(movie.DurationMinutes.Int32),
+// 			Keywords:        movie.Keywords.String,
+// 			Description:     movie.Description.String,
+// 			Director:        movie.Director.String,
+// 			Producer:        movie.Producer.String,
+// 		}
 
-	return trimmedMovies
-}
+// 		trimmedMovies = append(trimmedMovies, trimmedMovie)
+// 	}
+
+// 	return trimmedMovies
+// }

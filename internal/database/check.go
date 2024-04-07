@@ -30,7 +30,7 @@ func (db *Database) CheckUserExists(email, password string) (*User, bool, error)
 	user := &User{}
 
 	if rows.Next() {
-		err := rows.Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.Phone, &user.DateOfBirth, &user.SessionId, &user.IsAdmin, &user.CreatedAt, &user.UpdatedAt, &user.DeletedAt)
+		err := rows.Scan(&user.Id, &user.Email, &user.Password, &user.Name, &user.Phone, &user.DateOfBirth, &user.IsAdmin, &user.CreatedAt, &user.UpdatedAt, &user.DeletedAt)
 		if err != nil {
 			return nil, false, err
 		}
