@@ -33,6 +33,7 @@ func (m *Manager) GET_Profile(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Unauthorized",
 		})
+		return
 	}
 	userJson := mapping.TrimUser(*user)
 	c.JSON(200, userJson)
