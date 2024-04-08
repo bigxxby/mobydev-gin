@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input id="email" name="email" type="email">
+    <button onclick="submit()" >submit</button>
+    <script>
+        function submit() {
+            let element = document.getElementById('email')
+            let email = element.value
+            data = {
+                email: email,
+            }
+            fetch(`api/forgot`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body : JSON.stringify(data) 
+            })
+                .then(response => {
+                    return response.json().then(json => {
+                        if (!response.ok) {
+                            throw new Error(`${response.status}: ${json.message}`);
+                        }
+                        return json;
+                    });
+                })
+                .then(data => {
+                    console.log(data)
+                })
+                .catch(error => {
+                    alert(error.message)
+                });
+
+
+        }
+    </script>
+</body>
+
+</html>

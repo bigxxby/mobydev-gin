@@ -14,6 +14,7 @@ func (m *Manager) GET_Reg(c *gin.Context) {
 	c.HTML(200, "reg.html", nil)
 }
 func (m *Manager) POST_Reg(c *gin.Context) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	time.Sleep(1 * time.Second) //art. delay
 	var data database.RegisterData
@@ -40,7 +41,6 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		return
 	}
 	if err != nil {
-		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server Error",
 		})

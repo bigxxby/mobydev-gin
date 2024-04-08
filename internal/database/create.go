@@ -43,3 +43,19 @@ func (db *Database) CreateUser(email, password string) (bool, error) {
 
 	return false, nil
 }
+func (db *Database) CreateProject(userId int, imageUrl string, name string, category string, projectType string, year int, AgeCategory string, durationMinutes int, keywords string, desc string, director string, producer string) (*Project, error) {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	var project Project
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
+
+	return &project, nil
+}
