@@ -139,3 +139,36 @@ func (db *Database) GetProjects(limit int) ([]Project, error) {
 		return projects, nil
 	}
 }
+func (db *Database) GetProjectById(id int) (*Project, error) {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return nil, err
+	}
+	defer tx.Rollback()
+	var project Project
+	err = tx.QueryRow("SELECT * FROM projects WHERE id = $1", id).Scan(
+		&project.Id,
+		&project.UserId,
+		&project.ImageUrl,
+		&project.Name,
+		&project.Category,
+		&project.ProjectType,
+		&project.Year,
+		&project.AgeCategory,
+		&project.DurationMinutes,
+		&project.Keywords,
+		&project.Description,
+		&project.Director,
+		&project.Producer,
+		&project.CreatedAt,
+		&project.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+	err = tx.Commit()
+	if err != nil {
+		return nil, err
+	}
+	return &project, nil
+}

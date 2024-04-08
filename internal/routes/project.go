@@ -37,7 +37,34 @@ func (m *Manager) GET_Project(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		// "Projects": mapping.TrimProjects(Projects),
 		"projects": projects,
 	})
+}
+func (m *Manager) GET_ProjectById(c *gin.Context) {
+	projectId := c.Param("id")
+	num, err := strconv.Atoi(projectId)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(400, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
+	if projectId == "" || num <= 0 {
+		c.JSON(400, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
+	project, err := m.DB.GetProjectById(num)
+	log.Println(project)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+	c.JSON(200, project)
+
 }

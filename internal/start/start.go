@@ -42,6 +42,7 @@ func Start() {
 	router.GET("/login", main.GET_Login)
 	router.GET("/api/profile", main.GET_Profile)
 	router.GET("/api/project", main.GET_Project)
+	router.GET("/api/project/:id", main.GET_ProjectById)
 	//POST
 	router.POST("/api/reg", main.POST_Reg)
 	router.POST("/api/login", main.POST_Login)
