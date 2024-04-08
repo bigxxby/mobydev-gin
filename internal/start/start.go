@@ -2,7 +2,6 @@ package start
 
 import (
 	"log"
-	database "project/internal/database/dataset"
 	"project/internal/routes"
 
 	"github.com/gin-gonic/gin"
@@ -17,20 +16,20 @@ func Start() {
 		return
 	}
 
-	err = database.DropTables(main.DB.Database) ///////////////
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
-	err = database.CreateTables(main.DB)
-	if err != nil {
-		return
-	}
-	err = database.CreateTestData(main.DB) /////////////
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
+	// err = database.DropTables(main.DB.Database) ///////////////
+	// if err != nil {
+	// 	log.Println(err.Error())
+	// 	return
+	// }
+	// err = database.CreateTables(main.DB)
+	// if err != nil {
+	// 	return
+	// }
+	// err = database.CreateTestData(main.DB) /////////////
+	// if err != nil {
+	// 	log.Println(err.Error())
+	// 	return
+	// }
 
 	router := gin.Default()
 	router.LoadHTMLGlob("ui/templates/*")

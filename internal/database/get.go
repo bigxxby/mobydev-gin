@@ -21,60 +21,117 @@ func (db *Database) GetUserById(id int) (*User, error) {
 
 	return &user, nil
 }
-func (db *Database) GetMovies() ([]Movie, error) {
+func (db *Database) GetMovies(limit int) ([]Movie, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
-	tx, err := db.Database.Begin()
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
-
-	stmt, err := tx.Prepare("SELECT * FROM movies")
-	if err != nil {
-		return nil, err
-	}
-	defer stmt.Close()
-
-	rows, err := stmt.Query()
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-
-	var movies []Movie
-
-	for rows.Next() {
-		var movie Movie
-		err := rows.Scan(
-			&movie.Id,
-			&movie.UserId,
-			&movie.ImageUrl,
-			&movie.Name,
-			&movie.Category,
-			&movie.ProjectType,
-			&movie.Year,
-			&movie.AgeCategory,
-			&movie.DurationMinutes,
-			&movie.Keywords,
-			&movie.Description,
-			&movie.Director,
-			&movie.Producer,
-		)
+	if limit != 0 {
+		tx, err := db.Database.Begin()
 		if err != nil {
 			return nil, err
 		}
-		movies = append(movies, movie)
-	}
+		defer tx.Rollback()
 
-	if err = rows.Err(); err != nil {
-		return nil, err
-	}
+		stmt, err := tx.Prepare("SELECT * FROM movies LIMIT $1")
+		if err != nil {
+			return nil, err
+		}
+		defer stmt.Close()
 
-	err = tx.Commit()
-	if err != nil {
-		return nil, err
-	}
+		rows, err := stmt.Query(limit)
+		if err != nil {
+			return nil, err
+		}
+		defer rows.Close()
 
-	return movies, nil
+		var movies []Movie
+
+		for rows.Next() {
+			var movie Movie
+			err := rows.Scan(
+				&movie.Id,
+				&movie.UserId,
+				&movie.ImageUrl,
+				&movie.Name,
+				&movie.Category,
+				&movie.ProjectType,
+				&movie.Year,
+				&movie.AgeCategory,
+				&movie.DurationMinutes,
+				&movie.Keywords,
+				&movie.Description,
+				&movie.Director,
+				&movie.Producer,
+			)
+			if err != nil {
+				return nil, err
+			}
+			movies = append(movies, movie)
+		}
+
+		if err = rows.Err(); err != nil {
+			return nil, err
+		}
+
+		err = tx.Commit()
+		if err != nil {
+			return nil, err
+		}
+
+		return movies, nil
+
+	} else {
+
+		tx, err := db.Database.Begin()
+		if err != nil {
+			return nil, err
+		}
+		defer tx.Rollback()
+
+		stmt, err := tx.Prepare("SELECT * FROM movies ")
+		if err != nil {
+			return nil, err
+		}
+		defer stmt.Close()
+
+		rows, err := stmt.Query()
+		if err != nil {
+			return nil, err
+		}
+		defer rows.Close()
+
+		var movies []Movie
+
+		for rows.Next() {
+			var movie Movie
+			err := rows.Scan(
+				&movie.Id,
+				&movie.UserId,
+				&movie.ImageUrl,
+				&movie.Name,
+				&movie.Category,
+				&movie.ProjectType,
+				&movie.Year,
+				&movie.AgeCategory,
+				&movie.DurationMinutes,
+				&movie.Keywords,
+				&movie.Description,
+				&movie.Director,
+				&movie.Producer,
+			)
+			if err != nil {
+				return nil, err
+			}
+			movies = append(movies, movie)
+		}
+
+		if err = rows.Err(); err != nil {
+			return nil, err
+		}
+
+		err = tx.Commit()
+		if err != nil {
+			return nil, err
+		}
+
+		return movies, nil
+	}
 }
