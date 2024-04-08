@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/mail"
 	"regexp"
+	"strconv"
 	"unicode"
 )
 
@@ -47,4 +48,19 @@ func containsNonLatinLetters(str string) bool { // checks if password has not la
 		}
 	}
 	return false
+}
+
+func IsValidNum(id string) (bool, int) {
+	num, err := strconv.Atoi(id)
+	if err != nil {
+		return false, 0
+	}
+	if num < 0 {
+		return false, 0
+	}
+	if !(strconv.Itoa(num) == id) {
+		return false, 0
+	}
+
+	return true, num
 }

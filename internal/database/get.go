@@ -140,6 +140,7 @@ func (db *Database) GetProjects(limit int) ([]Project, error) {
 	}
 }
 func (db *Database) GetProjectById(id int) (*Project, error) {
+
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return nil, err
