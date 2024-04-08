@@ -21,7 +21,7 @@ func (db *Database) GetUserById(id int) (*User, error) {
 
 	return &user, nil
 }
-func (db *Database) GetMovies(limit int) ([]Movie, error) {
+func (db *Database) GetProjects(limit int) ([]Project, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if limit != 0 {
 		tx, err := db.Database.Begin()
@@ -30,7 +30,7 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 		}
 		defer tx.Rollback()
 
-		stmt, err := tx.Prepare("SELECT * FROM movies LIMIT $1")
+		stmt, err := tx.Prepare("SELECT * FROM projects  ORDER BY created_at LIMIT $1")
 		if err != nil {
 			return nil, err
 		}
@@ -42,29 +42,31 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 		}
 		defer rows.Close()
 
-		var movies []Movie
+		var projects []Project
 
 		for rows.Next() {
-			var movie Movie
+			var project Project
 			err := rows.Scan(
-				&movie.Id,
-				&movie.UserId,
-				&movie.ImageUrl,
-				&movie.Name,
-				&movie.Category,
-				&movie.ProjectType,
-				&movie.Year,
-				&movie.AgeCategory,
-				&movie.DurationMinutes,
-				&movie.Keywords,
-				&movie.Description,
-				&movie.Director,
-				&movie.Producer,
+				&project.Id,
+				&project.UserId,
+				&project.ImageUrl,
+				&project.Name,
+				&project.Category,
+				&project.ProjectType,
+				&project.Year,
+				&project.AgeCategory,
+				&project.DurationMinutes,
+				&project.Keywords,
+				&project.Description,
+				&project.Director,
+				&project.Producer,
+				&project.CreatedAt,
+				&project.UpdatedAt,
 			)
 			if err != nil {
 				return nil, err
 			}
-			movies = append(movies, movie)
+			projects = append(projects, project)
 		}
 
 		if err = rows.Err(); err != nil {
@@ -76,7 +78,7 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 			return nil, err
 		}
 
-		return movies, nil
+		return projects, nil
 
 	} else {
 
@@ -86,7 +88,7 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 		}
 		defer tx.Rollback()
 
-		stmt, err := tx.Prepare("SELECT * FROM movies ")
+		stmt, err := tx.Prepare("SELECT * FROM projects ORDER BY created_at")
 		if err != nil {
 			return nil, err
 		}
@@ -98,29 +100,31 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 		}
 		defer rows.Close()
 
-		var movies []Movie
+		var projects []Project
 
 		for rows.Next() {
-			var movie Movie
+			var project Project
 			err := rows.Scan(
-				&movie.Id,
-				&movie.UserId,
-				&movie.ImageUrl,
-				&movie.Name,
-				&movie.Category,
-				&movie.ProjectType,
-				&movie.Year,
-				&movie.AgeCategory,
-				&movie.DurationMinutes,
-				&movie.Keywords,
-				&movie.Description,
-				&movie.Director,
-				&movie.Producer,
+				&project.Id,
+				&project.UserId,
+				&project.ImageUrl,
+				&project.Name,
+				&project.Category,
+				&project.ProjectType,
+				&project.Year,
+				&project.AgeCategory,
+				&project.DurationMinutes,
+				&project.Keywords,
+				&project.Description,
+				&project.Director,
+				&project.Producer,
+				&project.CreatedAt,
+				&project.UpdatedAt,
 			)
 			if err != nil {
 				return nil, err
 			}
-			movies = append(movies, movie)
+			projects = append(projects, project)
 		}
 
 		if err = rows.Err(); err != nil {
@@ -132,6 +136,6 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 			return nil, err
 		}
 
-		return movies, nil
+		return projects, nil
 	}
 }

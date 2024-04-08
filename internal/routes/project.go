@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Movie(c *gin.Context) {
+func (m *Manager) GET_Project(c *gin.Context) {
 	limit := c.Query("limit")
 	num := 0
 	if limit != "" {
@@ -28,7 +28,7 @@ func (m *Manager) GET_Movie(c *gin.Context) {
 		}
 
 	}
-	movies, err := m.DB.GetMovies(num)
+	projects, err := m.DB.GetProjects(num)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -37,7 +37,7 @@ func (m *Manager) GET_Movie(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		// "movies": mapping.TrimMovies(movies),
-		"movies": movies,
+		// "Projects": mapping.TrimProjects(Projects),
+		"projects": projects,
 	})
 }

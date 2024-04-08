@@ -1,6 +1,8 @@
 package database
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type Database struct {
 	Database *sql.DB
@@ -29,20 +31,22 @@ type User struct {
 	UpdatedAt   sql.NullTime   `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 }
-type Movie struct {
+type Project struct {
 	Id              int    `json:"id"`
-	UserId          int    `json:"user_id"`
-	ImageUrl        string `json:"image_url"`
+	UserId          int    `json:"userId"`
+	ImageUrl        string `json:"imageUrl"`
 	Name            string `json:"name"`
 	Category        string `json:"category"`
-	ProjectType     string `json:"project_type"`
+	ProjectType     string `json:"projectType"`
 	Year            int    `json:"year"`
-	AgeCategory     string `json:"age_category"`
-	DurationMinutes int    `json:"duration_minutes"`
+	AgeCategory     string `json:"ageCategory"`
+	DurationMinutes int    `json:"durationMinutes"`
 	Keywords        string `json:"keywords"`
 	Description     string `json:"description"`
 	Director        string `json:"director"`
 	Producer        string `json:"producer"`
+	CreatedAt       string `json:"createdAt"`
+	UpdatedAt       string `json:"updatedAt"`
 }
 
 // type Movie struct {

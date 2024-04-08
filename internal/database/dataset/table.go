@@ -12,7 +12,7 @@ func CreateTables(db *database.Database) error {
 		log.Println(err.Error())
 		return err
 	}
-	err = CreateMoviesTable(db)
+	err = CreateProjectsTable(db)
 	if err != nil {
 		log.Println(err.Error())
 		return err
@@ -62,7 +62,7 @@ func CreateUsersTable(db *database.Database) error {
 	return nil
 }
 
-func CreateMoviesTable(db *database.Database) error {
+func CreateProjectsTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -70,7 +70,7 @@ func CreateMoviesTable(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-	CREATE TABLE IF NOT EXISTS movies (
+	CREATE TABLE IF NOT EXISTS projects (
 		id SERIAL PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id),
 		image_url TEXT NOT NULL,
@@ -83,7 +83,10 @@ func CreateMoviesTable(db *database.Database) error {
 		keywords TEXT NOT NULL,
 		description TEXT NOT NULL,
 		director TEXT NOT NULL,
-		producer TEXT NOT NULL
+		producer TEXT NOT NULL, 
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+		updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+		
 	);
 	
     `)
@@ -134,11 +137,11 @@ func CreateSeasonsTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS seasons (
 		id SERIAL PRIMARY KEY,
-		movie_id INTEGER REFERENCES movies(id),  
+		project_id INTEGER REFERENCES projects(id),  
 		season_number INTEGER NOT NULL,
 		name TEXT,
 		description TEXT,
-		release_date DATE
+		release_date DATE 
 	);
     `)
 	if err != nil {
