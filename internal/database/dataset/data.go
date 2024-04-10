@@ -38,12 +38,12 @@ func insertTestUsers(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO users (email, password, name, phone, date_of_birth, is_admin)
+        INSERT INTO users (email, password, name, phone, date_of_birth, role)
         VALUES 
-        ('testuser1@example.com', 'testpassword1', 'Test User 1', '1234567890', '1990-01-01', 0),
-        ('testuser2@example.com', 'testpassword2', 'Test User 2', '0987654321', '1995-02-15', 0),
-        ('admin@example.com', 'adminpassword', 'Admin', '9876543210', '1985-05-20', 1),
-		('admin2@example.com', 'adminpassword', 'Admin', '9876543210', '1985-05-20', 1)
+        ('testuser1@example.com', 'testpassword1', 'Test User 1', '1234567890', '1990-01-01', 'admin'),
+        ('testuser2@example.com', 'testpassword2', 'Test User 2', '0987654321', '1995-02-15', 'admin'),
+        ('admin@example.com', 'adminpassword', 'Admin', '9876543210', '1985-05-20', 'user'),
+		('admin2@example.com', 'adminpassword', 'Admin', '9876543210', '1985-05-20', 'user')
     `)
 	if err != nil {
 		return err

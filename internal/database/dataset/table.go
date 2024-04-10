@@ -44,7 +44,7 @@ func CreateUsersTable(db *database.Database) error {
 			name TEXT, 
             phone TEXT,
             date_of_birth DATE,
-			is_admin INTEGER,
+			role TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             deleted_at TIMESTAMP

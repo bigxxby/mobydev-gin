@@ -10,7 +10,7 @@ func (db *Database) GetUserById(id int) (*User, error) {
 	}
 	defer tx.Rollback()
 	var user User
-	err = tx.QueryRow("SELECT id , email , name , phone , date_of_birth , is_admin FROM users WHERE id = $1", id).Scan(&user.Id, &user.Email, &user.Name, &user.Phone, &user.DateOfBirth, &user.IsAdmin)
+	err = tx.QueryRow("SELECT id , email , name , phone , date_of_birth , role FROM users WHERE id = $1", id).Scan(&user.Id, &user.Email, &user.Name, &user.Phone, &user.DateOfBirth, &user.Role)
 	if err != nil {
 		return nil, err
 	}

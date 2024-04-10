@@ -8,7 +8,7 @@ import (
 	"unicode"
 )
 
-func CheckValidForReg(email, password, confirmPassword string) error {
+func CheckValidForReg(email, password, confirmPassword, role string) error {
 	if password != confirmPassword {
 		return errors.New("passwords Does Not Match")
 	}
@@ -18,6 +18,9 @@ func CheckValidForReg(email, password, confirmPassword string) error {
 	}
 	if !isValidPassword(password) {
 		return errors.New("password is not valid")
+	}
+	if !(role == "user" || role == "admin" || role == "mod") {
+		return errors.New("role is not valid")
 	}
 	return nil
 }

@@ -12,6 +12,7 @@ type RegisterData struct {
 	Email           string `json:"email" binding:"required"`
 	Password        string `json:"password" binding:"required"`
 	ConfirmPassword string `json:"confirmPassword" binding:"required"`
+	Role            string `json:"role" binding:"required"`
 }
 
 type LoginData struct {
@@ -26,24 +27,24 @@ type User struct {
 	Name        sql.NullString `json:"name"`
 	Phone       sql.NullString `json:"phone"`
 	DateOfBirth sql.NullTime   `json:"date_of_birth"`
-	IsAdmin     sql.NullInt16  `json:"is_admin"`
+	Role        string         `json:"role"`
 	CreatedAt   sql.NullTime   `json:"created_at"`
 	UpdatedAt   sql.NullTime   `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 }
 type Project struct {
 	Id              int    `json:"id"`
-	UserId          int    `json:"userId"`
-	ImageUrl        string `json:"imageUrl"`
-	Name            string `json:"name"`
-	Category        string `json:"category"`
-	ProjectType     string `json:"projectType"`
-	Year            int    `json:"year"`
-	AgeCategory     string `json:"ageCategory"`
-	DurationMinutes int    `json:"durationMinutes"`
-	Keywords        string `json:"keywords"`
-	Description     string `json:"description"`
-	Director        string `json:"director"`
+	UserId          string `json:"userId"`
+	ImageUrl        string `json:"imageUrl" binding:"required"`
+	Name            string `json:"name" binding:"required"`
+	Category        string `json:"category" binding:"required"`
+	ProjectType     string `json:"projectType" binding:"required"`
+	Year            int    `json:"year" binding:"required"`
+	AgeCategory     string `json:"ageCategory" binding:"required"`
+	DurationMinutes int    `json:"durationMinutes" binding:"required"`
+	Keywords        string `json:"keywords" binding:"required"`
+	Description     string `json:"description" binding:"required"`
+	Director        string `json:"director" binding:"required"`
 	Producer        string `json:"producer"`
 	CreatedAt       string `json:"createdAt"`
 	UpdatedAt       string `json:"updatedAt"`

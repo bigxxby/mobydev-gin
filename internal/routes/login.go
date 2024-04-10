@@ -10,7 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Login(c *gin.Context) {
+func (m *Manager) GET_HTML_Login(c *gin.Context) {
 	c.HTML(200, "login.html", nil)
 }
 func (m *Manager) POST_Login(c *gin.Context) {
@@ -24,7 +24,7 @@ func (m *Manager) POST_Login(c *gin.Context) {
 		})
 		return
 	}
-	user, boolean, err := m.DB.CheckUserExists(data.Email, data.Password)
+	user, boolean, err := m.DB.CheckUserСredentials(data.Email, data.Password)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -39,7 +39,7 @@ func (m *Manager) POST_Login(c *gin.Context) {
 		})
 		return
 	} else { // authorised
-		token, err := utils.CreateJWTToken(user.Id, user.Email, user.Name.String)
+		token, err := utils.CreateJWTToken(user.Id, user.Email, user.Name.String, user.Role)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{

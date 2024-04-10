@@ -111,11 +111,13 @@ validateInput()
             let email = document.getElementById('email').value;
             let password = document.getElementById('password').value;
             let confirmPassword = document.getElementById('confirmPassword').value;
+            let role = document.getElementById('role').value;
 
             const data = {
                 email: email,
                 password: password,
                 confirmPassword: confirmPassword,
+                role: role
             };
 
             const loading = document.getElementById('loading');

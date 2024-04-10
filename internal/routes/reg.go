@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Reg(c *gin.Context) {
+func (m *Manager) GET_HTML_Reg(c *gin.Context) {
 
 	c.HTML(200, "reg.html", nil)
 }
@@ -26,14 +26,14 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		return
 	}
 
-	err := logic.CheckValidForReg(data.Email, data.Password, data.ConfirmPassword)
+	err := logic.CheckValidForReg(data.Email, data.Password, data.ConfirmPassword, data.Role)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": err.Error(),
 		})
 		return
 	}
-	exists, err := m.DB.CreateUser(data.Email, data.Password)
+	exists, err := m.DB.CreateUser(data.Email, data.Password, data.Role)
 	if exists {
 		c.JSON(400, gin.H{
 			"message": "Пользователь уже существует",
@@ -41,6 +41,7 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		return
 	}
 	if err != nil {
+		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server Error",
 		})
