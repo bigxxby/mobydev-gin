@@ -2,7 +2,7 @@ package database
 
 import "log"
 
-func (db *Database) DeleteProject(projectId string) error {
+func (db *Database) DeleteMovie(movieId string) error {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	tx, err := db.Database.Begin()
@@ -15,20 +15,20 @@ func (db *Database) DeleteProject(projectId string) error {
 		}
 	}()
 
-	// Удаление связанных записей из таблицы "episodes"
-	_, err = tx.Exec("DELETE FROM episodes WHERE season_id IN (SELECT id FROM seasons WHERE project_id=$1)", projectId)
+	// Deleting related records from the "episodes" table
+	_, err = tx.Exec("DELETE FROM episodes WHERE season_id IN (SELECT id FROM seasons WHERE movie_id=$1)", movieId)
 	if err != nil {
 		return err
 	}
 
-	// Удаление связанных записей из таблицы "seasons"
-	_, err = tx.Exec("DELETE FROM seasons WHERE project_id=$1", projectId)
+	// Deleting related records from the "seasons" table
+	_, err = tx.Exec("DELETE FROM seasons WHERE movie_id=$1", movieId)
 	if err != nil {
 		return err
 	}
 
-	// Удаление записи из таблицы "projects"
-	_, err = tx.Exec("DELETE FROM projects WHERE id=$1", projectId)
+	// Deleting the record from the "movies" table
+	_, err = tx.Exec("DELETE FROM movies WHERE id=$1", movieId)
 	if err != nil {
 		return err
 	}

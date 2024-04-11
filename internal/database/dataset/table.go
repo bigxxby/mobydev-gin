@@ -12,7 +12,7 @@ func CreateTables(db *database.Database) error {
 		log.Println(err.Error())
 		return err
 	}
-	err = CreateProjectsTable(db)
+	err = CreateMoviesTable(db)
 	if err != nil {
 		log.Println(err.Error())
 		return err
@@ -29,11 +29,11 @@ func CreateTables(db *database.Database) error {
 	}
 	err = CreateTrendsTable(db)
 	if err != nil {
-		log.Println(err.Error())
 		return err
 	}
 	return nil
 }
+
 func CreateUsersTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
@@ -67,7 +67,7 @@ func CreateUsersTable(db *database.Database) error {
 	return nil
 }
 
-func CreateProjectsTable(db *database.Database) error {
+func CreateMoviesTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -75,13 +75,13 @@ func CreateProjectsTable(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-	CREATE TABLE IF NOT EXISTS projects (
+	CREATE TABLE IF NOT EXISTS movies (
 		id SERIAL PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id),
 		image_url TEXT NOT NULL,
 		name TEXT NOT NULL,
 		category TEXT NOT NULL,
-		project_type TEXT NOT NULL,
+		movie_type TEXT NOT NULL,
 		year INTEGER NOT NULL,
 		age_category TEXT NOT NULL,
 		duration_minutes INTEGER NOT NULL,
@@ -118,7 +118,7 @@ func CreateSeasonsTable(db *database.Database) error {
 	CREATE TABLE IF NOT EXISTS seasons (
 		id SERIAL PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id),
-		project_id INTEGER REFERENCES projects(id),  
+		movie_id INTEGER REFERENCES movies(id),  
 		season_number INTEGER NOT NULL,
 		name TEXT NOT NULL,
 		description TEXT NOT NULL,
@@ -148,7 +148,7 @@ func CreateEpisodesTable(db *database.Database) error {
 		id SERIAL PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id),
 		url TEXT NOT NULL, 
-		season_id INTEGER REFERENCES seasons(id),  -- Внешний ключ на таблицу seasons
+		season_id INTEGER REFERENCES seasons(id),  
 		episode_number INTEGER NOT NULL,
 		name TEXT,
 		duration_minutes INTEGER,
@@ -177,7 +177,7 @@ func CreateTrendsTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS trends (
 		id SERIAL PRIMARY KEY,
-		project_id INTEGER REFERENCES projects(id),
+		movie_id INTEGER REFERENCES movies(id),
 		trend_date DATE NOT NULL,
 		trend_value INTEGER NOT NULL
 	);
@@ -193,59 +193,3 @@ func CreateTrendsTable(db *database.Database) error {
 
 	return nil
 }
-
-// func CreateRolesTable(db *database.Database) error {
-// 	tx, err := db.Database.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer tx.Rollback()
-
-// 	_, err = tx.Exec(`
-//         CREATE TABLE IF NOT EXISTS roles (
-// 			id SERIAL PRIMARY KEY,
-// 			role TEXT
-
-// 		)
-//     `)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }
-
-// func CreateAdmin(db *database.Database) error {
-// 	tx, err := db.Database.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer tx.Rollback()
-
-// 	password := "12345678Aa#"
-
-// 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	_, err = tx.Exec(`
-//         INSERT INTO users (email, password, name, is_admin, created_at, updated_at)
-//         VALUES ($1, $2, $3, $4, NOW(), NOW())
-//     `, "admin@example.com", hashedPassword, "Admin", 1)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	return nil
-// }

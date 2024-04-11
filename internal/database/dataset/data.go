@@ -13,7 +13,7 @@ func CreateTestData(db *database.Database) error {
 		return err
 	}
 
-	err = insertTestProjects(db)
+	err = insertTestMovies(db)
 	if err != nil {
 		return err
 	}
@@ -78,7 +78,7 @@ func insertTestUsers(db *database.Database) error {
 
 	return nil
 }
-func insertTestProjects(db *database.Database) error {
+func insertTestMovies(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -86,7 +86,7 @@ func insertTestProjects(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO projects (user_id, image_url, name, category, project_type, year, age_category, duration_minutes, keywords, description, director, producer)
+        INSERT INTO movies (user_id, image_url, name, category, movie_type, year, age_category, duration_minutes, keywords, description, director, producer)
         VALUES 
         (1, 'https://www.prolydian.com/sites/default/files/2020-12/api.png', 'Movie 1', 'Action', 'Feature Film', 2020, 'PG-13', 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
         (2, 'https://www.prolydian.com/sites/default/files/2020-12/api.png', 'Movie 2', 'Comedy', 'Short Film', 2019, 'PG', 90, 'comedy, romance', 'Description for Movie 2', 'Director 2', 'Producer 2'),
@@ -113,12 +113,12 @@ func insertTestSeasons(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO seasons (project_id,user_id, season_number, name, description, release_date)
+        INSERT INTO seasons (movie_id,user_id, season_number, name, description, release_date)
         VALUES 
         (1, 1, 1, 'Season 1', 'Description for Season 1', '2021-01-01'),
-        (1,1 , 2, 'Season 2', 'Description for Season 2', '2022-01-01'),
+        (1, 1, 2, 'Season 2', 'Description for Season 2', '2022-01-01'),
         (2, 1, 1, 'Season 1', 'Description for Season 1 of Movie 2', '2020-05-01'),
-        (3, 1 ,1, 'Season 1', 'Description for Season 1 of Movie 3', '2021-07-01')
+        (3, 1,1, 'Season 1', 'Description for Season 1 of Movie 3', '2021-07-01')
     `)
 	if err != nil {
 		return err
@@ -166,7 +166,7 @@ func insertTestTrends(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-	INSERT INTO trends (project_id, trend_date, trend_value)
+	INSERT INTO trends (movie_id, trend_date, trend_value)
 	VALUES 
 	(1, '2021-01-10', 1000),
 	(1, '2021-01-17', 1500),
@@ -187,7 +187,7 @@ func insertTestTrends(db *database.Database) error {
 }
 
 func DropTables(db *sql.DB) error {
-	tables := []string{"episodes", "seasons", "projects", "users"}
+	tables := []string{"episodes", "seasons", "movies", "users", "trends"}
 
 	for _, table := range tables {
 		_, err := db.Exec("DROP TABLE IF EXISTS " + table + " CASCADE")

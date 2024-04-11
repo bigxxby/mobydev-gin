@@ -78,7 +78,7 @@ func (db *Database) CheckUserExistsById(Id string) (bool, error) {
 	return exists, nil
 }
 
-func (db *Database) CheckProjectExistsById(projectId int) (bool, error) {
+func (db *Database) CheckMovieExistsById(movieId int) (bool, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	tx, err := db.Database.Begin()
 	if err != nil {
@@ -86,13 +86,13 @@ func (db *Database) CheckProjectExistsById(projectId int) (bool, error) {
 	}
 	defer tx.Rollback()
 
-	stmt, err := tx.Prepare("SELECT * FROM projects WHERE id = $1")
+	stmt, err := tx.Prepare("SELECT * FROM movies WHERE id = $1")
 	if err != nil {
 		return false, err
 	}
 	defer stmt.Close()
 
-	rows, err := stmt.Query(projectId)
+	rows, err := stmt.Query(movieId)
 	if err != nil {
 		return false, err
 	}

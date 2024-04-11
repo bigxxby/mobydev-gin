@@ -8,10 +8,7 @@ import (
 	"unicode"
 )
 
-func CheckValidForReg(email, password, confirmPassword, role string) error {
-	if password != confirmPassword {
-		return errors.New("passwords Does Not Match")
-	}
+func CheckValidForReg(email, password, role string) error {
 	_, err := mail.ParseAddress(email)
 	if err != nil {
 		return err

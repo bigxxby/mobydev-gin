@@ -10,10 +10,9 @@ type Database struct {
 }
 
 type RegisterData struct {
-	Email           string `json:"email" binding:"required"`
-	Password        string `json:"password" binding:"required"`
-	ConfirmPassword string `json:"confirmPassword" binding:"required"`
-	Role            string `json:"role" binding:"required"`
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Role     string `json:"role" binding:"required"`
 }
 
 type LoginData struct {
@@ -33,13 +32,13 @@ type User struct {
 	UpdatedAt   sql.NullTime   `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 }
-type Project struct {
+type Movie struct {
 	Id              int    `json:"id"`
 	UserId          string `json:"userId"`
 	ImageUrl        string `json:"imageUrl" binding:"required"`
 	Name            string `json:"name" binding:"required"`
 	Category        string `json:"category" binding:"required"`
-	ProjectType     string `json:"projectType" binding:"required"`
+	MovieType       string `json:"projectType" binding:"required"`
 	Year            int    `json:"year" binding:"required"`
 	AgeCategory     string `json:"ageCategory" binding:"required"`
 	DurationMinutes int    `json:"durationMinutes" binding:"required"`
@@ -54,7 +53,7 @@ type Project struct {
 type Season struct {
 	ID           int       `json:"id"`
 	UserID       int       `json:"user_id"`
-	ProjectID    int       `json:"project_id"`
+	MovieID      int       `json:"movie_id"`
 	SeasonNumber int       `json:"season_number"`
 	Name         string    `json:"name"`
 	Description  string    `json:"description"`
@@ -73,7 +72,7 @@ type Episode struct {
 }
 type Trend struct {
 	ID         int       `json:"id"`
-	ProjectID  int       `json:"project_id"`
+	MovieID    int       `json:"movie_id"`
 	TrendDate  time.Time `json:"trend_date"`
 	TrendValue int       `json:"trend_value"`
 }

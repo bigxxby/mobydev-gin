@@ -10,36 +10,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_HTML_Project(c *gin.Context) {
-	// token := c.GetHeader("Authorization")
-
-	// userId, err := utils.VerifyToken(token)
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	c.JSON(http.StatusUnauthorized, gin.H{
-	// 		"message": "Unauthorized",
-	// 	})
-	// 	return
-	// }
-	// user, err := m.DB.GetUserById(userId)
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	c.JSON(500, gin.H{
-	// 		"message": "Internal server error",
-	// 	})
-	// }
-	// if user.Role != "admin" {
-	// 	log.Println("this user is not admin")
-	// 	c.JSON(http.StatusUnauthorized, gin.H{
-	// 		"message": "Unauthorized",
-	// 	})
-	// 	return
-	// }
-	c.HTML(200, "project_create.html", nil)
+func (m *Manager) GET_HTML_Movie(c *gin.Context) {
+	c.HTML(200, "movie_create.html", nil)
 }
 
-// get projects
-func (m *Manager) GET_Projects(c *gin.Context) {
+// get movies
+func (m *Manager) GET_Movies(c *gin.Context) {
 	limit := c.Query("limit")
 	if limit != "" {
 		valid, num := utils.IsValidNum(limit)
@@ -50,7 +26,7 @@ func (m *Manager) GET_Projects(c *gin.Context) {
 			})
 			return
 		}
-		projects, err := m.DB.GetProjects(num)
+		movies, err := m.DB.GetMovies(num)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{
@@ -59,12 +35,12 @@ func (m *Manager) GET_Projects(c *gin.Context) {
 			return
 		}
 		c.JSON(200, gin.H{
-			"projects": projects,
+			"movies": movies,
 		})
 		return
 	}
 
-	projects, err := m.DB.GetProjects(0)
+	movies, err := m.DB.GetMovies(0)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -73,14 +49,14 @@ func (m *Manager) GET_Projects(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"projects": projects,
+		"movies": movies,
 	})
 }
 
-// get project by id
-func (m *Manager) GET_Project(c *gin.Context) {
-	projectId := c.Param("id")
-	valid, num := utils.IsValidNum(projectId)
+// get movie by id
+func (m *Manager) GET_Movie(c *gin.Context) {
+	movieId := c.Param("id")
+	valid, num := utils.IsValidNum(movieId)
 	if !valid {
 		log.Println("num is not valid")
 		c.JSON(400, gin.H{
@@ -88,11 +64,11 @@ func (m *Manager) GET_Project(c *gin.Context) {
 		})
 		return
 	}
-	project, err := m.DB.GetProjectById(num)
+	movie, err := m.DB.GetMovieById(num)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
-				"message": "Project not found",
+				"message": "Movie not found",
 			})
 			return
 		}
@@ -102,11 +78,11 @@ func (m *Manager) GET_Project(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, project)
+	c.JSON(200, movie)
 }
 
-// create project
-func (m *Manager) POST_Project(c *gin.Context) {
+// create movie
+func (m *Manager) POST_Movie(c *gin.Context) {
 	token := c.GetHeader("Authorization")
 	userId, err := utils.VerifyToken(token)
 	if err != nil {
@@ -140,9 +116,9 @@ func (m *Manager) POST_Project(c *gin.Context) {
 		})
 		return
 	}
-	var project database.Project
+	var movie database.Movie
 
-	err = c.BindJSON(&project)
+	err = c.BindJSON(&movie)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -151,19 +127,19 @@ func (m *Manager) POST_Project(c *gin.Context) {
 		return
 	}
 
-	_, err = m.DB.CreateProject(
-		userId, project.
-			ImageUrl,
-		project.Name,
-		project.Category,
-		project.ProjectType,
-		project.Year,
-		project.AgeCategory,
-		project.DurationMinutes,
-		project.Keywords,
-		project.Description,
-		project.Director,
-		project.Producer)
+	_, err = m.DB.CreateMovie(
+		userId,
+		movie.ImageUrl,
+		movie.Name,
+		movie.Category,
+		movie.MovieType,
+		movie.Year,
+		movie.AgeCategory,
+		movie.DurationMinutes,
+		movie.Keywords,
+		movie.Description,
+		movie.Director,
+		movie.Producer)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -172,17 +148,17 @@ func (m *Manager) POST_Project(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"message": "Project Created",
+		"message": "Movie Created",
 	})
 
 }
 
-// delete project
-func (m *Manager) DELETE_Project(c *gin.Context) {
+// delete movie
+func (m *Manager) DELETE_Movie(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	projectId := c.Param("id")
+	movieId := c.Param("id")
 
-	valid, num := utils.IsValidNum(projectId)
+	valid, num := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Bad request",
@@ -220,7 +196,7 @@ func (m *Manager) DELETE_Project(c *gin.Context) {
 		})
 		return
 	}
-	exists, err := m.DB.CheckProjectExistsById(num)
+	exists, err := m.DB.CheckMovieExistsById(num)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -229,13 +205,13 @@ func (m *Manager) DELETE_Project(c *gin.Context) {
 		return
 	}
 	if !exists {
-		log.Println("project not found")
+		log.Println("movie not found")
 		c.JSON(404, gin.H{
-			"message": "Project not found",
+			"message": "Movie not found",
 		})
 		return
 	}
-	err = m.DB.DeleteProject(projectId)
+	err = m.DB.DeleteMovie(movieId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -244,17 +220,17 @@ func (m *Manager) DELETE_Project(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"message": "Project Deleted",
+		"message": "Movie Deleted",
 	})
 
 }
 
-// update project
-func (m *Manager) PUT_Project(c *gin.Context) {
+// update movie
+func (m *Manager) PUT_Movie(c *gin.Context) {
 	token := c.GetHeader("Authorization")
-	projectId := c.Param("id")
+	movieId := c.Param("id")
 
-	valid, num := utils.IsValidNum(projectId)
+	valid, num := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Bad request",
@@ -291,8 +267,8 @@ func (m *Manager) PUT_Project(c *gin.Context) {
 		})
 		return
 	}
-	var project database.Project
-	err = c.BindJSON(&project)
+	var movie database.Movie
+	err = c.BindJSON(&movie)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(400, gin.H{
@@ -300,7 +276,7 @@ func (m *Manager) PUT_Project(c *gin.Context) {
 		})
 		return
 	}
-	exists, err := m.DB.CheckProjectExistsById(num)
+	exists, err := m.DB.CheckMovieExistsById(num)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -309,28 +285,27 @@ func (m *Manager) PUT_Project(c *gin.Context) {
 		return
 	}
 	if !exists {
-		log.Println("project not found")
+		log.Println("movie not found")
 		c.JSON(404, gin.H{
-			"message": "Project not found",
+			"message": "Movie not found",
 		})
 		return
 	}
 
-	err = m.DB.UpdateProject(
-		num, //project id we want to update
-		project.ImageUrl,
-		project.Name,
-		project.Category,
-		project.ProjectType,
-		project.Year,
-		project.AgeCategory,
-		project.DurationMinutes,
-		project.Keywords,
-		project.Description,
-		project.Director,
-		project.Producer,
+	err = m.DB.UpdateMovie(
+		num, // movie id we want to update
+		movie.ImageUrl,
+		movie.Name,
+		movie.Category,
+		movie.MovieType,
+		movie.Year,
+		movie.AgeCategory,
+		movie.DurationMinutes,
+		movie.Keywords,
+		movie.Description,
+		movie.Director,
+		movie.Producer,
 	)
-	// err = m.DB.DeleteProject(projectId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -339,7 +314,7 @@ func (m *Manager) PUT_Project(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"message": "Project Updated",
+		"message": "Movie Updated",
 	})
 
 }

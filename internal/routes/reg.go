@@ -26,7 +26,7 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		return
 	}
 
-	err := logic.CheckValidForReg(data.Email, data.Password, data.ConfirmPassword, data.Role)
+	err := logic.CheckValidForReg(data.Email, data.Password, data.Role)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": err.Error(),
