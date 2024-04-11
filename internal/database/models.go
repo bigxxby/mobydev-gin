@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"time"
 )
 
 type Database struct {
@@ -48,6 +49,27 @@ type Project struct {
 	Producer        string `json:"producer"`
 	CreatedAt       string `json:"createdAt"`
 	UpdatedAt       string `json:"updatedAt"`
+}
+
+type Season struct {
+	ID           int       `json:"id"`
+	UserID       int       `json:"user_id"`
+	ProjectID    int       `json:"project_id"`
+	SeasonNumber int       `json:"season_number"`
+	Name         string    `json:"name"`
+	Description  string    `json:"description"`
+	ReleaseDate  time.Time `json:"release_date"`
+}
+type Episode struct {
+	ID              int       `json:"id"`
+	UserID          int       `json:"user_id"`
+	URL             string    `json:"url"`
+	SeasonID        int       `json:"season_id"`
+	EpisodeNumber   int       `json:"episode_number"`
+	Name            string    `json:"name"`
+	DurationMinutes int       `json:"duration_minutes"`
+	ReleaseDate     time.Time `json:"release_date"`
+	Description     string    `json:"description"`
 }
 
 // type Movie struct {

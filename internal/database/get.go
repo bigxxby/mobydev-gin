@@ -140,14 +140,10 @@ func (db *Database) GetProjects(limit int) ([]Project, error) {
 	}
 }
 func (db *Database) GetProjectById(id int) (*Project, error) {
-
-	tx, err := db.Database.Begin()
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
 	var project Project
-	err = tx.QueryRow("SELECT * FROM projects WHERE id = $1", id).Scan(
+	err := db.Database.QueryRow(
+		"SELECT * FROM projects WHERE id = $1", id,
+	).Scan(
 		&project.Id,
 		&project.UserId,
 		&project.ImageUrl,
@@ -167,9 +163,51 @@ func (db *Database) GetProjectById(id int) (*Project, error) {
 	if err != nil {
 		return nil, err
 	}
-	err = tx.Commit()
+	return &project, nil
+}
+
+func (db *Database) GetSeasonById(id int) (*Season, error) {
+	var season Season
+
+	query := `SELECT id, user_id, project_id, season_number, name, description, release_date FROM seasons WHERE id = $1`
+
+	err := db.Database.QueryRow(query, id).Scan(
+		&season.ID,
+		&season.UserID,
+		&season.ProjectID,
+		&season.SeasonNumber,
+		&season.Name,
+		&season.Description,
+		&season.ReleaseDate,
+	)
+
 	if err != nil {
 		return nil, err
 	}
-	return &project, nil
+
+	return &season, nil
+}
+func (db *Database) GetEpisodeById(id int) (*Episode, error) {
+	var episode Episode
+
+	query := `SELECT id, user_id, url, season_id, episode_number, name, duration_minutes, release_date, description 
+	FROM episodes WHERE id = $1`
+
+	err := db.Database.QueryRow(query, id).Scan(
+		&episode.ID,
+		&episode.UserID,
+		&episode.URL,
+		&episode.SeasonID,
+		&episode.EpisodeNumber,
+		&episode.Name,
+		&episode.DurationMinutes,
+		&episode.ReleaseDate,
+		&episode.Description,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &episode, nil
 }

@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"project/internal/database"
@@ -88,13 +89,13 @@ func (m *Manager) GET_Project(c *gin.Context) {
 		return
 	}
 	project, err := m.DB.GetProjectById(num)
-	if project == nil {
-		c.JSON(404, gin.H{
-			"message": "Project not found",
-		})
-		return
-	}
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "Project not found",
+			})
+			return
+		}
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server error",
@@ -118,11 +119,18 @@ func (m *Manager) POST_Project(c *gin.Context) {
 
 	user, err := m.DB.GetUserById(userId)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "User not found",
+			})
+			return
+		}
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
 		})
 		return
+
 	}
 
 	if user.Role != "admin" {
@@ -193,11 +201,18 @@ func (m *Manager) DELETE_Project(c *gin.Context) {
 
 	user, err := m.DB.GetUserById(userId)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "User not found",
+			})
+			return
+		}
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
 		})
 		return
+
 	}
 	if user.Role != "admin" {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -257,11 +272,18 @@ func (m *Manager) PUT_Project(c *gin.Context) {
 	}
 	user, err := m.DB.GetUserById(userId)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "User not found",
+			})
+			return
+		}
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
 		})
 		return
+
 	}
 	if user.Role != "admin" {
 		c.JSON(http.StatusUnauthorized, gin.H{

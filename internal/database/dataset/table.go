@@ -102,31 +102,6 @@ func CreateProjectsTable(db *database.Database) error {
 	return nil
 }
 
-// func CreateImagesTable(db *database.Database) error {
-// 	tx, err := db.Database.Begin()
-// 	if err != nil {
-// 		return err
-// 	}
-// 	defer tx.Rollback()
-
-// 	_, err = tx.Exec(`
-//         CREATE TABLE IF NOT EXISTS images (
-// 			id SERIAL PRIMARY KEY,
-// 			name VARCHAR(255),
-// 			url VARCHAR(255)
-// 		)
-//     `)
-// 	if err != nil {
-// 		return err
-// 	}
-
-// 	err = tx.Commit()
-// 	if err != nil {
-// 		return err
-// 	}
-
-//		return nil
-//	}
 func CreateSeasonsTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
@@ -137,11 +112,12 @@ func CreateSeasonsTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS seasons (
 		id SERIAL PRIMARY KEY,
+		user_id INTEGER NOT NULL REFERENCES users(id),
 		project_id INTEGER REFERENCES projects(id),  
 		season_number INTEGER NOT NULL,
-		name TEXT,
-		description TEXT,
-		release_date DATE 
+		name TEXT NOT NULL,
+		description TEXT NOT NULL,
+		release_date DATE NOT NULL
 	);
     `)
 	if err != nil {
@@ -165,6 +141,8 @@ func CreateEpisodesTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS episodes (
 		id SERIAL PRIMARY KEY,
+		user_id INTEGER NOT NULL REFERENCES users(id),
+		url TEXT NOT NULL, 
 		season_id INTEGER REFERENCES seasons(id),  -- Внешний ключ на таблицу seasons
 		episode_number INTEGER NOT NULL,
 		name TEXT,

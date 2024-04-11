@@ -2,6 +2,7 @@ package start
 
 import (
 	"log"
+	database "project/internal/database/dataset"
 	"project/internal/routes"
 
 	"github.com/gin-gonic/gin"
@@ -16,20 +17,20 @@ func Start() {
 		return
 	}
 
-	// err = database.DropTables(main.DB.Database) ///////////////
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	return
-	// }
-	// err = database.CreateTables(main.DB)
-	// if err != nil {
-	// 	return
-	// }
-	// err = database.CreateTestData(main.DB) /////////////
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	return
-	// }
+	err = database.DropTables(main.DB.Database) ///////////////
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
+	err = database.CreateTables(main.DB)
+	if err != nil {
+		return
+	}
+	err = database.CreateTestData(main.DB) /////////////
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 
 	router := gin.Default()
 	router.LoadHTMLGlob("ui/templates/*")
@@ -47,6 +48,9 @@ func Start() {
 	router.GET("/api/profile", main.GET_Profile)      // the user gets HIS profile
 	router.GET("/api/projects", main.GET_Projects)    // get all projects, can limit projects by adding query ?limit=<number>
 	router.GET("/api/projects/:id", main.GET_Project) // get project by id
+
+	router.GET("/api/projects/season/:id", main.GET_Season)
+	router.GET("/api/projects/episode/:id", main.GET_Episode) // get project by id
 
 	//POST
 	router.POST("/api/reg", main.POST_Reg)                // registration

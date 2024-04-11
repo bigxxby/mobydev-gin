@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"project/internal/database"
+	"project/internal/utils"
 )
 
 func CreateTestData(db *database.Database) error {
@@ -45,6 +46,23 @@ func insertTestUsers(db *database.Database) error {
         ('admin@example.com', 'adminpassword', 'Admin', '9876543210', '1985-05-20', 'user'),
 		('admin2@example.com', 'adminpassword', 'Admin', '9876543210', '1985-05-20', 'user')
     `)
+	if err != nil {
+		return err
+	}
+
+	//create admin
+	passAdmin, err := utils.HashPassword("Aa12345678#")
+	if err != nil {
+		return err
+	}
+	stmt, err := tx.Prepare(`
+	INSERT INTO users (email, password, name, phone, date_of_birth, role)
+	VALUES 
+	('big@example.com', $1, 'Admin', '9876543210', '1985-05-20', 'admin')`)
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(passAdmin)
 	if err != nil {
 		return err
 	}
@@ -91,12 +109,12 @@ func insertTestSeasons(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO seasons (project_id, season_number, name, description, release_date)
+        INSERT INTO seasons (project_id,user_id, season_number, name, description, release_date)
         VALUES 
-        (1, 1, 'Season 1', 'Description for Season 1', '2021-01-01'),
-        (1, 2, 'Season 2', 'Description for Season 2', '2022-01-01'),
-        (2, 1, 'Season 1', 'Description for Season 1 of Movie 2', '2020-05-01'),
-        (3, 1, 'Season 1', 'Description for Season 1 of Movie 3', '2021-07-01')
+        (1, 1, 1, 'Season 1', 'Description for Season 1', '2021-01-01'),
+        (1,1 , 2, 'Season 2', 'Description for Season 2', '2022-01-01'),
+        (2, 1, 1, 'Season 1', 'Description for Season 1 of Movie 2', '2020-05-01'),
+        (3, 1 ,1, 'Season 1', 'Description for Season 1 of Movie 3', '2021-07-01')
     `)
 	if err != nil {
 		return err
@@ -118,12 +136,12 @@ func insertTestEpisodes(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO episodes (season_id, episode_number, name, duration_minutes, release_date, description)
+        INSERT INTO episodes (season_id,user_id, url ,  episode_number, name, duration_minutes, release_date, description)
         VALUES 
-        (1, 1, 'Episode 1', 30, '2021-01-10', 'Description for Episode 1'),
-        (1, 2, 'Episode 2', 25, '2021-01-17', 'Description for Episode 2'),
-        (2, 1, 'Episode 1 of Season 2', 35, '2022-01-15', 'Description for Episode 1 of Season 2'),
-        (3, 1, 'Episode 1 of Movie 3', 40, '2021-07-10', 'Description for Episode 1 of Movie 3')
+        (1, 1,'https://www.youtube.com/', 1, 'Episode 1', 30, '2021-01-10', 'Description for Episode 1'),
+        (1, 1,'https://www.youtube.com/', 2, 'Episode 2', 25, '2021-01-17', 'Description for Episode 2'),
+        (2, 1,'https://www.youtube.com/', 1, 'Episode 1 of Season 2', 35, '2022-01-15', 'Description for Episode 1 of Season 2'),
+        (3, 1,'https://www.youtube.com/', 1, 'Episode 1 of Movie 3', 40, '2021-07-10', 'Description for Episode 1 of Movie 3')
     `)
 	if err != nil {
 		return err
