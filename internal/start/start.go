@@ -24,6 +24,7 @@ func Start() {
 	}
 	err = database.CreateTables(main.DB)
 	if err != nil {
+		log.Println(err.Error())
 		return
 	}
 	err = database.CreateTestData(main.DB)

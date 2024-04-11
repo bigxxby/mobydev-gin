@@ -1,6 +1,7 @@
 package database
 
 import (
+	"database/sql"
 	"log"
 
 	"golang.org/x/crypto/bcrypt"
@@ -9,13 +10,8 @@ import (
 // checks if user with this Сredentials exists
 func (db *Database) CheckUserСredentials(email, password string) (*User, bool, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	tx, err := db.Database.Begin()
-	if err != nil {
-		return nil, false, err
-	}
-	defer tx.Rollback()
 
-	stmt, err := tx.Prepare("SELECT * FROM users WHERE email = $1")
+	stmt, err := db.Database.Prepare("SELECT * FROM users WHERE email = $1")
 	if err != nil {
 		return nil, false, err
 	}
@@ -40,70 +36,50 @@ func (db *Database) CheckUserСredentials(email, password string) (*User, bool, 
 
 		return user, true, nil
 	}
-	err = tx.Commit()
-	if err != nil {
-		return nil, false, err
-	}
 	return nil, false, nil
 }
 
 // checks if user really exists
-func (db *Database) CheckUserExistsById(Id string) (bool, error) {
+func (db *Database) CheckUserExistsById(Id string) error {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	tx, err := db.Database.Begin()
+	stmt, err := db.Database.Prepare("SELECT * FROM users WHERE id = $1")
 	if err != nil {
-		return false, err
-	}
-	defer tx.Rollback()
-
-	stmt, err := tx.Prepare("SELECT * FROM users WHERE id = $1")
-	if err != nil {
-		return false, err
+		return err
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.Query(Id)
 	if err != nil {
-		return false, err
+		return err
 	}
 	defer rows.Close()
 
 	exists := rows.Next()
-
-	err = tx.Commit()
-	if err != nil {
-		return false, err
+	if !exists {
+		return sql.ErrNoRows
 	}
-
-	return exists, nil
+	return nil
 }
 
-func (db *Database) CheckMovieExistsById(movieId int) (bool, error) {
+func (db *Database) CheckMovieExistsById(movieId int) error {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	tx, err := db.Database.Begin()
-	if err != nil {
-		return false, err
-	}
-	defer tx.Rollback()
 
-	stmt, err := tx.Prepare("SELECT * FROM movies WHERE id = $1")
+	stmt, err := db.Database.Prepare("SELECT * FROM movies WHERE id = $1")
 	if err != nil {
-		return false, err
+		return err
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.Query(movieId)
 	if err != nil {
-		return false, err
+		return err
 	}
 	defer rows.Close()
 
 	exists := rows.Next()
-
-	err = tx.Commit()
-	if err != nil {
-		return false, err
+	if !exists {
+		return sql.ErrNoRows
 	}
 
-	return exists, nil
+	return nil
 }

@@ -196,21 +196,21 @@ func (m *Manager) DELETE_Movie(c *gin.Context) {
 		})
 		return
 	}
-	exists, err := m.DB.CheckMovieExistsById(num)
+	err = m.DB.CheckMovieExistsById(num)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "Movie not found",
+			})
+			return
+		}
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return
 	}
-	if !exists {
-		log.Println("movie not found")
-		c.JSON(404, gin.H{
-			"message": "Movie not found",
-		})
-		return
-	}
+
 	err = m.DB.DeleteMovie(movieId)
 	if err != nil {
 		log.Println(err.Error())
@@ -276,18 +276,17 @@ func (m *Manager) PUT_Movie(c *gin.Context) {
 		})
 		return
 	}
-	exists, err := m.DB.CheckMovieExistsById(num)
+	err = m.DB.CheckMovieExistsById(num)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "Movie not found",
+			})
+			return
+		}
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server error",
-		})
-		return
-	}
-	if !exists {
-		log.Println("movie not found")
-		c.JSON(404, gin.H{
-			"message": "Movie not found",
 		})
 		return
 	}

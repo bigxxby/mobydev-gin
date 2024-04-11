@@ -4,17 +4,8 @@ import "log"
 
 func (db *Database) GetUserById(id int) (*User, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	tx, err := db.Database.Begin()
-	if err != nil {
-		return nil, err
-	}
-	defer tx.Rollback()
 	var user User
-	err = tx.QueryRow("SELECT id , email , name , phone , date_of_birth , role FROM users WHERE id = $1", id).Scan(&user.Id, &user.Email, &user.Name, &user.Phone, &user.DateOfBirth, &user.Role)
-	if err != nil {
-		return nil, err
-	}
-	err = tx.Commit()
+	err := db.Database.QueryRow("SELECT id , email , name , phone , date_of_birth , role FROM users WHERE id = $1", id).Scan(&user.Id, &user.Email, &user.Name, &user.Phone, &user.DateOfBirth, &user.Role)
 	if err != nil {
 		return nil, err
 	}
@@ -24,13 +15,8 @@ func (db *Database) GetUserById(id int) (*User, error) {
 func (db *Database) GetMovies(limit int) ([]Movie, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if limit != 0 {
-		tx, err := db.Database.Begin()
-		if err != nil {
-			return nil, err
-		}
-		defer tx.Rollback()
 
-		stmt, err := tx.Prepare("SELECT * FROM movies  ORDER BY created_at LIMIT $1 DESC")
+		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY created_at LIMIT $1 DESC")
 		if err != nil {
 			return nil, err
 		}
@@ -73,22 +59,11 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 			return nil, err
 		}
 
-		err = tx.Commit()
-		if err != nil {
-			return nil, err
-		}
-
 		return movies, nil
 
 	} else {
 
-		tx, err := db.Database.Begin()
-		if err != nil {
-			return nil, err
-		}
-		defer tx.Rollback()
-
-		stmt, err := tx.Prepare("SELECT * FROM movies ORDER BY  created_at DESC")
+		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY  created_at DESC")
 		if err != nil {
 			return nil, err
 		}
@@ -128,11 +103,6 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 		}
 
 		if err = rows.Err(); err != nil {
-			return nil, err
-		}
-
-		err = tx.Commit()
-		if err != nil {
 			return nil, err
 		}
 
