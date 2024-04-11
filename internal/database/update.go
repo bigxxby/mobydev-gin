@@ -1,37 +1,32 @@
 package database
 
-import (
-	"log"
-	"time"
-)
-
-func (db *Database) UpdateUserByAdmin(userID string, newName, newPhone, newDOB string, isAdmin bool) error {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
-	tx, err := db.Database.Begin()
+func (d *Database) UpdateProject(id int, imageUrl string, name string, category string, projectType string, year int, AgeCategory string, durationMinutes int, keywords string, desc string, director string, producer string) error {
+	tx, err := d.Database.Begin()
 	if err != nil {
-		log.Println(err.Error())
 		return err
 	}
 	defer tx.Rollback()
+	query := `UPDATE projects SET 
+				image_url = $1,
+				name = $2,
+				category = $3,
+				project_type = $4,
+				year = $5,
+				age_category = $6,
+				duration_minutes = $7,
+				keywords = $8,
+				description = $9,
+				director = $10,
+				producer = $11,
+				updated_at = CURRENT_TIMESTAMP
+			  WHERE id = $12`
 
-	var isAdminValue int
-	if isAdmin {
-		isAdminValue = 1
-	} else {
-		isAdminValue = 0
-	}
-	now := time.Now()
-	_, err = tx.Exec("UPDATE users SET name=$1, phone=$2, date_of_birth=$3, is_admin=$4, updated_at=$5 WHERE id=$6",
-		newName, newPhone, newDOB, isAdminValue, now, userID)
+	_, err = tx.Exec(query, imageUrl, name, category, projectType, year, AgeCategory, durationMinutes, keywords, desc, director, producer, id)
 	if err != nil {
-		log.Println(err.Error())
 		return err
 	}
-
 	err = tx.Commit()
 	if err != nil {
-		log.Println(err.Error())
 		return err
 	}
 	return nil
