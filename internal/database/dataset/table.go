@@ -27,6 +27,11 @@ func CreateTables(db *database.Database) error {
 		log.Println(err.Error())
 		return err
 	}
+	err = CreateTrendsTable(db)
+	if err != nil {
+		log.Println(err.Error())
+		return err
+	}
 	return nil
 }
 func CreateUsersTable(db *database.Database) error {
@@ -149,6 +154,32 @@ func CreateEpisodesTable(db *database.Database) error {
 		duration_minutes INTEGER,
 		release_date DATE,
 		description TEXT
+	);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func CreateTrendsTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	CREATE TABLE IF NOT EXISTS trends (
+		id SERIAL PRIMARY KEY,
+		project_id INTEGER REFERENCES projects(id),
+		trend_date DATE NOT NULL,
+		trend_value INTEGER NOT NULL
 	);
     `)
 	if err != nil {

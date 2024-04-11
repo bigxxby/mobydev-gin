@@ -27,6 +27,10 @@ func CreateTestData(db *database.Database) error {
 	if err != nil {
 		return err
 	}
+	err = insertTestTrends(db)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -153,6 +157,33 @@ func insertTestEpisodes(db *database.Database) error {
 	}
 
 	return nil
+}
+func insertTestTrends(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	INSERT INTO trends (project_id, trend_date, trend_value)
+	VALUES 
+	(1, '2021-01-10', 1000),
+	(1, '2021-01-17', 1500),
+	(2, '2022-01-15', 1200),
+	(3, '2021-07-10', 800)
+	`)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }
 
 func DropTables(db *sql.DB) error {

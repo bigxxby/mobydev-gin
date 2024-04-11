@@ -50,7 +50,9 @@ func Start() {
 	router.GET("/api/projects/:id", main.GET_Project) // get project by id
 
 	router.GET("/api/projects/season/:id", main.GET_Season)
-	router.GET("/api/projects/episode/:id", main.GET_Episode) // get project by id
+	router.GET("/api/projects/episode/:id", main.GET_Episode)
+	router.GET("/api/trends/:id", main.GET_Trend)
+	router.GET("/api/trends", main.GET_Trends) // get project by id
 
 	//POST
 	router.POST("/api/reg", main.POST_Reg)                // registration
