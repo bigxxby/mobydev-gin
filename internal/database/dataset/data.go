@@ -216,7 +216,7 @@ func insertTestFavorites(db *database.Database) error {
 }
 
 func DropTables(db *sql.DB) error {
-	tables := []string{"episodes", "seasons", "movies", "users", "trends"}
+	tables := []string{"episodes", "seasons", "movies", "users", "trends", "favorites"}
 
 	for _, table := range tables {
 		_, err := db.Exec("DROP TABLE IF EXISTS " + table + " CASCADE")

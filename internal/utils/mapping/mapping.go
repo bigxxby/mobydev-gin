@@ -1,12 +1,12 @@
 package mapping
 
 import (
-	"project/internal/database"
+	"project/internal/database/user"
 
 	"github.com/gin-gonic/gin"
 )
 
-func TrimUser(user database.User) gin.H {
+func TrimUser(user user.User) gin.H {
 	userJson := gin.H{}
 
 	userJson["id"] = user.Id

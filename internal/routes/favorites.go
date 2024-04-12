@@ -27,7 +27,7 @@ func (m *Manager) GET_Favorites(c *gin.Context) {
 		})
 		return
 	}
-	user, err := m.DB.GetUserById(userId)
+	user, err := m.DB.UserRepository.GetUserById(userId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Println(err.Error())
@@ -44,7 +44,7 @@ func (m *Manager) GET_Favorites(c *gin.Context) {
 		})
 	}
 
-	favorites, err := m.DB.GetFavoritesByUserId(user.Id)
+	favorites, err := m.DB.FavoritesRepository.GetFavoritesByUserId(user.Id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -88,7 +88,7 @@ func (m *Manager) POST_Favorite(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.CheckUserExistsById(userId)
+	err = m.DB.UserRepository.CheckUserExistsById(userId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			log.Println(err.Error())
@@ -103,7 +103,7 @@ func (m *Manager) POST_Favorite(c *gin.Context) {
 		})
 	}
 
-	err = m.DB.CheckMovieExistsById(movieId)
+	err = m.DB.MovieRepository.CheckMovieExistsById(movieId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -116,7 +116,7 @@ func (m *Manager) POST_Favorite(c *gin.Context) {
 		})
 		return
 	}
-	added, err := m.DB.CheckIfMovieAdded(userId, movieId)
+	added, err := m.DB.FavoritesRepository.CheckIfMovieAddedToFavorites(userId, movieId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -131,7 +131,7 @@ func (m *Manager) POST_Favorite(c *gin.Context) {
 		})
 		return
 	}
-	favorite, err := m.DB.AddToFavorites(userId, movieId)
+	favorite, err := m.DB.FavoritesRepository.AddToFavorites(userId, movieId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -165,7 +165,7 @@ func (m *Manager) DELETE_Favorite(c *gin.Context) {
 		})
 		return
 	}
-	favorites, err := m.DB.GetFavoritesByUserId(userId)
+	favorites, err := m.DB.FavoritesRepository.GetFavoritesByUserId(userId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -194,7 +194,7 @@ func (m *Manager) DELETE_Favorite(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.DeleteFavoritesById(favId)
+	err = m.DB.FavoritesRepository.DeleteFavoritesById(favId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -220,7 +220,7 @@ func (m *Manager) DELETE_Favorites(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.DeleteAllFavoritesByUserId(userId)
+	err = m.DB.FavoritesRepository.DeleteAllFavoritesByUserId(userId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{

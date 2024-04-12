@@ -19,7 +19,7 @@ func (m *Manager) GET_Episode(c *gin.Context) {
 		return
 	}
 
-	episode, err := m.DB.GetEpisodeById(episodeIdNums)
+	episode, err := m.DB.EpisodeRepository.GetEpisodeById(episodeIdNums)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{

@@ -2,7 +2,6 @@ package routes
 
 import (
 	"log"
-	"project/internal/database"
 	logic "project/internal/utils"
 	"time"
 
@@ -13,11 +12,18 @@ func (m *Manager) GET_HTML_Reg(c *gin.Context) {
 
 	c.HTML(200, "reg.html", nil)
 }
+
+type RegisterData struct {
+	Email    string `json:"email" binding:"required"`
+	Password string `json:"password" binding:"required"`
+	Role     string `json:"role" binding:"required"`
+}
+
 func (m *Manager) POST_Reg(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	time.Sleep(1 * time.Second) //art. delay
-	var data database.RegisterData
+	var data RegisterData
 
 	if err := c.BindJSON(&data); err != nil {
 		c.JSON(400, gin.H{
@@ -33,7 +39,7 @@ func (m *Manager) POST_Reg(c *gin.Context) {
 		})
 		return
 	}
-	exists, err := m.DB.CreateUser(data.Email, data.Password, data.Role)
+	exists, err := m.DB.UserRepository.CreateUser(data.Email, data.Password, data.Role)
 	if exists {
 		c.JSON(400, gin.H{
 			"message": "Пользователь уже существует",

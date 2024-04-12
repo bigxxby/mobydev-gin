@@ -16,7 +16,7 @@ func Start() {
 		log.Println(err.Error())
 		return
 	}
-
+	//test data
 	err = database.DropTables(main.DB.Database)
 	if err != nil {
 		log.Println(err.Error())
@@ -32,47 +32,72 @@ func Start() {
 		log.Println(err.Error())
 		return
 	}
-
+	//ui
 	router := gin.Default()
 	router.LoadHTMLGlob("ui/templates/*")
 	router.Static("/static", "./ui/static")
 
 	// HTML
-	router.GET("/", main.GET_HTML_Index)
-	router.GET("/reg", main.GET_HTML_Reg)
-	router.GET("/login", main.GET_HTML_Login)
-	router.GET("/create/movie", main.GET_HTML_Movie)
+	htmlRoutes := router.Group("/")
+	{
+		htmlRoutes.GET("/", main.GET_HTML_Index)
+		htmlRoutes.GET("/reg", main.GET_HTML_Reg)
+		htmlRoutes.GET("/login", main.GET_HTML_Login)
+		htmlRoutes.GET("/create/movie", main.GET_HTML_Movie)
+	}
 
-	// movies
-	router.GET("/api/movies", main.GET_Movies)              //get all movies
-	router.GET("/api/movies/:id", main.GET_Movie)           // get movie by id
-	router.GET("/api/movies/season/:id", main.GET_Season)   //get season by id
-	router.GET("/api/movies/episode/:id", main.GET_Episode) // get episode by id
+	// API
+	apiRoutes := router.Group("/api")
+	{
+		// movies
+		movies := apiRoutes.Group("/movies")
+		{
+			movies.GET("/", main.GET_Movies)
+			movies.GET("/:id", main.GET_Movie)
+			movies.GET("/seasons/:id", main.GET_Season)
+			movies.GET("/seasons/episodes/:id", main.GET_Episode)
 
-	router.POST("/api/movies", main.POST_Movie) //create movie (ADMIN ONLY)
+			moviesAdmin := movies.Group("/")
+			{
+				moviesAdmin.Use(main.AuthMiddleware())
 
-	router.DELETE("/api/movies/:id", main.DELETE_Movie) // delete movie by id (ADMIN ONLY)
+				moviesAdmin.POST("/", main.POST_Movie)        // admin
+				moviesAdmin.DELETE("/:id", main.DELETE_Movie) // admin
+				moviesAdmin.PUT("/:id", main.PUT_Movie)       // admin
+			}
+		}
 
-	router.PUT("/api/movies/:id", main.PUT_Movie) //change movie by id (ADMIN ONLY)
+		// profile
+		profile := apiRoutes.Group("/profile")
+		{
+			profile.Use(main.AuthMiddleware())
+			profile.GET("/", main.GET_Profile)
+			// TODO ETC
+		}
 
-	// profile
-	router.GET("/api/profile", main.GET_Profile) // get profile of CURRENT USER (auth)
-	// get all profiles
-	// get profile by id etc.
+		// trends
+		trends := apiRoutes.Group("/trends")
+		{
+			trends.GET("/:id", main.GET_Trend)
+			trends.GET("/", main.GET_Trends)
+		}
 
-	// trends
-	router.GET("/api/trends/:id", main.GET_Trend) // get trend by id
-	router.GET("/api/trends", main.GET_Trends)    // get all current trends
+		// reg/log
+		auth := apiRoutes.Group("/")
+		{
+			auth.POST("/reg", main.POST_Reg)
+			auth.POST("/login", main.POST_Login)
+		}
 
-	// reg/log
-	router.POST("/api/reg", main.POST_Reg)     // body{email,password,role}
-	router.POST("/api/login", main.POST_Login) // body{email,password}
-
-	//favorites
-	router.GET("/api/favorites", main.GET_Favorites)              //all favorites of CURRENT USER (auth)
-	router.POST("/api/favorites/:id", main.POST_Favorite)         //add to fav by movieId of CURRENT USER (auth)
-	router.DELETE("/api/favorites/:id", main.DELETE_Favorite)     //delete from favorites of CURRENT USER (auth) by movie id
-	router.DELETE("/api/favorites/clear/", main.DELETE_Favorites) //clears all CURRENT USERS favorites
+		// favorites
+		favorites := apiRoutes.Group("/favorites")
+		{
+			favorites.GET("/", main.GET_Favorites)
+			favorites.POST("/:id", main.POST_Favorite)
+			favorites.DELETE("/:id", main.DELETE_Favorite)
+			favorites.DELETE("/clear/", main.DELETE_Favorites)
+		}
+	}
 
 	router.Run(":8080")
 }

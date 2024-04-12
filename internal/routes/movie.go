@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"project/internal/database"
+	"project/internal/database/movie"
 	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
@@ -26,7 +26,7 @@ func (m *Manager) GET_Movies(c *gin.Context) {
 			})
 			return
 		}
-		movies, err := m.DB.GetMovies(num)
+		movies, err := m.DB.MovieRepository.GetMovies(num)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{
@@ -40,7 +40,7 @@ func (m *Manager) GET_Movies(c *gin.Context) {
 		return
 	}
 
-	movies, err := m.DB.GetMovies(0)
+	movies, err := m.DB.MovieRepository.GetMovies(0)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -64,7 +64,7 @@ func (m *Manager) GET_Movie(c *gin.Context) {
 		})
 		return
 	}
-	movie, err := m.DB.GetMovieById(num)
+	movie, err := m.DB.MovieRepository.GetMovieById(num)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -83,17 +83,15 @@ func (m *Manager) GET_Movie(c *gin.Context) {
 
 // create movie
 func (m *Manager) POST_Movie(c *gin.Context) {
-	token := c.GetHeader("Authorization")
-	userId, err := utils.VerifyToken(token)
-	if err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
+	userId := c.GetInt("userId")
+	if userId == 0 {
+		log.Println("middleware error")
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
 		})
 		return
 	}
-
-	user, err := m.DB.GetUserById(userId)
+	user, err := m.DB.UserRepository.GetUserById(userId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -116,7 +114,7 @@ func (m *Manager) POST_Movie(c *gin.Context) {
 		})
 		return
 	}
-	var movie database.Movie
+	var movie movie.Movie
 
 	err = c.BindJSON(&movie)
 	if err != nil {
@@ -127,7 +125,7 @@ func (m *Manager) POST_Movie(c *gin.Context) {
 		return
 	}
 
-	_, err = m.DB.CreateMovie(
+	_, err = m.DB.MovieRepository.CreateMovie(
 		userId,
 		movie.ImageUrl,
 		movie.Name,
@@ -155,9 +153,15 @@ func (m *Manager) POST_Movie(c *gin.Context) {
 
 // delete movie
 func (m *Manager) DELETE_Movie(c *gin.Context) {
-	token := c.GetHeader("Authorization")
 	movieId := c.Param("id")
-
+	userId := c.GetInt("userId")
+	if userId == 0 {
+		log.Println("middleware error")
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
 	valid, num := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -166,16 +170,7 @@ func (m *Manager) DELETE_Movie(c *gin.Context) {
 		return
 	}
 
-	userId, err := utils.VerifyToken(token)
-	if err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
-		})
-		return
-	}
-
-	user, err := m.DB.GetUserById(userId)
+	user, err := m.DB.UserRepository.GetUserById(userId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -196,7 +191,7 @@ func (m *Manager) DELETE_Movie(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.CheckMovieExistsById(num)
+	err = m.DB.MovieRepository.CheckMovieExistsById(num)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -211,7 +206,7 @@ func (m *Manager) DELETE_Movie(c *gin.Context) {
 		return
 	}
 
-	err = m.DB.DeleteMovie(movieId)
+	err = m.DB.MovieRepository.DeleteMovie(movieId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -227,9 +222,15 @@ func (m *Manager) DELETE_Movie(c *gin.Context) {
 
 // update movie
 func (m *Manager) PUT_Movie(c *gin.Context) {
-	token := c.GetHeader("Authorization")
 	movieId := c.Param("id")
-
+	userId := c.GetInt("userId")
+	if userId == 0 {
+		log.Println("middleware error")
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
 	valid, num := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -238,15 +239,7 @@ func (m *Manager) PUT_Movie(c *gin.Context) {
 		return
 	}
 
-	userId, err := utils.VerifyToken(token)
-	if err != nil {
-		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorized",
-		})
-		return
-	}
-	user, err := m.DB.GetUserById(userId)
+	user, err := m.DB.UserRepository.GetUserById(userId)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -267,7 +260,7 @@ func (m *Manager) PUT_Movie(c *gin.Context) {
 		})
 		return
 	}
-	var movie database.Movie
+	var movie movie.Movie
 	err = c.BindJSON(&movie)
 	if err != nil {
 		log.Println(err.Error())
@@ -276,7 +269,7 @@ func (m *Manager) PUT_Movie(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.CheckMovieExistsById(num)
+	err = m.DB.MovieRepository.CheckMovieExistsById(num)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -291,7 +284,7 @@ func (m *Manager) PUT_Movie(c *gin.Context) {
 		return
 	}
 
-	err = m.DB.UpdateMovie(
+	err = m.DB.MovieRepository.UpdateMovie(
 		num, // movie id we want to update
 		movie.ImageUrl,
 		movie.Name,

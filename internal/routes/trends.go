@@ -19,7 +19,7 @@ func (m *Manager) GET_Trend(c *gin.Context) {
 		return
 	}
 
-	trend, err := m.DB.GetTrendsById(trendIdNum)
+	trend, err := m.DB.TrendRepository.GetTrendsById(trendIdNum)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
@@ -38,7 +38,7 @@ func (m *Manager) GET_Trend(c *gin.Context) {
 }
 
 func (m *Manager) GET_Trends(c *gin.Context) {
-	trends, err := m.DB.GetTrends()
+	trends, err := m.DB.TrendRepository.GetTrends()
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{

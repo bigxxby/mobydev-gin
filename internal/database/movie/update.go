@@ -1,6 +1,6 @@
-package database
+package movie
 
-func (d *Database) UpdateMovie(id int, imageUrl string, name string, category string, movieType string, year int, ageCategory string, durationMinutes int, keywords string, desc string, director string, producer string) error {
+func (d *MovieRepository) UpdateMovie(id int, imageUrl string, name string, category string, movieType string, year int, ageCategory string, durationMinutes int, keywords string, desc string, director string, producer string) error {
 	tx, err := d.Database.Begin()
 	if err != nil {
 		return err

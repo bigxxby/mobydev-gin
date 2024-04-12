@@ -19,7 +19,7 @@ func (m *Manager) GET_Season(c *gin.Context) {
 		return
 	}
 
-	season, err := m.DB.GetSeasonById(seasonIdNum)
+	season, err := m.DB.SeasonRepository.GetSeasonById(seasonIdNum)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
