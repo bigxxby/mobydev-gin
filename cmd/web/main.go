@@ -4,7 +4,10 @@ import "project/internal/start"
 
 // TODO last time updated by user_id
 // refresh token
-// forgot pass
+// restore pass
+
+// q : если будем использовать access токен и refresh токен, стоит ли дополнительно делать проверку пользователя на бд?
+
 func main() {
 	start.Start()
 }

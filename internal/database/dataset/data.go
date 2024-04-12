@@ -31,6 +31,10 @@ func CreateTestData(db *database.Database) error {
 	if err != nil {
 		return err
 	}
+	err = insertTestFavorites(db)
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
@@ -184,6 +188,31 @@ func insertTestTrends(db *database.Database) error {
 
 	return nil
 
+}
+func insertTestFavorites(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	INSERT INTO favorites (user_id, movie_id)
+	VALUES 
+	(1, 1),
+	(1, 2),
+	(2, 3)
+	`)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func DropTables(db *sql.DB) error {

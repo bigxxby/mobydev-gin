@@ -31,6 +31,10 @@ func CreateTables(db *database.Database) error {
 	if err != nil {
 		return err
 	}
+	err = CreateFavoritesTable(db)
+	if err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -180,6 +184,32 @@ func CreateTrendsTable(db *database.Database) error {
 		movie_id INTEGER REFERENCES movies(id),
 		trend_date DATE NOT NULL,
 		trend_value INTEGER NOT NULL
+	);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func CreateFavoritesTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	CREATE TABLE IF NOT EXISTS favorites (
+		id SERIAL PRIMARY KEY,
+		user_id INTEGER NOT NULL REFERENCES users(id),
+		movie_id INTEGER NOT NULL REFERENCES movies(id),
+		added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);
     `)
 	if err != nil {

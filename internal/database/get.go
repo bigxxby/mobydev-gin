@@ -16,7 +16,7 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if limit != 0 {
 
-		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY created_at LIMIT $1 DESC")
+		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY created_at DESC LIMIT $1 ")
 		if err != nil {
 			return nil, err
 		}
@@ -63,7 +63,7 @@ func (db *Database) GetMovies(limit int) ([]Movie, error) {
 
 	} else {
 
-		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY  created_at DESC")
+		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY  created_at ")
 		if err != nil {
 			return nil, err
 		}
@@ -185,7 +185,7 @@ func (db *Database) GetTrendsById(id int) (*Trend, error) {
 	var trend Trend
 
 	query := `
-	SELECT id, movies_id, trend_date, trend_value
+	SELECT id, movie_id, trend_date, trend_value
 	FROM trends
 	WHERE id = $1
 	`
@@ -237,4 +237,53 @@ func (db *Database) GetTrends() ([]*Trend, error) {
 	}
 
 	return trends, nil
+}
+func (db *Database) GetFavoritesByUserId(id int) ([]Favorite, error) {
+	var favorites []Favorite
+
+	query := `SELECT * FROM favorites WHERE user_id = $1`
+
+	rows, err := db.Database.Query(query, id)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var favorite Favorite
+
+		err := rows.Scan(
+			&favorite.ID,
+			&favorite.UserID,
+			&favorite.MovieID,
+			&favorite.AddedAt,
+		)
+
+		if err != nil {
+			return nil, err
+		}
+		favorites = append(favorites, favorite)
+
+	}
+
+	return favorites, nil
+}
+func (db *Database) DeleteFavoritesById(favoriteId int) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec("DELETE FROM favorites WHERE id = $1", favoriteId)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return nil
+	}
+	return nil
+
 }

@@ -76,6 +76,12 @@ type Trend struct {
 	TrendDate  time.Time `json:"trend_date"`
 	TrendValue int       `json:"trend_value"`
 }
+type Favorite struct {
+	ID      int       `json:"id"`
+	UserID  int       `json:"user_id"`
+	MovieID int       `json:"movie_id"`
+	AddedAt time.Time `json:"added_at"`
+}
 
 // type Movie struct {
 // 	Id              int            `json:"id"`

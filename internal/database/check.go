@@ -40,7 +40,7 @@ func (db *Database) CheckUserСredentials(email, password string) (*User, bool, 
 }
 
 // checks if user really exists
-func (db *Database) CheckUserExistsById(Id string) error {
+func (db *Database) CheckUserExistsById(id int) error {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	stmt, err := db.Database.Prepare("SELECT * FROM users WHERE id = $1")
 	if err != nil {
@@ -48,7 +48,7 @@ func (db *Database) CheckUserExistsById(Id string) error {
 	}
 	defer stmt.Close()
 
-	rows, err := stmt.Query(Id)
+	rows, err := stmt.Query(id)
 	if err != nil {
 		return err
 	}
@@ -82,4 +82,15 @@ func (db *Database) CheckMovieExistsById(movieId int) error {
 	}
 
 	return nil
+}
+
+func (db *Database) CheckIfMovieAdded(userId, movieId int) (bool, error) {
+	var exists bool
+
+	err := db.Database.QueryRow("SELECT EXISTS(SELECT 1 FROM favorites WHERE user_id=$1 AND movie_id=$2)", userId, movieId).Scan(&exists)
+	if err != nil {
+		return false, err
+	}
+
+	return exists, nil
 }
