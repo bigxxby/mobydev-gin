@@ -15,6 +15,10 @@ func (db *MovieRepository) DeleteMovie(movieId string) error {
 		}
 	}()
 
+	_, err = tx.Exec("DELETE FROM favorites WHERE movie_id=$1", movieId)
+	if err != nil {
+		return err
+	}
 	_, err = tx.Exec("DELETE FROM trends WHERE movie_id=$1", movieId)
 	if err != nil {
 		return err

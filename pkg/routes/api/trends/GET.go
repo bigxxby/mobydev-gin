@@ -1,4 +1,4 @@
-package routes
+package trends
 
 import (
 	"database/sql"
@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Trend(c *gin.Context) {
+func (m *TrendsRoute) GET_Trend(c *gin.Context) {
 	trendsId := c.Param("id")
 	valid, trendIdNum := utils.IsValidNum(trendsId)
 	if !valid {
@@ -37,12 +37,12 @@ func (m *Manager) GET_Trend(c *gin.Context) {
 
 }
 
-func (m *Manager) GET_Trends(c *gin.Context) {
+func (m *TrendsRoute) GET_Trends(c *gin.Context) {
 	trends, err := m.DB.TrendRepository.GetTrends()
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
-				"message": "Trends not found",
+				"message": "trends not found",
 			})
 			return
 		}

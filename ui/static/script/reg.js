@@ -126,7 +126,7 @@ validateInput()
             loading.style.display = 'block';  // показать индикатор загрузки
             submitButton.disabled = true;     // деактивировать кнопку отправки
 
-            fetch("api/reg", {
+            fetch("api/signUp", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

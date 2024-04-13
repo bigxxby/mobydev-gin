@@ -21,4 +21,4 @@ ENV DB_PASSWORD=postgres
 ENV DB_NAME=postgres
 
 # Команда для запуска приложения
-CMD ["go", "run", "./cmd/web"]
+CMD ["go", "run", "./app/"]

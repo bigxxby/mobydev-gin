@@ -1,4 +1,4 @@
-package routes
+package auth
 
 import (
 	"log"
@@ -8,23 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_HTML_Reg(c *gin.Context) {
-
-	c.HTML(200, "reg.html", nil)
-}
-
-type RegisterData struct {
-	Email    string `json:"email" binding:"required"`
-	Password string `json:"password" binding:"required"`
-	Role     string `json:"role" binding:"required"`
-}
-
-func (m *Manager) POST_Reg(c *gin.Context) {
+func (m *AuthRoute) POST_SignUp(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	time.Sleep(1 * time.Second) //art. delay
-	var data RegisterData
-
+	data := struct {
+		Email    string `json:"email" binding:"required"`
+		Password string `json:"password" binding:"required"`
+		Role     string `json:"role" binding:"required"`
+	}{}
 	if err := c.BindJSON(&data); err != nil {
 		c.JSON(400, gin.H{
 			"message": "Неверный формат данных",

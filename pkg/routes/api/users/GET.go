@@ -1,21 +1,20 @@
-package routes
+package users
 
 import (
 	"database/sql"
 	"log"
+	"net/http"
 	"project/internal/utils/mapping"
 
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Profile(c *gin.Context) {
+func (m *UsersRoute) GET_Profile(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-
 	userId := c.GetInt("userId")
 	if userId == 0 {
-		log.Println("middleware error")
-		c.JSON(500, gin.H{
-			"message": "internal server error",
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorised",
 		})
 		return
 	}

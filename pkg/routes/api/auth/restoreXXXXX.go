@@ -1,4 +1,4 @@
-package routes
+package auth
 
 import (
 	"log"
@@ -8,10 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Restore(c *gin.Context) {
-	c.HTML(200, "Restore.html", nil)
-}
-func (m *Manager) POST_Restore(c *gin.Context) {
+func POST_Restore(c *gin.Context) {
 
 	data := struct {
 		Email string `json:"email"`

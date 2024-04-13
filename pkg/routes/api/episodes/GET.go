@@ -1,4 +1,4 @@
-package routes
+package episodes
 
 import (
 	"database/sql"
@@ -9,9 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (m *Manager) GET_Season(c *gin.Context) {
-	seasonId := c.Param("id")
-	valid, seasonIdNum := utils.IsValidNum(seasonId)
+func (m *EpisodesRoute) GET_Episode(c *gin.Context) {
+	episodeId := c.Param("id")
+	valid, episodeIdNums := utils.IsValidNum(episodeId)
 	if !valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Bad request",
@@ -19,11 +19,11 @@ func (m *Manager) GET_Season(c *gin.Context) {
 		return
 	}
 
-	season, err := m.DB.SeasonRepository.GetSeasonById(seasonIdNum)
+	episode, err := m.DB.EpisodeRepository.GetEpisodeById(episodeIdNums)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
-				"message": "Season not found",
+				"message": "Episode not found",
 			})
 			return
 		}
@@ -33,6 +33,6 @@ func (m *Manager) GET_Season(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, season)
+	c.JSON(200, episode)
 
 }

@@ -20,6 +20,9 @@ func TrimUser(user user.User) gin.H {
 	if user.DateOfBirth.Valid {
 		userJson["dot"] = user.DateOfBirth.Time.String()
 	}
+	if user.Role != "" {
+		userJson["role"] = user.Role
+	}
 
 	return userJson
 }
