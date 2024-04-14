@@ -1,13 +1,3 @@
-to run -> docker-compose up --build
-
-
-creditnails for admin -> 
-
-big@example.com
-Aa12345678#
-
-
-```
 .
 ├── app
 │   └── main.go
@@ -17,7 +7,16 @@ Aa12345678#
 ├── go.sum
 ├── internal
 │   ├── database
+│   │   ├── categories
+│   │   │   ├── check.go
+│   │   │   ├── create.go
+│   │   │   ├── delete.go
+│   │   │   ├── get.go
+│   │   │   ├── model.go
+│   │   │   └── update.go
 │   │   ├── dataset
+│   │   │   ├── createTables.go
+│   │   │   ├── createTestData.go
 │   │   │   ├── data.go
 │   │   │   └── table.go
 │   │   ├── episode
@@ -69,6 +68,12 @@ Aa12345678#
 │       │   │   ├── restore.go
 │       │   │   ├── signIn.go
 │       │   │   └── signUp.go
+│       │   ├── categories
+│       │   │   ├── DELETE.go
+│       │   │   ├── GET.go
+│       │   │   ├── model.go
+│       │   │   ├── POST.go
+│       │   │   └── PUT.go
 │       │   ├── episodes
 │       │   │   ├── GET.go
 │       │   │   └── model.go
@@ -123,4 +128,4 @@ Aa12345678#
         ├── reg.html
         └── restore.html
 
-23 directories, 68 files
+35 directories, 93 files
