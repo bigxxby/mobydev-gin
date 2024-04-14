@@ -29,6 +29,7 @@ func (db *MovieRepository) GetMovieById(id int) (*Movie, error) {
 	return &movie, nil
 }
 func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
+
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if limit != 0 {
 

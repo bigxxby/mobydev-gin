@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func POST_Restore(c *gin.Context) {
+func POST_Restore(c *gin.Context) { //not finished
 
 	data := struct {
 		Email string `json:"email"`

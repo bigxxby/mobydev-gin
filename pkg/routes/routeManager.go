@@ -7,6 +7,7 @@ import (
 	"project/pkg/routes/api/categories"
 	"project/pkg/routes/api/episodes"
 	"project/pkg/routes/api/favorites"
+	"project/pkg/routes/api/genres"
 	"project/pkg/routes/api/movies"
 	"project/pkg/routes/api/seasons"
 	"project/pkg/routes/api/trends"
@@ -23,6 +24,7 @@ type Manager struct {
 	TrendsRoute     trends.TrendsRoute
 	AuthRoute       auth.AuthRoute
 	CategoriesRoute categories.CategoriesRoute
+	GenreRoute      genres.GenreRoute
 }
 
 func Init() (*Manager, error) {
@@ -38,6 +40,7 @@ func Init() (*Manager, error) {
 	trendsRoute := trends.TrendsRoute{DB: db}
 	authRoute := auth.AuthRoute{DB: db}
 	categoriesRoute := categories.CategoriesRoute{DB: db}
+	genreRoute := genres.GenreRoute{DB: db}
 
 	manager.DB = db
 	manager.MoviesRoute = moviesRoute
@@ -48,6 +51,7 @@ func Init() (*Manager, error) {
 	manager.EpisodesRoute = episodesRoute
 	manager.AuthRoute = authRoute
 	manager.CategoriesRoute = categoriesRoute
+	manager.GenreRoute = genreRoute
 
 	if err != nil {
 		return nil, err

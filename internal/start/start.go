@@ -2,6 +2,7 @@ package start
 
 import (
 	"log"
+	"project/internal/database/datasets"
 	"project/pkg/middleware"
 	"project/pkg/routes"
 
@@ -24,12 +25,11 @@ func Start() {
 		return
 	}
 	// test data
-	// err = datasets.InitDatasets(main.DB)
-	// if err != nil {
-	// 	log.Println(err.Error())
-	// 	return
-	// }
-	//ui
+	err = datasets.InitDatasets(main.DB)
+	if err != nil {
+		log.Println(err.Error())
+		return
+	}
 	router := gin.Default()
 	router.LoadHTMLGlob("ui/templates/*")
 	router.Static("/static", "./ui/static")
@@ -103,6 +103,17 @@ func Start() {
 			categories.POST("/", main.CategoriesRoute.POST_Category)        ////admin
 			categories.PUT("/:id", main.CategoriesRoute.PUT_Category)       ////admin
 			categories.DELETE("/:id", main.CategoriesRoute.DELETE_Category) ////admin
+		}
+		// genres
+		genres := apiRoutes.Group("/genres")
+		{
+			genres.GET("/", main.GenreRoute.GET_Genres)
+
+			genres.GET("/:id", main.GenreRoute.GET_Genre)
+			genres.POST("/", main.GenreRoute.POST_Genre)        ////admin
+			genres.DELETE("/:id", main.GenreRoute.DELETE_Genre) ////admin
+			genres.PUT("/:id", main.GenreRoute.PUT_Genre)       ////admin
+
 		}
 	}
 

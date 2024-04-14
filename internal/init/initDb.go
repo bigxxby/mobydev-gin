@@ -8,6 +8,7 @@ import (
 	"project/internal/database"
 	"project/internal/database/episode"
 	"project/internal/database/favorites"
+	"project/internal/database/genres"
 	"project/internal/database/movie"
 	"project/internal/database/season"
 	"project/internal/database/trend"
@@ -57,6 +58,7 @@ func CreateDatabaseStruct() (*database.Database, error) {
 		EpisodeRepository:    &episode.EpisodeRepository{Database: db},
 		TrendRepository:      &trend.TrendRepository{Database: db},
 		CategoriesRepository: &categories.CategoryRepository{Database: db},
+		GenreRepository:      &genres.GenreRepository{Database: db},
 	}
 	return &database, err
 }

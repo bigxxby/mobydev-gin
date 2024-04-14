@@ -1,23 +1,24 @@
-package categories
+package genres
 
 import (
 	"log"
 	"net/http"
-	"project/internal/database/categories"
+	"project/internal/database/genres"
 	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
-//	type Category struct {
-//		ID          int    `json:"id"`
-//		UserID      int    `json:"user_id"` // created by
-//		Name        string `json:"category_name"`
-//		Description string `json:"description"`
-//		Created_at  string `json:"created_at"`
-//	}
-func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
-	categoryId := c.Param("id")
+// type Genre struct {
+// 	ID          int    `json:"id"`
+// 	UserID      int    `json:"user_id"` // created by
+// 	Name        string `json:"genre_name"`
+// 	Description string `json:"description"`
+// 	Created_at  string `json:"created_at"`
+// }
+
+func (m *GenreRoute) PUT_Genre(c *gin.Context) {
+	genreId := c.Param("id")
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")
 
@@ -28,9 +29,9 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		return
 	}
 
-	var category categories.Category
+	var genre genres.Genre
 
-	valid, categoryIdNum := utils.IsValidNum(categoryId)
+	valid, genreIdNum := utils.IsValidNum(genreId)
 	if !valid {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
@@ -38,7 +39,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		return
 	}
 
-	err := c.BindJSON(&category)
+	err := c.BindJSON(&genre)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -47,10 +48,10 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		return
 	}
 
-	exists, err := m.DB.CategoriesRepository.CheckCategoryExistsById(categoryIdNum)
+	exists, err := m.DB.GenreRepository.CheckGenreExistsById(genreIdNum)
 	if !exists {
 		c.JSON(404, gin.H{
-			"message": "Category Not found",
+			"message": "Genre Not found",
 		})
 		return
 	}
@@ -62,7 +63,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		return
 	}
 
-	existingCategory, err := m.DB.CategoriesRepository.GetCategoryById(categoryIdNum)
+	existingGenre, err := m.DB.GenreRepository.GetGenreById(genreIdNum)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -71,11 +72,11 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		return
 	}
 
-	if existingCategory.Name != category.Name {
-		exists, err = m.DB.CategoriesRepository.CheckCategoryExistsByName(category.Name)
+	if existingGenre.Name != genre.Name {
+		exists, err = m.DB.GenreRepository.CheckGenreExistsByName(genre.Name)
 		if exists {
 			c.JSON(409, gin.H{
-				"message": "Category with this name already exists",
+				"message": "Genre with this name already exists",
 			})
 			return
 		}
@@ -88,7 +89,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		}
 	}
 
-	_, err = m.DB.CategoriesRepository.UpdateCategory(categoryIdNum, category.Name, category.Description)
+	err = m.DB.GenreRepository.UpdateGenre(genreIdNum, genre.Name, genre.Description)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusUnauthorized, gin.H{
@@ -97,6 +98,6 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		return
 	}
 	c.JSON(200, gin.H{
-		"message": "Category Updated",
+		"message": "Genre Updated",
 	})
 }

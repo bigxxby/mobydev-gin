@@ -238,11 +238,11 @@ func insertTestGenres(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-	INSERT INTO genres (name)
+	INSERT INTO genres (user_id ,  name , description)
 	VALUES 
-	('Action'),
-	('Comedy'),
-	('Drama')
+	(1,'Action', 'this is actiion'),
+	(1,'Comedy' , 'this is comedy'),
+	(1,'Drama' , 'this is drama ')
 	`)
 	if err != nil {
 		return err
