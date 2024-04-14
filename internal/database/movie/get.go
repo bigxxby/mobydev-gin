@@ -11,10 +11,10 @@ func (db *MovieRepository) GetMovieById(id int) (*Movie, error) {
 		&movie.UserId,
 		&movie.ImageUrl,
 		&movie.Name,
-		&movie.Category,
-		&movie.MovieType,
 		&movie.Year,
-		&movie.AgeCategory,
+		&movie.CategoryId,
+		&movie.AgeCategoryId,
+		&movie.GenreId,
 		&movie.DurationMinutes,
 		&movie.Keywords,
 		&movie.Description,
@@ -32,7 +32,7 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if limit != 0 {
 
-		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY created_at LIMIT $1 ")
+		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY LIMIT $1 ")
 		if err != nil {
 			return nil, err
 		}
@@ -53,10 +53,10 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 				&movie.UserId,
 				&movie.ImageUrl,
 				&movie.Name,
-				&movie.Category,
-				&movie.MovieType,
 				&movie.Year,
-				&movie.AgeCategory,
+				&movie.CategoryId,
+				&movie.AgeCategoryId,
+				&movie.GenreId,
 				&movie.DurationMinutes,
 				&movie.Keywords,
 				&movie.Description,
@@ -100,10 +100,10 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 				&movie.UserId,
 				&movie.ImageUrl,
 				&movie.Name,
-				&movie.Category,
-				&movie.MovieType,
 				&movie.Year,
-				&movie.AgeCategory,
+				&movie.CategoryId,
+				&movie.AgeCategoryId,
+				&movie.GenreId,
 				&movie.DurationMinutes,
 				&movie.Keywords,
 				&movie.Description,

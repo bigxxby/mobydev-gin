@@ -60,13 +60,13 @@ func (m *MoviesRoute) PUT_Movie(c *gin.Context) {
 		num, // movie id we want to update
 		movie.ImageUrl,
 		movie.Name,
-		movie.Category,
-		movie.MovieType,
 		movie.Year,
-		movie.AgeCategory,
+		movie.CategoryId,
+		movie.AgeCategoryId,
+		movie.GenreId,
 		movie.DurationMinutes,
-		movie.Keywords,
 		movie.Description,
+		movie.Keywords,
 		movie.Director,
 		movie.Producer,
 	)

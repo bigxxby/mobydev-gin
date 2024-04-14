@@ -9,9 +9,8 @@ Aa12345678#
 
 ```
 .
-├── cmd
-│   └── web
-│       └── main.go
+├── app
+│   └── main.go
 ├── docker-compose.yml
 ├── dockerfile
 ├── go.mod
@@ -30,7 +29,7 @@ Aa12345678#
 │   │   │   ├── delete.go
 │   │   │   ├── get.go
 │   │   │   └── model.go
-│   │   ├── models.go
+│   │   ├── model.go
 │   │   ├── movie
 │   │   │   ├── check.go
 │   │   │   ├── create.go
@@ -50,30 +49,53 @@ Aa12345678#
 │   │       ├── get.go
 │   │       └── model.go
 │   ├── init
-│   │   └── init.go
-│   ├── routes
-│   │   ├── episode.go
-│   │   ├── favorites.go
-│   │   ├── index.go
-│   │   ├── init.go
-│   │   ├── login.go
-│   │   ├── middleware.go
-│   │   ├── movie.go
-│   │   ├── profile.go
-│   │   ├── reg.go
-│   │   ├── restore.go
-│   │   ├── season.go
-│   │   └── trends.go
+│   │   └── initDb.go
 │   ├── start
 │   │   └── start.go
 │   └── utils
-│       ├── check.go
+│       ├── auth.go
 │       ├── code.go
-│       ├── hashPassword.go
-│       ├── jwt.go
-│       └── mapping
-│           └── mapping.go
+│       ├── encryption.go
+│       ├── mapping
+│       │   └── mapping.go
+│       └── validation.go
+├── pkg
+│   ├── middleware
+│   │   └── auth.go
+│   └── routes
+│       ├── api
+│       │   ├── auth
+│       │   │   ├── model.go
+│       │   │   ├── restore.go
+│       │   │   ├── signIn.go
+│       │   │   └── signUp.go
+│       │   ├── episodes
+│       │   │   ├── GET.go
+│       │   │   └── model.go
+│       │   ├── favorites
+│       │   │   ├── DELETE.go
+│       │   │   ├── GET.go
+│       │   │   ├── model.go
+│       │   │   └── POST.go
+│       │   ├── movies
+│       │   │   ├── DELETE.go
+│       │   │   ├── GET.go
+│       │   │   ├── model.go
+│       │   │   ├── POST.go
+│       │   │   └── PUT.go
+│       │   ├── seasons
+│       │   │   ├── GET.go
+│       │   │   └── model.go
+│       │   ├── trends
+│       │   │   ├── GET.go
+│       │   │   └── model.go
+│       │   └── users
+│       │       ├── GET.go
+│       │       └── model.go
+│       ├── htmlHandlers.go
+│       └── routeManager.go
 ├── README.md
+├── test
 └── ui
     ├── static
     │   ├── css
@@ -102,4 +124,3 @@ Aa12345678#
         └── restore.html
 
 23 directories, 68 files
-```

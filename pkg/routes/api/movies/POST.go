@@ -34,13 +34,13 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 		userId,
 		movie.ImageUrl,
 		movie.Name,
-		movie.Category,
-		movie.MovieType,
 		movie.Year,
-		movie.AgeCategory,
+		movie.CategoryId,
+		movie.AgeCategoryId,
+		movie.GenreId,
 		movie.DurationMinutes,
-		movie.Keywords,
 		movie.Description,
+		movie.Keywords,
 		movie.Director,
 		movie.Producer)
 	if err != nil {

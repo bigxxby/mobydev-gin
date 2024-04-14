@@ -1,43 +1,9 @@
 package database
 
 import (
-	"database/sql"
-	"log"
 	"project/internal/database"
 	"project/internal/utils"
 )
-
-func CreateTestData(db *database.Database) error {
-	err := insertTestUsers(db)
-	if err != nil {
-		return err
-	}
-
-	err = insertTestMovies(db)
-	if err != nil {
-		return err
-	}
-
-	err = insertTestSeasons(db)
-	if err != nil {
-		return err
-	}
-
-	err = insertTestEpisodes(db)
-	if err != nil {
-		return err
-	}
-	err = insertTestTrends(db)
-	if err != nil {
-		return err
-	}
-	err = insertTestFavorites(db)
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
 
 func insertTestUsers(db *database.Database) error {
 	tx, err := db.Database.Begin()
@@ -90,12 +56,12 @@ func insertTestMovies(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO movies (user_id, image_url, name, category, movie_type, year, age_category, duration_minutes, keywords, description, director, producer)
+        INSERT INTO movies (user_id, image_url,category_id,age_category_id,genre_id, name, year, duration_minutes, keywords, description, director, producer)
         VALUES 
-        (1, 'https://www.prolydian.com/sites/default/files/2020-12/api.png', 'Movie 1', 'Action', 'Feature Film', 2020, 'PG-13', 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
-        (2, 'https://www.prolydian.com/sites/default/files/2020-12/api.png', 'Movie 2', 'Comedy', 'Short Film', 2019, 'PG', 90, 'comedy, romance', 'Description for Movie 2', 'Director 2', 'Producer 2'),
-        (3, 'https://www.prolydian.com/sites/default/files/2020-12/api.png', 'Movie 3', 'Drama', 'Feature Film', 2021, 'R', 110, 'drama', 'Description for Movie 3', 'Director 3', 'Producer 3'),
-        (4, 'https://www.prolydian.com/sites/default/files/2020-12/api.png', 'Movie 4', 'Thriller', 'Feature Film', 2018, 'R', 105, 'thriller, mystery', 'Description for Movie 4', 'Director 4', 'Producer 4')
+        (1, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 1',  202, 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
+        (2, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 2',  2019, 90, 'comedy, romance', 'Description for Movie 2', 'Director 2', 'Producer 2'),
+        (3, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 3',  2021,  110, 'drama', 'Description for Movie 3', 'Director 3', 'Producer 3'),
+        (4, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 4',  2018,  105, 'thriller, mystery', 'Description for Movie 4', 'Director 4', 'Producer 4')
     `)
 	if err != nil {
 		return err
@@ -144,7 +110,7 @@ func insertTestEpisodes(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO episodes (season_id,user_id, url ,  episode_number, name, duration_minutes, release_date, description)
+        INSERT INTO episodes (season_id,user_id, url , episode_number, name, duration_minutes, release_date, description)
         VALUES 
         (1, 1,'https://www.youtube.com/', 1, 'Episode 1', 30, '2021-01-10', 'Description for Episode 1'),
         (1, 1,'https://www.youtube.com/', 2, 'Episode 2', 25, '2021-01-17', 'Description for Episode 2'),
@@ -214,18 +180,78 @@ func insertTestFavorites(db *database.Database) error {
 
 	return nil
 }
+func insertTestCategories(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
 
-func DropTables(db *sql.DB) error {
-	tables := []string{"episodes", "seasons", "movies", "users", "trends", "favorites"}
-
-	for _, table := range tables {
-		_, err := db.Exec("DROP TABLE IF EXISTS " + table + " CASCADE")
-		if err != nil {
-			log.Fatalf("Failed to drop table %s: %v", table, err)
-			return err
-		}
+	_, err = tx.Exec(`
+	INSERT INTO categories (user_id, name , description)
+	VALUES 
+	(5, 'Series' , 'ddescription1'),
+	(5, 'Movie' , 'ddescription2'),
+	(5, 'Telehikaya' , 'ddescription3')
+	`)
+	if err != nil {
+		return err
 	}
 
-	log.Println("All tables dropped successfully")
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func insertTestAgeCategoires(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	INSERT INTO age_categories (name)
+	VALUES 
+	('R'),
+	('PG'),
+	('A')
+	`)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func insertTestGenres(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	INSERT INTO genres (name)
+	VALUES 
+	('Action'),
+	('Comedy'),
+	('Drama')
+	`)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

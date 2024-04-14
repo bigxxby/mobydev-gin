@@ -61,15 +61,22 @@ func Start() {
 		{
 			movies.GET("/", main.MoviesRoute.GET_Movies)
 			movies.GET("/:id", main.MoviesRoute.GET_Movie)
-			movies.GET("/seasons/:id", main.SeasonsRoute.GET_Season)
-			movies.GET("/seasons/episodes/:id", main.EpisodesRoute.GET_Episode)
-
 			moviesAdmin := movies.Group("/")
 			{
 				moviesAdmin.POST("/", main.MoviesRoute.POST_Movie)        // admin
 				moviesAdmin.DELETE("/:id", main.MoviesRoute.DELETE_Movie) // admin
 				moviesAdmin.PUT("/:id", main.MoviesRoute.PUT_Movie)       // admin
 			}
+		}
+		//seasons
+		seasons := apiRoutes.Group("/seasons")
+		{
+			seasons.GET("/seasons/:id", main.SeasonsRoute.GET_Season)
+		}
+		//episodes
+		episodes := apiRoutes.Group("/seasons")
+		{
+			episodes.GET("/:id", main.EpisodesRoute.GET_Episode)
 		}
 
 		// profile
@@ -100,6 +107,15 @@ func Start() {
 			favorites.POST("/:id", main.FavoritesRoute.POST_Favorite)
 			favorites.DELETE("/:id", main.FavoritesRoute.DELETE_Favorite)
 			favorites.DELETE("/clear/", main.FavoritesRoute.DELETE_Favorites)
+		}
+		// categories
+		categories := apiRoutes.Group("/categories")
+		{
+			categories.GET("/", main.CategoriesRoute.GET_Categories)
+			categories.GET("/:id", main.CategoriesRoute.GET_Category)
+			categories.POST("/", main.CategoriesRoute.POST_Category)
+			categories.PUT("/:id", main.CategoriesRoute.PUT_Category)
+			categories.DELETE("/:id", main.CategoriesRoute.DELETE_Category)
 		}
 	}
 

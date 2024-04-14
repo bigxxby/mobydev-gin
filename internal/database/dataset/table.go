@@ -1,42 +1,8 @@
 package database
 
 import (
-	"log"
 	"project/internal/database"
 )
-
-func CreateTables(db *database.Database) error {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	err := CreateUsersTable(db)
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	err = CreateMoviesTable(db)
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	err = CreateSeasonsTable(db)
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	err = CreateEpisodesTable(db)
-	if err != nil {
-		log.Println(err.Error())
-		return err
-	}
-	err = CreateTrendsTable(db)
-	if err != nil {
-		return err
-	}
-	err = CreateFavoritesTable(db)
-	if err != nil {
-		return err
-	}
-	return nil
-}
 
 func CreateUsersTable(db *database.Database) error {
 	tx, err := db.Database.Begin()
@@ -84,10 +50,10 @@ func CreateMoviesTable(db *database.Database) error {
 		user_id INTEGER NOT NULL REFERENCES users(id),
 		image_url TEXT NOT NULL,
 		name TEXT NOT NULL,
-		category TEXT NOT NULL,
-		movie_type TEXT NOT NULL,
 		year INTEGER NOT NULL,
-		age_category TEXT NOT NULL,
+		category_id INTEGER NOT NULL REFERENCES categories(id),
+		age_category_id INTEGER NOT NULL REFERENCES age_categories(id),
+		genre_id INTEGER NOT NULL REFERENCES genres(id),
 		duration_minutes INTEGER NOT NULL,
 		keywords TEXT NOT NULL,
 		description TEXT NOT NULL,
@@ -210,6 +176,82 @@ func CreateFavoritesTable(db *database.Database) error {
 		user_id INTEGER NOT NULL REFERENCES users(id),
 		movie_id INTEGER NOT NULL REFERENCES movies(id),
 		added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+	);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func CreateGenresTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	CREATE TABLE IF NOT EXISTS genres (
+		id SERIAL PRIMARY KEY,
+		name TEXT NOT NULL UNIQUE
+	);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func CreateCategoriesTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	CREATE TABLE IF NOT EXISTS categories (
+		id SERIAL PRIMARY KEY,
+		user_id INTEGER NOT NULL REFERENCES users(id), 
+		name TEXT NOT NULL UNIQUE,
+		description TEXT NOT NULL
+		);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func CreateAgeCategoriesTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	CREATE TABLE IF NOT EXISTS age_categories (
+		id SERIAL PRIMARY KEY,
+		name TEXT NOT NULL UNIQUE
 	);
     `)
 	if err != nil {

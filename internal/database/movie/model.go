@@ -4,10 +4,6 @@ import "database/sql"
 
 type MovieRepository struct {
 	Database *sql.DB
-	GET      GET
-}
-type GET interface {
-	GetMovies(limit int) ([]Movie, error)
 }
 
 type Movie struct {
@@ -15,10 +11,10 @@ type Movie struct {
 	UserId          string `json:"userId"`
 	ImageUrl        string `json:"imageUrl" binding:"required"`
 	Name            string `json:"name" binding:"required"`
-	Category        string `json:"category" binding:"required"`
-	MovieType       string `json:"projectType" binding:"required"`
 	Year            int    `json:"year" binding:"required"`
-	AgeCategory     string `json:"ageCategory" binding:"required"`
+	CategoryId      int    `json:"categoryId" binding:"required"`
+	AgeCategoryId   int    `json:"ageCategoryId" binding:"required"`
+	GenreId         int    `json:"genreId" binding:"required"`
 	DurationMinutes int    `json:"durationMinutes" binding:"required"`
 	Keywords        string `json:"keywords" binding:"required"`
 	Description     string `json:"description" binding:"required"`

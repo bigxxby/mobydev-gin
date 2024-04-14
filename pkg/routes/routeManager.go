@@ -4,6 +4,7 @@ import (
 	"project/internal/database"
 	i "project/internal/init"
 	"project/pkg/routes/api/auth"
+	"project/pkg/routes/api/categories"
 	"project/pkg/routes/api/episodes"
 	"project/pkg/routes/api/favorites"
 	"project/pkg/routes/api/movies"
@@ -13,14 +14,15 @@ import (
 )
 
 type Manager struct {
-	DB             *database.Database
-	MoviesRoute    movies.MoviesRoute
-	UsersRoute     users.UsersRoute
-	EpisodesRoute  episodes.EpisodesRoute
-	SeasonsRoute   seasons.SeasonsRoute
-	FavoritesRoute favorites.FavoritesRoute
-	TrendsRoute    trends.TrendsRoute
-	AuthRoute      auth.AuthRoute
+	DB              *database.Database
+	MoviesRoute     movies.MoviesRoute
+	UsersRoute      users.UsersRoute
+	EpisodesRoute   episodes.EpisodesRoute
+	SeasonsRoute    seasons.SeasonsRoute
+	FavoritesRoute  favorites.FavoritesRoute
+	TrendsRoute     trends.TrendsRoute
+	AuthRoute       auth.AuthRoute
+	CategoriesRoute categories.CategoriesRoute
 }
 
 func Init() (*Manager, error) {
@@ -28,13 +30,14 @@ func Init() (*Manager, error) {
 	var err error
 	db, err := i.CreateDatabaseStruct()
 
-	moviesRoute := movies.MoviesRoute{db}
-	usersRoute := users.UsersRoute{db}
-	episodesRoute := episodes.EpisodesRoute{db}
-	seasonsRoute := seasons.SeasonsRoute{db}
-	favoritesRoute := favorites.FavoritesRoute{db}
-	trendsRoute := trends.TrendsRoute{db}
-	authRoute := auth.AuthRoute{db}
+	moviesRoute := movies.MoviesRoute{DB: db}
+	usersRoute := users.UsersRoute{DB: db}
+	episodesRoute := episodes.EpisodesRoute{DB: db}
+	seasonsRoute := seasons.SeasonsRoute{DB: db}
+	favoritesRoute := favorites.FavoritesRoute{DB: db}
+	trendsRoute := trends.TrendsRoute{DB: db}
+	authRoute := auth.AuthRoute{DB: db}
+	categoriesRoute := categories.CategoriesRoute{DB: db}
 
 	manager.DB = db
 	manager.MoviesRoute = moviesRoute
@@ -44,6 +47,7 @@ func Init() (*Manager, error) {
 	manager.TrendsRoute = trendsRoute
 	manager.EpisodesRoute = episodesRoute
 	manager.AuthRoute = authRoute
+	manager.CategoriesRoute = categoriesRoute
 
 	if err != nil {
 		return nil, err
