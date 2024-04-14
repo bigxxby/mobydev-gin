@@ -2,7 +2,6 @@ package start
 
 import (
 	"log"
-	database "project/internal/database/dataset"
 	"project/pkg/middleware"
 	"project/pkg/routes"
 
@@ -12,33 +11,24 @@ import (
 
 func Start() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	//init
+	//env
 	err := godotenv.Load(".env")
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
+	//init main
 	main, err := routes.Init()
 	if err != nil {
 		log.Println(err.Error())
 		return
 	}
-	//test data
-	err = database.DropTables(main.DB.Database)
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
-	err = database.CreateTables(main.DB)
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
-	err = database.CreateTestData(main.DB)
-	if err != nil {
-		log.Println(err.Error())
-		return
-	}
+	// test data
+	// err = datasets.InitDatasets(main.DB)
+	// if err != nil {
+	// 	log.Println(err.Error())
+	// 	return
+	// }
 	//ui
 	router := gin.Default()
 	router.LoadHTMLGlob("ui/templates/*")
@@ -61,12 +51,9 @@ func Start() {
 		{
 			movies.GET("/", main.MoviesRoute.GET_Movies)
 			movies.GET("/:id", main.MoviesRoute.GET_Movie)
-			moviesAdmin := movies.Group("/")
-			{
-				moviesAdmin.POST("/", main.MoviesRoute.POST_Movie)        // admin
-				moviesAdmin.DELETE("/:id", main.MoviesRoute.DELETE_Movie) // admin
-				moviesAdmin.PUT("/:id", main.MoviesRoute.PUT_Movie)       // admin
-			}
+			movies.POST("/", main.MoviesRoute.POST_Movie)        // admin
+			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie) // admin
+			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)       // admin
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")
@@ -103,19 +90,19 @@ func Start() {
 		// favorites
 		favorites := apiRoutes.Group("/favorites")
 		{
-			favorites.GET("/", main.FavoritesRoute.GET_Favorites)
-			favorites.POST("/:id", main.FavoritesRoute.POST_Favorite)
-			favorites.DELETE("/:id", main.FavoritesRoute.DELETE_Favorite)
-			favorites.DELETE("/clear/", main.FavoritesRoute.DELETE_Favorites)
+			favorites.GET("/", main.FavoritesRoute.GET_Favorites)             //get fav of CURRENT USER
+			favorites.POST("/:id", main.FavoritesRoute.POST_Favorite)         //get fav by id  of CURRENT USER
+			favorites.DELETE("/:id", main.FavoritesRoute.DELETE_Favorite)     //delete fav of CURRENT USER
+			favorites.DELETE("/clear/", main.FavoritesRoute.DELETE_Favorites) //delete all fav of CURRENT USER
 		}
 		// categories
 		categories := apiRoutes.Group("/categories")
 		{
 			categories.GET("/", main.CategoriesRoute.GET_Categories)
 			categories.GET("/:id", main.CategoriesRoute.GET_Category)
-			categories.POST("/", main.CategoriesRoute.POST_Category)
-			categories.PUT("/:id", main.CategoriesRoute.PUT_Category)
-			categories.DELETE("/:id", main.CategoriesRoute.DELETE_Category)
+			categories.POST("/", main.CategoriesRoute.POST_Category)        ////admin
+			categories.PUT("/:id", main.CategoriesRoute.PUT_Category)       ////admin
+			categories.DELETE("/:id", main.CategoriesRoute.DELETE_Category) ////admin
 		}
 	}
 

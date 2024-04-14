@@ -60,6 +60,20 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		})
 		return
 	}
+	exists, err = m.DB.CategoriesRepository.CheckCategoryExistsByName(category.Name)
+	if exists {
+		c.JSON(409, gin.H{
+			"message": "Category with this name already exists",
+		})
+		return
+	}
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
 
 	_, err = m.DB.CategoriesRepository.UpdateCategory(categorydIdNum, category.Name, category.Description)
 	if err != nil {

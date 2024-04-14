@@ -43,6 +43,21 @@ func (m *CategoriesRoute) DELETE_Category(c *gin.Context) {
 		})
 		return
 	}
+	used, err := m.DB.CategoriesRepository.CheckCategoryIsUsedInMovies(categoryIdNum)
+	if used {
+		log.Println("Cant delete category when in use of other movies")
+		c.JSON(400, gin.H{
+			"message": "Cannot delete category because it is used in movies",
+		})
+		return
+	}
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
 
 	err = m.DB.CategoriesRepository.DeleteCategoryById(categoryId)
 	if err != nil {

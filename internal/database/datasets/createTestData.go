@@ -1,4 +1,4 @@
-package database
+package datasets
 
 import (
 	"database/sql"
