@@ -54,6 +54,7 @@ func Start() {
 			movies.POST("/", main.MoviesRoute.POST_Movie)        // admin
 			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie) // admin
 			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)       // admin
+			movies.GET("/main", main.MoviesRoute.GET_Movies_MAIN)
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")

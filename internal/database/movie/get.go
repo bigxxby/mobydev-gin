@@ -33,7 +33,7 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	if limit != 0 {
 
-		stmt, err := db.Database.Prepare("SELECT * FROM movies ORDER BY LIMIT $1 ")
+		stmt, err := db.Database.Prepare("SELECT * FROM movies LIMIT $1 ")
 		if err != nil {
 			return nil, err
 		}
@@ -125,4 +125,7 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 
 		return movies, nil
 	}
+}
+func (m *MovieRepository) GET_Movies_MAIN() {
+
 }

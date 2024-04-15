@@ -13,7 +13,7 @@ func (db *AgeRepository) GetAgeCategoryById(id int) (*AgeCategory, error) {
 	}
 	return &ageCategory, nil
 }
-func (db *AgeRepository) GetAllAgeCategories() ([]*AgeCategory, error) {
+func (db *AgeRepository) GetAllAgeCategories() ([]AgeCategory, error) {
 	query := "SELECT id, user_id, name, note, min_age, max_age FROM age_categories"
 	rows, err := db.Database.Query(query)
 	if err != nil {
@@ -21,13 +21,13 @@ func (db *AgeRepository) GetAllAgeCategories() ([]*AgeCategory, error) {
 	}
 	defer rows.Close()
 
-	var ageCategories []*AgeCategory
+	var ageCategories []AgeCategory
 	for rows.Next() {
 		var ageCategory AgeCategory
 		if err := rows.Scan(&ageCategory.ID, &ageCategory.UserID, &ageCategory.Name, &ageCategory.Note, &ageCategory.MinAge, &ageCategory.MaxAge); err != nil {
 			return nil, err
 		}
-		ageCategories = append(ageCategories, &ageCategory)
+		ageCategories = append(ageCategories, ageCategory)
 	}
 	return ageCategories, nil
 }
