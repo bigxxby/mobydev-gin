@@ -1,8 +1,10 @@
 package routes
 
 import (
+	"log"
 	"project/internal/database"
 	i "project/internal/init"
+	"project/pkg/routes/api/age"
 	"project/pkg/routes/api/auth"
 	"project/pkg/routes/api/categories"
 	"project/pkg/routes/api/episodes"
@@ -25,6 +27,7 @@ type Manager struct {
 	AuthRoute       auth.AuthRoute
 	CategoriesRoute categories.CategoriesRoute
 	GenreRoute      genres.GenreRoute
+	AgeRoute        age.AgeRoute
 }
 
 func Init() (*Manager, error) {
@@ -41,6 +44,7 @@ func Init() (*Manager, error) {
 	authRoute := auth.AuthRoute{DB: db}
 	categoriesRoute := categories.CategoriesRoute{DB: db}
 	genreRoute := genres.GenreRoute{DB: db}
+	ageRoute := age.AgeRoute{DB: db}
 
 	manager.DB = db
 	manager.MoviesRoute = moviesRoute
@@ -52,7 +56,8 @@ func Init() (*Manager, error) {
 	manager.AuthRoute = authRoute
 	manager.CategoriesRoute = categoriesRoute
 	manager.GenreRoute = genreRoute
-
+	manager.AgeRoute = ageRoute
+	log.Println(ageRoute.DB.CategoriesRepository)
 	if err != nil {
 		return nil, err
 	}

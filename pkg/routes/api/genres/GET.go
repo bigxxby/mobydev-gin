@@ -11,13 +11,6 @@ import (
 
 func (m *GenreRoute) GET_Genres(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
-	userId := c.GetInt("userId")
-	if userId == 0 {
-		c.JSON(http.StatusUnauthorized, gin.H{
-			"message": "Unauthorised",
-		})
-		return
-	}
 	genres, err := m.DB.GenreRepository.GetAllGenres()
 	if err != nil {
 		if err == sql.ErrNoRows {

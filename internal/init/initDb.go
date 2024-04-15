@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"project/internal/database"
+	"project/internal/database/age"
 	"project/internal/database/episode"
 	"project/internal/database/favorites"
 	"project/internal/database/genres"
@@ -59,6 +60,7 @@ func CreateDatabaseStruct() (*database.Database, error) {
 		TrendRepository:      &trend.TrendRepository{Database: db},
 		CategoriesRepository: &categories.CategoryRepository{Database: db},
 		GenreRepository:      &genres.GenreRepository{Database: db},
+		AgeRepository:        &age.AgeRepository{Database: db},
 	}
 	return &database, err
 }

@@ -115,6 +115,17 @@ func Start() {
 			genres.PUT("/:id", main.GenreRoute.PUT_Genre)       ////admin
 
 		}
+		//age
+		age := apiRoutes.Group("/ageCategories")
+		{
+			age.GET("/", main.AgeRoute.GET_AgeCategories)
+
+			age.GET("/:id", main.AgeRoute.GET_AgeCategory)
+			age.POST("/", main.AgeRoute.POST_AgeCategory) ////admin
+			// age.DELETE("/:id", main.GenreRoute.DELETE_Genre) ////admin
+			// age.PUT("/:id", main.GenreRoute.PUT_Genre)       ////admin
+		}
+
 	}
 
 	router.Run(":8080")

@@ -2,6 +2,7 @@ package database
 
 import (
 	"database/sql"
+	"project/internal/database/age"
 	"project/internal/database/categories"
 	"project/internal/database/episode"
 	"project/internal/database/favorites"
@@ -22,4 +23,5 @@ type Database struct {
 	FavoritesRepository  *favorites.FavoritesRepository
 	CategoriesRepository *categories.CategoryRepository
 	GenreRepository      *genres.GenreRepository
+	AgeRepository        *age.AgeRepository
 }

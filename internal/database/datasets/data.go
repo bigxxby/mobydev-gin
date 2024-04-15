@@ -213,11 +213,12 @@ func insertTestAgeCategoires(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-	INSERT INTO age_categories (name)
+	INSERT INTO age_categories (user_id, name, note, min_age, max_age)
 	VALUES 
-	('R'),
-	('PG'),
-	('A')
+	(1, 'PG', 'Parental Guidance Suggested – Some material may not be suitable for children.', 13, 18),
+	(1, 'PG-13', 'Parents Strongly Cautioned – Some material may be inappropriate for children under 13.', 13, 13),
+	(1, 'R', 'Restricted – Under 17 requires accompanying parent or adult guardian.', 17, 17),
+	(1, 'G', 'General Audiences – All ages admitted.', 0, 99);
 	`)
 	if err != nil {
 		return err

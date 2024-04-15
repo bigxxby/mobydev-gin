@@ -253,8 +253,11 @@ func CreateAgeCategoriesTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS age_categories (
 		id SERIAL PRIMARY KEY,
-		name TEXT NOT NULL UNIQUE
-
+		user_id INTEGER NOT NULL REFERENCES users(id), 
+		name TEXT NOT NULL UNIQUE,
+		note TEXT, 
+		min_age INTEGER NOT NULL,
+		max_age  INTEGER NOT NULL 
 	);
     `)
 	if err != nil {
