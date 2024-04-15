@@ -123,7 +123,7 @@ func Start() {
 			age.GET("/:id", main.AgeRoute.GET_AgeCategory)
 			age.POST("/", main.AgeRoute.POST_AgeCategory) ////admin
 			// age.DELETE("/:id", main.GenreRoute.DELETE_Genre) ////admin
-			// age.PUT("/:id", main.GenreRoute.PUT_Genre)       ////admin
+			age.PUT("/:id", main.AgeRoute.PUT_AgeCategory) ////admin
 		}
 
 	}

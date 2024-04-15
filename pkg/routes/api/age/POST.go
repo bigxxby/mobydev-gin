@@ -21,9 +21,24 @@ func (m *AgeRoute) POST_AgeCategory(c *gin.Context) {
 
 	var ageCategory age.AgeCategory
 
+	// if (ageCategory.MaxAge < ageCategory.MinAge) || (ageCategory.MaxAge < ageCategory.MinAge) || (ageCategory.MaxAge > 100) || (ageCategory.MinAge < 0) {
+	// 	log.Println("Min and Max age bad request")
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"message": "Bad request",
+	// 	})
+	// 	return
+	// }
+
 	err := c.BindJSON(&ageCategory)
 	if err != nil {
 		log.Println(err.Error())
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
+	valid := isValidAgeCategory(ageCategory)
+	if !valid {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
 		})
