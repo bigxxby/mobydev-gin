@@ -1,0 +1,36 @@
+movie
+{
+  "imageUrl": "https://example.com/image.jpg",
+  "name": "Movie Title",
+  "year": 2024,
+  "categoryId": 1,
+  "ageCategoryId": 1,
+  "genreId": 1,
+  "durationMinutes": 120,
+  "keywords": "action, adventure, drama",
+  "description": "A thrilling adventure movie...",
+  "director": "Director Name",
+  "producer": "Producer Name"
+}
+
+ageCategory
+{
+  "name": "Action",
+  "note": "this is a note",
+  "min_age": 18,
+  "max_age": 30
+}
+
+Category
+{
+  "category_name": "Sci-Fi",
+  "description": "Science fiction genre"
+}
+user
+{
+  "email": "user@example.com",
+  "password": "password123",
+  "role": "user"
+}
+
+

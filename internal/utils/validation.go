@@ -64,3 +64,10 @@ func IsValidNum(id string) (bool, int) {
 
 	return true, num
 }
+
+func IsValidPhoneNumber(phoneNumber string) bool {
+	pattern := `^\+[1-9]\d{1,14}$`
+
+	match, _ := regexp.MatchString(pattern, phoneNumber)
+	return match
+}

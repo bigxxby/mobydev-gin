@@ -25,7 +25,7 @@ type Movie struct {
 	Keywords        string `json:"keywords" binding:"required"`
 	Description     string `json:"description" binding:"required"`
 	Director        string `json:"director" binding:"required"`
-	Producer        string `json:"producer" binding:"required,"`
+	Producer        string `json:"producer" binding:"required"`
 	CreatedAt       string `json:"createdAt"`
 	UpdatedAt       string `json:"updatedAt"`
 

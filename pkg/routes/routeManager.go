@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"log"
 	"project/internal/database"
 	i "project/internal/init"
 	"project/pkg/routes/api/age"
@@ -57,7 +56,6 @@ func Init() (*Manager, error) {
 	manager.CategoriesRoute = categoriesRoute
 	manager.GenreRoute = genreRoute
 	manager.AgeRoute = ageRoute
-	log.Println(ageRoute.DB.CategoriesRepository)
 	if err != nil {
 		return nil, err
 	}

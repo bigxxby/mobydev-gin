@@ -55,6 +55,7 @@ func Start() {
 			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie) // admin
 			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)       // admin
 			movies.GET("/main", main.MoviesRoute.GET_Movies_MAIN)
+			movies.GET("/search", main.MoviesRoute.GET_Search)
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")
@@ -70,8 +71,8 @@ func Start() {
 		// profile
 		profile := apiRoutes.Group("/profile")
 		{
-			profile.GET("/", main.UsersRoute.GET_Profile)
-			// TODO ETC
+			profile.GET("/", main.UsersRoute.GET_Profile) //get profile of current user
+			profile.PUT("/", main.UsersRoute.PUT_Profile) //update profile of current user (dob , name , phone)
 		}
 
 		// trends
@@ -122,9 +123,9 @@ func Start() {
 			age.GET("/", main.AgeRoute.GET_AgeCategories)
 
 			age.GET("/:id", main.AgeRoute.GET_AgeCategory)
-			age.POST("/", main.AgeRoute.POST_AgeCategory) ////admin
-			// age.DELETE("/:id", main.GenreRoute.DELETE_Genre) ////admin
-			age.PUT("/:id", main.AgeRoute.PUT_AgeCategory) ////admin
+			age.POST("/", main.AgeRoute.POST_AgeCategory)        ////admin
+			age.DELETE("/:id", main.AgeRoute.DELETE_AgeCategory) ////admin
+			age.PUT("/:id", main.AgeRoute.PUT_AgeCategory)       ////admin
 		}
 
 	}

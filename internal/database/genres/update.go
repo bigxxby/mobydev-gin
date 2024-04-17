@@ -4,7 +4,7 @@ func (db *GenreRepository) UpdateGenre(id int, name string, description string) 
 	query := `
 		UPDATE genres
 		SET name = $2, description = $3
-		WHERE id = $1
+		WHERE id = $1ы
 	`
 
 	_, err := db.Database.Exec(query, id, name, description)
