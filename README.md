@@ -6,10 +6,10 @@ This project is a movie streaming platform that allows users to browse, search, 
 
 To run the application, execute the following commands in your terminal:
 
-\`\`\`bash
+```bash
 docker-compose build
 docker-compose up
-\`\`\`
+```
 
 ## Admin Credentials
 
