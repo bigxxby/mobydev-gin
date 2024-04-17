@@ -32,6 +32,13 @@ Use the following credentials to log in as an admin:
 
 - **Status:** NOT DONE
 
+### Frontend
+
+- **Status:** NOT DONE
+
+### Unit-tests
+
+- **Status:** NOT DONE
 
 
 ## General Notes:
