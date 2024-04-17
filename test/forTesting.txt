@@ -21,7 +21,7 @@ ageCategory
   "max_age": 30
 }
 
-Category
+category
 {
   "category_name": "Sci-Fi",
   "description": "Science fiction genre"

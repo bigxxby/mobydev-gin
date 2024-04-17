@@ -44,10 +44,8 @@ func TestGetMovies(t *testing.T) {
 
 	resp := httptest.NewRecorder()
 
-	// Выполнение запроса через маршрутизатор Gin
 	router.ServeHTTP(resp, req)
 
-	// Проверка ответа сервера на соответствие ожидаемому статусу
 	assert.Equal(t, http.StatusOK, resp.Code, "Expected status OK")
 }
 
