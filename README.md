@@ -35,7 +35,7 @@ Use the following credentials to log in as an admin:
 
 
 ## General Notes:
-All routes prefixed with /api require authentication using a middleware. You must include a valid authentication token in the request headers.
+You must include a valid authentication token in the request headers if its a route that require admin privilege or user auth.
 Admin routes are indicated where only administrators have access. Admin token saved in local storage after login.
 
 
@@ -65,11 +65,11 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Retrieve Main Movies
 
-- `GET /api/movies/main`: Retrieve movies based on categories, age category, and genre. Optional query parameter `limit` can be used.
+- `GET /api/movies/main`: Retrieve movies with categories, age category, and genre. Optional query parameter `limit` can be used.
 
 #### Search Movies
 
-- `GET /api/movies/search`: Search for movies based on a query. Use `query` parameter to specify the search query.
+- `GET /api/movies/search`: Search for movies based on a query. Use `query` parameter to specify the search query. 
 
 ### Seasons
 
@@ -87,11 +87,11 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Retrieve Profile
 
-- `GET /api/profile`: Retrieve profile details of the currently authenticated user.
+- `GET /api/profile`: Retrieve profile details of the currently authenticated user. **User auth**.
 
 #### Update Profile
 
-- `PUT /api/profile`: Update profile details of the currently authenticated user. Fields that can be updated include `dob`, `name`, and `phone`.
+- `PUT /api/profile`: Update profile details of the currently authenticated user. Fields that can be updated include `dob`, `name`, and `phone`. **User auth**.
 
 ### Trends
 
@@ -111,25 +111,25 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Sign In User
 
-- `POST /api/signIn`: Authenticate and sign in a user. Required fields: `email`, `password`.
+- `POST /api/signIn`: Authenticate and sign in a user. Required fields: `email`, `password`. 
 
 ### Favorites
 
 #### Retrieve Favorites
 
-- `GET /api/favorites`: Retrieve favorite movies of the currently authenticated user.
+- `GET /api/favorites`: Retrieve favorite movies of the currently authenticated user.  **User auth**.
 
 #### Add Favorite
 
-- `POST /api/favorites/:id`: Add a movie to favorites for the currently authenticated user.
+- `POST /api/favorites/:id`: Add a movie to favorites for the currently authenticated user. **User auth**.
 
 #### Remove Favorite
 
-- `DELETE /api/favorites/:id`: Remove a movie from favorites of the currently authenticated user.
+- `DELETE /api/favorites/:id`: Remove a movie from favorites of the currently authenticated user. **User auth**.
 
 #### Clear Favorites
 
-- `DELETE /api/favorites/clear`: Remove all movies from favorites of the currently authenticated user.
+- `DELETE /api/favorites/clear`: Remove all movies from favorites of the currently authenticated user. **User auth**.
 
 ### Categories
 
@@ -183,7 +183,7 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Retrieve Age Category by ID
 
-- `GET /api/ageCategories/:id`: Retrieve an age category by its ID.
+- `GET /api/ageCategories/:id`: Retrieve an age category by its ID. 
 
 #### Add Age Category
 
