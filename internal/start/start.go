@@ -49,23 +49,23 @@ func Start() {
 		// movies
 		movies := apiRoutes.Group("/movies")
 		{
-			movies.GET("/", main.MoviesRoute.GET_Movies)
-			movies.GET("/:id", main.MoviesRoute.GET_Movie)
-			movies.POST("/", main.MoviesRoute.POST_Movie)        // admin
-			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie) // admin
-			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)       // admin
-			movies.GET("/main", main.MoviesRoute.GET_Movies_MAIN)
-			movies.GET("/search", main.MoviesRoute.GET_Search)
+			movies.GET("/", main.MoviesRoute.GET_Movies)          //?limit=<limitInt>
+			movies.GET("/:id", main.MoviesRoute.GET_Movie)        // returns movie by id of movie
+			movies.POST("/", main.MoviesRoute.POST_Movie)         // admin only
+			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)  // admin only
+			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)        // admin only
+			movies.GET("/main", main.MoviesRoute.GET_Movies_MAIN) //?limit=<limitInt> (with category, age category,genre)
+			movies.GET("/search", main.MoviesRoute.GET_Search)    // ?query=<searchQuery>
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")
 		{
-			seasons.GET("/seasons/:id", main.SeasonsRoute.GET_Season)
+			seasons.GET("/seasons/:id", main.SeasonsRoute.GET_Season) // returns all seasons (only get)
 		}
 		//episodes
 		episodes := apiRoutes.Group("/seasons")
 		{
-			episodes.GET("/:id", main.EpisodesRoute.GET_Episode)
+			episodes.GET("/:id", main.EpisodesRoute.GET_Episode) // returns all episodes (only get)
 		}
 
 		// profile
@@ -76,42 +76,41 @@ func Start() {
 		}
 
 		// trends
-		trends := apiRoutes.Group("/trends")
+		trends := apiRoutes.Group("/trends") // only get
 		{
-			trends.GET("/:id", main.TrendsRoute.GET_Trend)
-			trends.GET("/", main.TrendsRoute.GET_Trends)
+			trends.GET("/:id", main.TrendsRoute.GET_Trend) //returns trend by id
+			trends.GET("/", main.TrendsRoute.GET_Trends)   //returns all of the current trends
 		}
 
-		// reg/log
+		// signIn/signUp
 		auth := apiRoutes.Group("/")
 		{
-			auth.POST("/signUp", main.AuthRoute.POST_SignUp)
-			auth.POST("/signIn", main.AuthRoute.POST_SignIn)
+			auth.POST("/signUp", main.AuthRoute.POST_SignUp) //{email, password, role } required bindings
+			auth.POST("/signIn", main.AuthRoute.POST_SignIn) //{email, password } required bindings
 		}
 
 		// favorites
 		favorites := apiRoutes.Group("/favorites")
 		{
-			favorites.GET("/", main.FavoritesRoute.GET_Favorites)             //get fav of CURRENT USER
-			favorites.POST("/:id", main.FavoritesRoute.POST_Favorite)         //get fav by id  of CURRENT USER
-			favorites.DELETE("/:id", main.FavoritesRoute.DELETE_Favorite)     //delete fav of CURRENT USER
-			favorites.DELETE("/clear/", main.FavoritesRoute.DELETE_Favorites) //delete all fav of CURRENT USER
+			favorites.GET("/", main.FavoritesRoute.GET_Favorites)             //returns fav movies of CURRENT USER
+			favorites.POST("/:id", main.FavoritesRoute.POST_Favorite)         //returns fav movie by id of CURRENT USER
+			favorites.DELETE("/:id", main.FavoritesRoute.DELETE_Favorite)     //delete fav movie of CURRENT USER
+			favorites.DELETE("/clear/", main.FavoritesRoute.DELETE_Favorites) //delete all fav movies of CURRENT USER
 		}
 		// categories
 		categories := apiRoutes.Group("/categories")
 		{
-			categories.GET("/", main.CategoriesRoute.GET_Categories)
-			categories.GET("/:id", main.CategoriesRoute.GET_Category)
-			categories.POST("/", main.CategoriesRoute.POST_Category)        ////admin
-			categories.PUT("/:id", main.CategoriesRoute.PUT_Category)       ////admin
-			categories.DELETE("/:id", main.CategoriesRoute.DELETE_Category) ////admin
+			categories.GET("/", main.CategoriesRoute.GET_Categories)        // return all categories
+			categories.GET("/:id", main.CategoriesRoute.GET_Category)       // returns category by id
+			categories.POST("/", main.CategoriesRoute.POST_Category)        //admin only
+			categories.PUT("/:id", main.CategoriesRoute.PUT_Category)       //admin only
+			categories.DELETE("/:id", main.CategoriesRoute.DELETE_Category) //admin only
 		}
 		// genres
 		genres := apiRoutes.Group("/genres")
 		{
-			genres.GET("/", main.GenreRoute.GET_Genres)
-
-			genres.GET("/:id", main.GenreRoute.GET_Genre)
+			genres.GET("/", main.GenreRoute.GET_Genres)         //return all genres
+			genres.GET("/:id", main.GenreRoute.GET_Genre)       //return genre by id
 			genres.POST("/", main.GenreRoute.POST_Genre)        ////admin
 			genres.DELETE("/:id", main.GenreRoute.DELETE_Genre) ////admin
 			genres.PUT("/:id", main.GenreRoute.PUT_Genre)       ////admin
@@ -120,12 +119,11 @@ func Start() {
 		//age
 		age := apiRoutes.Group("/ageCategories")
 		{
-			age.GET("/", main.AgeRoute.GET_AgeCategories)
-
-			age.GET("/:id", main.AgeRoute.GET_AgeCategory)
-			age.POST("/", main.AgeRoute.POST_AgeCategory)        ////admin
-			age.DELETE("/:id", main.AgeRoute.DELETE_AgeCategory) ////admin
-			age.PUT("/:id", main.AgeRoute.PUT_AgeCategory)       ////admin
+			age.GET("/", main.AgeRoute.GET_AgeCategories)        // return all age categories
+			age.GET("/:id", main.AgeRoute.GET_AgeCategory)       //return category by id
+			age.POST("/", main.AgeRoute.POST_AgeCategory)        //admin only
+			age.DELETE("/:id", main.AgeRoute.DELETE_AgeCategory) //admin only
+			age.PUT("/:id", main.AgeRoute.PUT_AgeCategory)       //admin only
 		}
 
 	}
