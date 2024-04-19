@@ -50,7 +50,7 @@ func CreateTestData(db *database.Database) error {
 	return nil
 }
 func DropTables(db *sql.DB) error {
-	tables := []string{"episodes", "seasons", "movies", "users", "trends", "favorites", "categories", "age_categories", "genres"}
+	tables := []string{"episodes", "seasons", "movies", "users", "trends", "favorites", "categories", "age_categories", "genres", "codes"}
 
 	for _, table := range tables {
 		_, err := db.Exec("DROP TABLE IF EXISTS " + table + " CASCADE")

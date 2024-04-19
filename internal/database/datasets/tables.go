@@ -271,3 +271,32 @@ func CreateAgeCategoriesTable(db *database.Database) error {
 
 	return nil
 }
+func CreateCodesTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	CREATE TABLE IF NOT EXISTS codes (
+		id SERIAL PRIMARY KEY,          
+		user_email TEXT NOT NULL, 
+		code INT NOT NULL,
+		token TEXT,
+		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+		expires_at TIMESTAMP
+
+	);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

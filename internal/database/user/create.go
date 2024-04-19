@@ -1,9 +1,11 @@
 package user
 
 import (
+	"database/sql"
 	"errors"
 	"log"
 	"project/internal/utils"
+	"time"
 )
 
 func (db *UserRepository) CreateUser(email, password string, role string) (bool, error) {
@@ -42,4 +44,92 @@ func (db *UserRepository) CreateUser(email, password string, role string) (bool,
 	}
 
 	return false, nil
+}
+
+func (db *UserRepository) AddVerificationCode(email, code string) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	expiresAt := time.Now().Add(time.Hour)
+
+	q := "INSERT INTO codes (user_email, code, expires_at) VALUES ($1, $2, $3)"
+	_, err = tx.Exec(q, email, code, expiresAt)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (db *UserRepository) ValidateCode(email, code string) (bool, error) {
+	var count int
+	q := `
+	SELECT COUNT(*) 
+	FROM codes 
+	WHERE user_email = ? AND code = ? AND expires_at > CURRENT_TIMESTAMP
+	ORDER BY created_at DESC
+	LIMIT 1
+	`
+
+	err := db.Database.QueryRow(q, email, code).Scan(&count)
+	if err != nil {
+		return false, err
+	}
+
+	return count > 0, nil
+}
+func (db *UserRepository) SaveResetToken(token string, userEmail string) error {
+
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	q := `UPDATE codes SET token = $1  
+	WHERE user_email = $2 
+	AND expires_at > CURRENT_TIMESTAMP
+	ORDER BY created_at DESC
+	LIMIT 1
+	`
+
+	_, err = tx.Exec(q, token, userEmail)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+
+}
+func (db *UserRepository) VerifyToken(token string) error {
+	var count int
+	q := `
+		SELECT COUNT(*) 
+		FROM codes 
+		WHERE token = ? AND expires_at > CURRENT_TIMESTAMP
+	`
+
+	err := db.Database.QueryRow(q, token).Scan(&count)
+	if err != nil {
+		return err
+	}
+
+	if count == 0 {
+		return sql.ErrNoRows
+	}
+
+	return nil
 }

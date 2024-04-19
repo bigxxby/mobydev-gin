@@ -40,6 +40,7 @@ func Start() {
 		htmlRoutes.GET("/reg", main.GET_HTML_Reg)
 		htmlRoutes.GET("/login", main.GET_HTML_Login)
 		htmlRoutes.GET("/create/movie", main.GET_HTML_Movie)
+		htmlRoutes.GET("/restore", main.GET_Restore)
 	}
 
 	// API
@@ -85,8 +86,11 @@ func Start() {
 		// signIn/signUp
 		auth := apiRoutes.Group("/")
 		{
-			auth.POST("/signUp", main.AuthRoute.POST_SignUp) //{email, password, role } required bindings
-			auth.POST("/signIn", main.AuthRoute.POST_SignIn) //{email, password } required bindings
+			auth.POST("/signUp", main.AuthRoute.POST_SignUp)       //{email, password, role } required bindings
+			auth.POST("/signIn", main.AuthRoute.POST_SignIn)       //{email, password } required bindings
+			auth.POST("/restore", main.AuthRoute.POST_Restore)     // sends restore code to the users email (NOT TESTED)
+			auth.POST("/verify", main.AuthRoute.POST_Verify)       // gets code from user an verifies it, if valid sends to the email link for resetting the pass (NOT TESTED)
+			auth.POST("/reset", main.AuthRoute.POST_ResetPassword) // changes password of the user				(NOT TESTED)
 		}
 
 		// favorites

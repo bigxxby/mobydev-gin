@@ -41,5 +41,9 @@ func CreateTables(db *database.Database) error {
 	if err != nil {
 		return err
 	}
+	err = CreateCodesTable(db)
+	if err != nil {
+		return err
+	}
 	return nil
 }

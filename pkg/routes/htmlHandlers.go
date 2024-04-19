@@ -14,7 +14,7 @@ func (m *Manager) GET_HTML_Reg(c *gin.Context) {
 	c.HTML(200, "reg.html", nil)
 }
 func (m *Manager) GET_Restore(c *gin.Context) {
-	c.HTML(200, "Restore.html", nil)
+	c.HTML(200, "restore.html", nil)
 }
 func (m *Manager) GET_HTML_Movie(c *gin.Context) {
 	c.HTML(200, "movie_create.html", nil)

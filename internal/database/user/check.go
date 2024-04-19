@@ -7,8 +7,26 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+func (db *UserRepository) CheckUserExistsByEmail(email string) error {
+	stmt, err := db.Database.Prepare("SELECT * FROM users WHERE email = $1")
+	if err != nil {
+		return err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query(email)
+	if err != nil {
+		return err
+	}
+	defer rows.Close()
+
+	exists := rows.Next()
+	if !exists {
+		return sql.ErrNoRows
+	}
+	return nil
+}
 func (db *UserRepository) CheckUserExistsById(id int) error {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	stmt, err := db.Database.Prepare("SELECT * FROM users WHERE id = $1")
 	if err != nil {
 		return err
