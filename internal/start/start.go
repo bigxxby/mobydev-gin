@@ -83,12 +83,12 @@ func Start() {
 			trends.GET("/", main.TrendsRoute.GET_Trends)   //returns all of the current trends
 		}
 
-		// signIn/signUp
+		// auth
 		auth := apiRoutes.Group("/")
 		{
 			auth.POST("/signUp", main.AuthRoute.POST_SignUp)       //{email, password, role } required bindings
 			auth.POST("/signIn", main.AuthRoute.POST_SignIn)       //{email, password } required bindings
-			auth.POST("/restore", main.AuthRoute.POST_Restore)     // sends restore code to the users email (NOT TESTED)
+			auth.POST("/restore", main.AuthRoute.POST_Restore)     // sends restore code to the users email
 			auth.POST("/verify", main.AuthRoute.POST_Verify)       // gets code from user an verifies it, if valid sends to the email link for resetting the pass (NOT TESTED)
 			auth.POST("/reset", main.AuthRoute.POST_ResetPassword) // changes password of the user				(NOT TESTED)
 		}

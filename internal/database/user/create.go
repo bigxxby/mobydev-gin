@@ -69,23 +69,27 @@ func (db *UserRepository) AddVerificationCode(email, code string) error {
 	return nil
 }
 
-func (db *UserRepository) ValidateCode(email, code string) (bool, error) {
-	var count int
+func (db *UserRepository) ValidateCode(email, code string) error {
 	q := `
-	SELECT COUNT(*) 
+	SELECT code
 	FROM codes 
-	WHERE user_email = ? AND code = ? AND expires_at > CURRENT_TIMESTAMP
+	WHERE user_email = $1 AND code = $2 AND expires_at > CURRENT_TIMESTAMP
 	ORDER BY created_at DESC
-	LIMIT 1
+	LIMIT 1;
 	`
-
-	err := db.Database.QueryRow(q, email, code).Scan(&count)
+	var retrievedCode string
+	err := db.Database.QueryRow(q, email, code).Scan(&retrievedCode)
 	if err != nil {
-		return false, err
+		return err
 	}
 
-	return count > 0, nil
+	if retrievedCode != code {
+		return errors.New("code does not match or is expired")
+	}
+
+	return nil
 }
+
 func (db *UserRepository) SaveResetToken(token string, userEmail string) error {
 
 	tx, err := db.Database.Begin()
@@ -94,12 +98,11 @@ func (db *UserRepository) SaveResetToken(token string, userEmail string) error {
 	}
 	defer tx.Rollback()
 
-	q := `UPDATE codes SET token = $1  
-	WHERE user_email = $2 
-	AND expires_at > CURRENT_TIMESTAMP
-	ORDER BY created_at DESC
-	LIMIT 1
-	`
+	q := `UPDATE codes 
+	SET token = $1 
+	WHERE user_email = $2 AND code = $3 AND expires_at > CURRENT_TIMESTAMP 
+	ORDER BY created_at DESC 
+	LIMIT 1;`
 
 	_, err = tx.Exec(q, token, userEmail)
 	if err != nil {

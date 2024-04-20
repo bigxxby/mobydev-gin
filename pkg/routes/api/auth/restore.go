@@ -16,8 +16,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var key = os.Getenv("SECRET_KEY")
-
 func (m *AuthRoute) POST_Restore(c *gin.Context) {
 
 	data := struct {
@@ -101,17 +99,17 @@ func (m *AuthRoute) POST_Verify(c *gin.Context) {
 		return
 	}
 
-	valid, err := m.DB.UserRepository.ValidateCode(data.Email, data.Code)
+	err = m.DB.UserRepository.ValidateCode(data.Email, data.Code)
 	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(400, gin.H{
+				"message": "Code is not valid",
+			})
+			return
+		}
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server error",
-		})
-		return
-	}
-	if !valid {
-		c.JSON(400, gin.H{
-			"message": "Code is not valid",
 		})
 		return
 	}
@@ -135,14 +133,17 @@ func (m *AuthRoute) POST_Verify(c *gin.Context) {
 		})
 		return
 	}
-
-	c.JSON(200, gin.H{
-		"message": "Email sent with reset password instructions",
+	redirectStr := fmt.Sprintf("http://localhost:8080/restore?token=%s&email=%s", token, data.Email)
+	c.JSON(http.StatusPermanentRedirect, gin.H{
+		"message":  "Code is verified ",
+		"redirect": redirectStr,
 	})
 
 }
 
 func generateResetToken(length int) string {
+	key := os.Getenv("SECRET_KEY")
+
 	source := rand.NewSource(time.Now().UnixNano())
 	r := rand.New(source)
 
