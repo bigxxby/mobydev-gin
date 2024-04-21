@@ -75,7 +75,7 @@ The process for changing a password involves several steps, from sending a verif
 
 ### Frontend
 
-- **Status:** NOT DONE
+- **Status:** NOT DONE (only main page, sign in, sign up)
 
 ### Unit-tests
 
@@ -244,6 +244,15 @@ Admin routes are indicated where only administrators have access. Admin token sa
 #### Delete Age Category
 
 - `DELETE /api/ageCategories/:id`: Delete an age category by its ID. **Admin only**.
+
+### Change password
+
+- `GET /send-code` : Sends a verification code to the provided email address.
+- `POST api/send-code` :Sends restore code to the users email
+- `POST api/verify` : Gets code from user and verifies it, if valid sends to the email the link with token for resetting the password and to the frontend to redirect the user
+- `GET /change-password`: Grants permission to change the password upon successful verification.
+- `POST /reset-password`: Updates the password with a new one after successful verification and permission.
+
 
 
 
