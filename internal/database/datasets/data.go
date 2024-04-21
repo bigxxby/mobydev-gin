@@ -32,7 +32,8 @@ func insertTestUsers(db *database.Database) error {
 	stmt, err := tx.Prepare(`
 	INSERT INTO users (email, password, name, phone, date_of_birth, role)
 	VALUES 
-	('big@example.com', $1, 'Admin', '9876543210', '1985-05-20', 'admin')`)
+	('big@example.com', $1, 'Admin', '9876543210', '1985-05-20', 'admin'),
+	('bigxxby@yandex.ru', $1, 'Admin', '9876543210', '1985-05-20', 'admin')`)
 	if err != nil {
 		return err
 	}

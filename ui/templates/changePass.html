@@ -17,6 +17,7 @@
     <input type="password" name="password" id="password" placeholder="New Password">
     <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="Confirm Password">
     <button onclick="submitForm()">Submit</button>
+    Password needs to be valid
 
     <script>
         function submitForm() {
@@ -35,8 +36,13 @@
                 token: token,
                 password: password
             };
+            const queryString = window.location.search;
 
-            fetch('/reset-password', {
+            const params = new URLSearchParams(queryString);
+
+            const tokenQ = params.get('token');
+            const tokenE = params.get('email');
+            fetch(`/api/reset-password?token=${tokenQ}&email=${tokenE}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -45,17 +51,25 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`HTTP error! Status: ${response.status}`);
+                        return response.json().then(errorData => {
+                            throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
+                        });
                     }
                     return response.json();
                 })
                 .then(data => {
-                    alert('Password changed successfully');
+                    if (data.success) {
+                        alert('Password changed successfully');
+                    } else {
+                        throw new Error(data.message || 'Unknown error occurred');
+                    }
                 })
                 .catch((error) => {
-                    console.error('Error:', error);
-                    alert('Failed to change password');
+                    console.error('Error:', error.message);
+                    alert('Failed to change password: ' + error.message);
                 });
+
+
         }
 
     </script>

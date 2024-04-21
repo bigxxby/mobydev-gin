@@ -29,6 +29,49 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 		})
 		return
 	}
+	exists, err := m.DB.GenreRepository.CheckGenreExistsById(movie.GenreId)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+	if !exists {
+		c.JSON(400, gin.H{
+			"message": "This genre does not exists",
+		})
+		return
+	}
+	exists, err = m.DB.AgeRepository.CheckAgeCategoryExistsId(movie.AgeCategoryId)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+	if !exists {
+		c.JSON(400, gin.H{
+			"message": "This age category does not exists",
+		})
+		return
+	}
+	exists, err = m.DB.CategoriesRepository.CheckCategoryExistsById(movie.CategoryId)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+
+	}
+	if !exists {
+		c.JSON(400, gin.H{
+			"message": "This category does not exists",
+		})
+		return
+	}
 
 	_, err = m.DB.MovieRepository.CreateMovie(
 		userId,

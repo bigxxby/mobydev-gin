@@ -33,7 +33,7 @@ func (db *UserRepository) UpdatePassword(email, password string) error {
 	}
 	defer tx.Rollback()
 
-	query := "UPDATE users SET password = $1, updated_at = CURRENT_TIMESTAMP  WHERE email = $2 , "
+	query := "UPDATE users SET password = $1, updated_at = CURRENT_TIMESTAMP  WHERE email = $2  "
 	_, err = tx.Exec(query, password, email)
 	if err != nil {
 		return err

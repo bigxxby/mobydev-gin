@@ -22,7 +22,41 @@ Use the following credentials to log in as an admin:
 
 ### Reset Password
 
-- **Status:** NOT DONE
+- **Status:** DONE
+
+# Password Change Logic
+
+The process for changing a password involves several steps, from sending a verification code to resetting the password. Below is a detailed overview of each step and the corresponding endpoints involved in the process.
+
+# 1. Send Verification Code
+
+**Endpoint:** `GET /send-code`
+
+- **Description:** This endpoint triggers the sending of a verification code to the provided email address.
+- **Route Handler:** `htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode)`
+
+# 2. Verify Code
+
+**Endpoint:** `POST /verify`
+
+- **Description:** After receiving the verification code, the user submits it for validation.
+- **Route Handler:** `auth.POST("/verify", main.AuthRoute.POST_Verify)`
+- **Validation Process:**
+  - If the code is valid, a link containing a token for password resetting is sent to the user's email.
+
+# 3. Change Password
+
+**Endpoint:** `GET /change-password`
+
+- **Description:** Upon successful verification of the code, the user is granted permission to modify the password.
+- **Route Handler:** `htmlRoutes.GET("/change-password", main.GET_ChangePassword)`
+
+# 4. Reset Password
+
+**Endpoint:** `POST /reset-password`
+
+- **Description:** The user submits a new password for updating.
+- **Route Handler:** `auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword)`
 
 ### Search for Genre Movie
 

@@ -39,8 +39,16 @@ func Start() {
 		htmlRoutes.GET("/", main.GET_HTML_Index)
 		htmlRoutes.GET("/reg", main.GET_HTML_Reg)
 		htmlRoutes.GET("/login", main.GET_HTML_Login)
-		htmlRoutes.GET("/create/movie", main.GET_HTML_Movie)
-		htmlRoutes.GET("/restore", main.GET_Restore)
+
+		//CHANGE PASSWORD LOGIC ->
+		//sends verification code to the given email ->
+		htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //
+		//auth.POST("/send-code", main.AuthRoute.POST_Restore) // sends restore code to the users email
+		//auth.POST("/verify", main.AuthRoute.POST_Verify)   // gets code from user and verifies it,  if -
+		//- valid sends to the email the link with token for resetting the password and to the frontend to redirect the user,
+		htmlRoutes.GET("/change-password", main.GET_ChangePassword) // if token and email is valid gives perm. to change the password
+		//auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // gets new password from user and change it
+
 	}
 
 	// API
@@ -86,11 +94,15 @@ func Start() {
 		// auth
 		auth := apiRoutes.Group("/")
 		{
-			auth.POST("/signUp", main.AuthRoute.POST_SignUp)       //{email, password, role } required bindings
-			auth.POST("/signIn", main.AuthRoute.POST_SignIn)       //{email, password } required bindings
-			auth.POST("/restore", main.AuthRoute.POST_Restore)     // sends restore code to the users email
-			auth.POST("/verify", main.AuthRoute.POST_Verify)       // gets code from user an verifies it, if valid sends to the email link for resetting the pass (NOT TESTED)
-			auth.POST("/reset", main.AuthRoute.POST_ResetPassword) // changes password of the user				(NOT TESTED)
+			auth.POST("/signUp", main.AuthRoute.POST_SignUp) //{email, password, role } required bindings
+			auth.POST("/signIn", main.AuthRoute.POST_SignIn) //{email, password } required bindings
+
+			//htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //-------->
+			auth.POST("/send-code", main.AuthRoute.POST_SendCode) // sends restore code to the users email
+			auth.POST("/verify", main.AuthRoute.POST_VerifyCode)  // gets code from user an verifies it, if valid sends to the email link for resetting the pass
+			// htmlRoutes.GET("/change-password", main.GET_ChangePassword) //------->
+			auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // changes password of the user
+
 		}
 
 		// favorites

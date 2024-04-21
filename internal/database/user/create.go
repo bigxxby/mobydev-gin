@@ -84,25 +84,31 @@ func (db *UserRepository) ValidateCode(email, code string) error {
 	}
 
 	if retrievedCode != code {
-		return errors.New("code does not match or is expired")
+
+		return sql.ErrNoRows
 	}
 
 	return nil
 }
 
 func (db *UserRepository) SaveResetToken(token string, userEmail string) error {
-
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback()
 
-	q := `UPDATE codes 
+	q := `
+	UPDATE codes 
 	SET token = $1 
-	WHERE user_email = $2 AND code = $3 AND expires_at > CURRENT_TIMESTAMP 
-	ORDER BY created_at DESC 
-	LIMIT 1;`
+	WHERE user_email = $2 AND expires_at > CURRENT_TIMESTAMP 
+	AND created_at = (
+		SELECT MAX(created_at) 
+		FROM codes 
+		WHERE user_email = $2 AND expires_at > CURRENT_TIMESTAMP
+	)
+	`
+	log.Println("token=", token)
 
 	_, err = tx.Exec(q, token, userEmail)
 	if err != nil {
@@ -111,6 +117,7 @@ func (db *UserRepository) SaveResetToken(token string, userEmail string) error {
 
 	err = tx.Commit()
 	if err != nil {
+
 		return err
 	}
 
@@ -122,7 +129,7 @@ func (db *UserRepository) VerifyToken(token string) error {
 	q := `
 		SELECT COUNT(*) 
 		FROM codes 
-		WHERE token = ? AND expires_at > CURRENT_TIMESTAMP
+		WHERE token = $1 AND expires_at > CURRENT_TIMESTAMP
 	`
 
 	err := db.Database.QueryRow(q, token).Scan(&count)
