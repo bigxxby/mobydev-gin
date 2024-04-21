@@ -17,6 +17,13 @@ Use the following credentials to log in as an admin:
 
 - **Email:** big@example.com
 - **Password:** Aa12345678#
+## For testing
+```bash
+cd test/examplesForTesting.txt
+```
+
+
+
 
 ## Features in Progress
 
