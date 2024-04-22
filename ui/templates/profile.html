@@ -6,38 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/base.css">
     <link rel="shortcut icon" href="static/images/icons/logo.png" type="image/x-icon">
-    <title>Авторизация</title>
-    <script src="static/script/common.js"></script>
+    <title>Your profile</title>
+    <script src="static/script/profile.js"></script>
 
 </head>
 
 <body>
-
-    <!-- document.addEventListener('DOMContentLoaded', async () => {
-            document.addEventListener('DOMContentLoaded', async () => {
-                const token = localStorage.getItem('token');
-
-                try {
-                    const response = await fetch('api/movies/main', {
-                        method: 'GET',
-                        headers: {
-                            'Authorization': `Bearer ${token}`
-                        }
-                    });
-
-                    if (response.status === 401) {
-                        // Если статус 401 Unauthorized, перенаправляем на страницу 404
-                        window.location.href = '/404.html';
-                        return;
-                    }
-                } catch (error) {
-                    console.error('Ошибка при загрузке данных:', error);
-                }
-            });
- -->
-
-
-
     <a href="/">
         <h1>ÖZINŞE</h1>
     </a>
@@ -48,10 +22,8 @@
             <div class="header">
                 <div class="nav">
                     <div class="buttons">
-
+                        <a href="/login"><button>Авторизация</button></a>
                         <a href="/reg"><button>Регистрация</button></a>
-                        <a href="/mobile"><button>Мобильное приложение</button></a>
-                        <a href="/projects"><button>Проекты</button></a>
                     </div>
                 </div>
 
@@ -60,8 +32,25 @@
 
 
 
-
             <div class="block">
+                <p>
+
+                    {{.Id}}
+                </p>
+                <p>
+                    {{.Email}}
+
+                </p>
+                <p>
+                    {{.Password}}
+
+                </p>
+                {{.Name.String}}
+                {{.Phone.String}}
+                {{.DateOfBirth.String}}
+                {{.Role}}
+                {{.CreatedAt.String}}
+                
 
 
 

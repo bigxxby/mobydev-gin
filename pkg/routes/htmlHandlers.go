@@ -3,6 +3,8 @@ package routes
 import (
 	"database/sql"
 	"log"
+	"net/http"
+	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -24,9 +26,57 @@ func (m *Manager) GET_HTML_SendRestoreCode(c *gin.Context) {
 func (m *Manager) GET_HTML_Movie(c *gin.Context) {
 	c.HTML(200, "movie_create.html", nil)
 }
+func (m *Manager) GET_HTML_Profile(c *gin.Context) {
+	token, err := c.Cookie("jwtToken")
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+	userId, _, err := utils.VerifyToken(token)
+	if err != nil {
+		log.Println()
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+	user, err := m.DB.UserRepository.GetUserById(userId)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+	c.HTML(200, "profile.html", user)
+}
 func (m *Manager) GET_HTML_Base(c *gin.Context) {
-
-	c.HTML(200, "base.html", nil)
+	token, err := c.Cookie("jwtToken")
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(200, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+	_, role, err := utils.VerifyToken(token)
+	if err != nil {
+		log.Println()
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+	if role != "admin" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+	c.HTML(200, "profile.html", nil)
 }
 
 // gives permission to change password HTML

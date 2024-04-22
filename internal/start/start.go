@@ -31,7 +31,9 @@ func Start() {
 		return
 	}
 	router := gin.Default()
+
 	router.LoadHTMLGlob("ui/templates/*")
+
 	router.Static("/static", "./ui/static")
 	// HTML
 	htmlRoutes := router.Group("/")
@@ -40,6 +42,7 @@ func Start() {
 		htmlRoutes.GET("/reg", main.GET_HTML_Reg)
 		htmlRoutes.GET("/login", main.GET_HTML_Login)
 		htmlRoutes.GET("/base", main.GET_HTML_Base)
+		htmlRoutes.GET("/profile", main.GET_HTML_Profile)
 		// htmlRoutes.GET("/profile", main.GET_HTML_Profile)
 
 		//CHANGE PASSWORD LOGIC ->
