@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="shortcut icon" href="static/images/icons/logo.png" type="image/x-icon">
+    <title>Admin</title>
+    <script src="static/script/common.js"></script>
+</head>
+
+<body>
+
+    <!-- document.addEventListener('DOMContentLoaded', async () => {
+            document.addEventListener('DOMContentLoaded', async () => {
+                const token = localStorage.getItem('token');
+
+                try {
+                    const response = await fetch('api/movies/main', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        // Если статус 401 Unauthorized, перенаправляем на страницу 404
+                        window.location.href = '/404.html';
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Ошибка при загрузке данных:', error);
+                }
+            });
+ -->
+
+
+
+    <a href="/">
+        <h1>ÖZINŞE</h1>
+    </a>
+
+    <div class="main">
+
+        <div class="container">
+            <div class="header">
+                <div class="nav">
+                    <div class="buttons">
+
+                        <a href="/reg"><button>Регистрация</button></a>
+                        <a href="/mobile"><button>Мобильное приложение</button></a>
+                        <a href="/projects"><button>Проекты</button></a>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="block">
+
+
+
+                <script>
+
+                    document.addEventListener('DOMContentLoaded', async () => {
+                        const blockElement = document.querySelector('.block');
+
+                        try {
+                            const response = await fetch('api/movies/main');
+                            const moviesData = await response.json();
+
+                            moviesData.movies.forEach(movie => {
+                                const movieDiv = document.createElement('div');
+                                movieDiv.classList.add('movie');
+
+                                const categoryName = movie.category[0]?.category_name || 'N/A';
+                                const genreName = movie.genre[0]?.name || 'N/A';
+                                const ageCategoryName = movie.ageCategory[0]?.name || 'N/A';
+
+                                movieDiv.innerHTML = `
+                                    <img src="${movie.imageUrl}" alt="${movie.name}">
+                                    <h2>${movie.name}</h2>
+                                    <p>Year: ${movie.year}</p>
+                                    <p>Duration: ${movie.durationMinutes} minutes</p>
+                                    <p>Category: ${categoryName}</p>
+                                    <p>Genre: ${genreName}</p>
+                                    <p>Age Category: ${ageCategoryName}</p>
+                                `;
+
+                                blockElement.appendChild(movieDiv);
+                            });
+                        } catch (error) {
+                            console.error('Ошибка при загрузке данных:', error);
+                        }
+                    });
+                </script>
+
+
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        checkAuth();
+                    });
+
+                    async function checkAuth() {
+                        try {
+                            const token = getToken()
+
+                            if (!token) {
+                                console.error('Токен авторизации не найден в localStorage');
+                                return;
+                            }
+
+                            const response = await fetch('/check-auth', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}` // Добавляем токен в заголовки запроса
+                                },
+                                body: JSON.stringify({})
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`Ошибка HTTP: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+
+                            if (data.message) {
+                                console.log(`Роль пользователя: ${data.message}`);
+                            } else {
+                                console.log('Сервер вернул некорректный ответ');
+                            }
+                        } catch (error) {
+                            console.error('Ошибка при выполнении запроса:', error);
+                        }
+                    }
+
+
+
+                </script>
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+    </div>
+
+
+
+
+    </div>
+    <div id="popupNotification" class="popup-notification">
+        <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+        <p id="popupMessage"></p>
+    </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+
+
+
+
+<div class="switch">
+    <button class="toggle-theme">🌙</button>
+</div>
+
+
+</html>

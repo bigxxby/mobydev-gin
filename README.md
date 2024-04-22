@@ -19,7 +19,7 @@ Use the following credentials to log in as an admin:
 - **Password:** Aa12345678#
 ## For testing
 ```bash
-cd test/examplesForTesting.txt
+test/examplesForTesting.txt
 ```
 
 

@@ -53,23 +53,24 @@ function submit() {
         .then(response => {
             loading.style.display = 'none'; // скрыть индикатор загрузки
             submitButton.disabled = false;  // активировать кнопку отправки
-
+    
             return response.json().then(json => {
                 if (!response.ok) {
                     throw new Error(`${response.status}: ${json.message}`);
                 }
-                // const token = response.headers.get('Authorization');
-                let token = json.token
+                
+                let token = json.token;
+                console.log(token)
                 if (!token) {
-                  throw new Error('Authorization header is missing');
+                    throw new Error('Authorization header is missing');
                 }
-                localStorage.setItem('token', token.replace('Bearer ', ''));
+                document.cookie = `jwtToken=${token}; path=/;`;
                 return json;
             });
         })
         .then(data => {
-            showPopupNotification(data.message)
-
+            showPopupNotification(data.message);
+    
             setTimeout(() => {
                 redirect();
             }, 2000);
@@ -77,7 +78,7 @@ function submit() {
         .catch(error => {
             showPopupNotification(error.message);
         });
-}
+    }
 function redirect() {
     window.location.href = '/'
 }

@@ -54,3 +54,9 @@ func (m *AuthRoute) POST_SignIn(c *gin.Context) {
 
 	}
 }
+func (m *AuthRoute) POST_CheckAuth(c *gin.Context) {
+	userRole := c.GetString("role")
+	c.JSON(200, gin.H{
+		"message": userRole,
+	})
+}

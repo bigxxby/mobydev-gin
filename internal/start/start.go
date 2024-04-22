@@ -39,6 +39,8 @@ func Start() {
 		htmlRoutes.GET("/", main.GET_HTML_Index)
 		htmlRoutes.GET("/reg", main.GET_HTML_Reg)
 		htmlRoutes.GET("/login", main.GET_HTML_Login)
+		htmlRoutes.GET("/base", main.GET_HTML_Base)
+		// htmlRoutes.GET("/profile", main.GET_HTML_Profile)
 
 		//CHANGE PASSWORD LOGIC ->
 		//sends verification code to the given email ->
@@ -94,9 +96,9 @@ func Start() {
 		// auth
 		auth := apiRoutes.Group("/")
 		{
-			auth.POST("/signUp", main.AuthRoute.POST_SignUp) //{email, password, role } required bindings
-			auth.POST("/signIn", main.AuthRoute.POST_SignIn) //{email, password } required bindings
-
+			auth.POST("/check-auth", main.AuthRoute.POST_CheckAuth) //returns CURRENT users role
+			auth.POST("/signUp", main.AuthRoute.POST_SignUp)        //{email, password, role } required bindings
+			auth.POST("/signIn", main.AuthRoute.POST_SignIn)        //{email, password } required bindings
 			//htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //-------->
 			auth.POST("/send-code", main.AuthRoute.POST_SendCode) // sends restore code to the users email
 			auth.POST("/verify", main.AuthRoute.POST_VerifyCode)  // gets code from user an verifies it, if valid sends to the email link for resetting the pass

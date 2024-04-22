@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="shortcut icon" href="static/images/icons/logo.png" type="image/x-icon">
+    <title>Авторизация</title>
+    <script src="static/script/common.js"></script>
+
+</head>
+
+<body>
+
+    <!-- document.addEventListener('DOMContentLoaded', async () => {
+            document.addEventListener('DOMContentLoaded', async () => {
+                const token = localStorage.getItem('token');
+
+                try {
+                    const response = await fetch('api/movies/main', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    if (response.status === 401) {
+                        // Если статус 401 Unauthorized, перенаправляем на страницу 404
+                        window.location.href = '/404.html';
+                        return;
+                    }
+                } catch (error) {
+                    console.error('Ошибка при загрузке данных:', error);
+                }
+            });
+ -->
+
+
+
+    <a href="/">
+        <h1>ÖZINŞE</h1>
+    </a>
+
+    <div class="main">
+
+        <div class="container">
+            <div class="header">
+                <div class="nav">
+                    <div class="buttons">
+
+                        <a href="/reg"><button>Регистрация</button></a>
+                        <a href="/mobile"><button>Мобильное приложение</button></a>
+                        <a href="/projects"><button>Проекты</button></a>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div class="block">
+
+
+
+           
+            </div>
+
+        </div>
+    </div>
+    </div>
+
+
+    </div>
+
+
+
+
+    </div>
+    <div id="popupNotification" class="popup-notification">
+        <span class="close-popup" onclick="closePopupNotification()">&times;</span>
+        <p id="popupMessage"></p>
+    </div>
+    </div>
+    <script>
+
+    </script>
+</body>
+
+
+
+
+<div class="switch">
+    <button class="toggle-theme">🌙</button>
+</div>
+
+
+</html>

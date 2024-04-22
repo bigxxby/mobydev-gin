@@ -24,6 +24,10 @@ func (m *Manager) GET_HTML_SendRestoreCode(c *gin.Context) {
 func (m *Manager) GET_HTML_Movie(c *gin.Context) {
 	c.HTML(200, "movie_create.html", nil)
 }
+func (m *Manager) GET_HTML_Base(c *gin.Context) {
+
+	c.HTML(200, "base.html", nil)
+}
 
 // gives permission to change password HTML
 func (m *Manager) GET_ChangePassword(c *gin.Context) {
@@ -61,3 +65,14 @@ func (m *Manager) GET_ChangePassword(c *gin.Context) {
 	}
 	c.HTML(200, "changePass.html", data)
 }
+
+// func (m *Manager) GET_HTML_Profile(c *gin.Context) {
+// 	cookie, err := c.Cookie("jwtToken")
+// 	if err != nil {
+// 		log.Println(err.Error())
+// 		c.JSON(http.StatusUnauthorized, gin.H{
+// 			"message": "Unauthorized",
+// 		})
+// 		return
+// 	}
+// }
