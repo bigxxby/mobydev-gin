@@ -18,7 +18,7 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	var user user.UserJson
 	err := c.BindJSON(&user)
 	if err != nil {
@@ -30,7 +30,7 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 	}
 	if len(user.Name) < 16 {
 		log.Println(err.Error())
-			   sc.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
 		})
 		return
