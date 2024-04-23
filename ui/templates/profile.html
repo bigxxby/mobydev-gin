@@ -33,12 +33,24 @@
             </div>
 
             <div class="block">
-                <p>Id: {{.Id}}</p>
-                <p>Email: {{.Email}}</p>
-                <p>Name: {{.Name}}</p>
-                <p>Phone: {{.Phone}}</p>
-                <p>Date of Birth: {{.DateOfBirth}}</p>
-                <p>Role: {{.Role}}</p>
+                <p>Id: {{.Id}}
+
+                </p>
+                <p>Ваша почта: {{.Email}}
+
+                </p>
+                <p>Имя: {{.Name}}
+
+                </p>
+                <p>Номер телефона: {{.Phone}}
+
+                </p>
+                <p>Дата рождения: {{.DateOfBirth}}
+
+                </p>
+                <p>Роль: {{.Role}}
+                    
+                </p>
 
                 <button onclick="openModal()">Edit</button>
             </div>
@@ -67,15 +79,15 @@
     <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
-            <label>Name:</label>
+            <label>Имя:</label>
             <input type="text" name="name" id="name" value="{{.Name}}">
 
-            <label>Phone:</label>
+            <label>Номер телефона:</label>
             <input type="text" id="phone" name="phone" value="{{.Phone}}"
                 oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 15)" maxlength="15" minlength="7">
 
 
-            <label>Date of Birth:</label>
+            <label>Дата рождения:</label>
             <input type="date" name="dob" id="dob" value="{{.DateOfBirth}}">
             <input type="submit" onclick="sendPutRequest()" id="id" name="{{.Id}}" value="Save">
         </div>
@@ -84,11 +96,9 @@
         function sendPutRequest() {
 
             let url = `/api/profile`;
-            // Получаем данные из полей формы
             let name = document.getElementById('name').value;
             let phone = document.getElementById('phone').value;
-            let date_of_birth = document.getElementById('dob').value; // Используем правильное ID для даты рождения
-            // Формируем объект данных
+            let date_of_birth = document.getElementById('dob').value;
             if (phone[0] != '+') {
                 phone = '+' + phone
             }
@@ -98,7 +108,6 @@
                 date_of_birth: date_of_birth
             };
             let token = getToken()
-            // Отправляем запрос на сервер
             fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -109,20 +118,22 @@
             })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
+                        return response.json().then(errorData => {
+                            throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+                        });
                     }
 
                     return response.json();
                 })
                 .then(data => {
-                    // Обработка ответа от сервера
-                    showPopupNotification(data.message)
-                    closeModal(); // Закрываем модальное окно после успешного обновления
+                    showPopupNotification(data.message);
+                    closeModal();
                 })
                 .catch(error => {
-                    showPopupNotification(data.message)
+                    showPopupNotification(error.message);
                     console.error('Fetch error:', error);
                 });
+
         }
 
     </script>

@@ -12,6 +12,7 @@ func (db *AgeRepository) GetAgeCategoryById(id int) (*AgeCategory, error) {
 		return nil, err
 	}
 	return &ageCategory, nil
+
 }
 func (db *AgeRepository) GetAllAgeCategories() ([]AgeCategory, error) {
 	query := "SELECT id, user_id, name, note, min_age, max_age FROM age_categories"
