@@ -18,6 +18,7 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 		})
 		return
 	}
+	
 	var user user.UserJson
 	err := c.BindJSON(&user)
 	if err != nil {
@@ -27,9 +28,16 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 		})
 		return
 	}
+	if len(user.Name) < 16 {
+		log.Println(err.Error())
+			   sc.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
 	var date time.Time
 	if user.DateOfBirth != "" {
-		date, err = time.Parse("02-01-2006", user.DateOfBirth)
+		date, err = time.Parse("2006-01-02", user.DateOfBirth)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(http.StatusBadRequest, gin.H{

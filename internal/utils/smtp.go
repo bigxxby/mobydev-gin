@@ -7,7 +7,7 @@ import (
 )
 
 func SendCodeEmail(email, code string) error {
-	from := os.Getenv("SMTP_EMAIL")
+	 from := os.Getenv("SMTP_EMAIL")
 	password := os.Getenv("SMTP_PASSWORD")
 
 	to := []string{email}
@@ -15,9 +15,9 @@ func SendCodeEmail(email, code string) error {
 	body := fmt.Sprintf("Ваш код подтверждения: %s", code)
 
 	smtpServer := "smtp.gmail.com"
-	smtpPort := "587"
+	smtpPort :=   "587"
 
-	message := []byte(fmt.Sprintf("To: %s\r\nSubject: %s\r\n\r\n%s", email, subject, body))
+	message :=   []byte(fmt.Sprintf("To: %s\r\nSubject: %s\r\n\r\n%s", email, subject, body))
 
 	auth := smtp.PlainAuth("", from, password, smtpServer)
 	err := smtp.SendMail(smtpServer+":"+smtpPort, auth, from, to, message)

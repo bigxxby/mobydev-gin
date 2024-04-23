@@ -26,6 +26,32 @@ func TrimUser(user user.User) gin.H {
 
 	return userJson
 }
+func TrimUserJson(userVar *user.User) user.UserJson {
+	var userJson user.UserJson
+
+	if userVar.Id != 0 {
+		userJson.Id = userVar.Id
+	}
+	if userVar.Email != "" {
+		userJson.Email = userVar.Email
+	}
+	if userVar.Name.Valid {
+		userJson.Name = userVar.Name.String
+	}
+	if userVar.Phone.Valid {
+		userJson.Phone = userVar.Phone.String
+	}
+
+	if userVar.DateOfBirth.Valid {
+		userJson.DateOfBirth = userVar.DateOfBirth.Time.Format("2006-01-02")
+	}
+
+	if userVar.Role != "" {
+		userJson.Role = userVar.Role
+	}
+
+	return userJson
+}
 
 // func TrimMovies(movies []database.Movie) []database.MovieJson {
 // 	var trimmedMovies []database.MovieJson

@@ -1,19 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleThemeButton = document.querySelector('.toggle-theme');
-    const body = document.body;
 
-    toggleThemeButton.addEventListener('click', () => {
-        if (body.classList.contains('dark-mode')) {
-            // Switch to light mode
-            body.classList.remove('dark-mode');
-            toggleThemeButton.textContent = '🌙';
-        } else {
-            // Switch to dark mode
-            body.classList.add('dark-mode');
-            toggleThemeButton.textContent = '☀️';
-        }
-    });
-});
 function checkForinput() {
     let email = document.getElementById('email').value;
     let password = document.getElementById('password').value;
@@ -82,22 +67,7 @@ function submit() {
 function redirect() {
     window.location.href = '/'
 }
-function showPopupNotification(message) {
-    const popupNotification = document.getElementById('popupNotification');
-    const popupMessage = document.getElementById('popupMessage');
 
-    popupMessage.textContent = message;
-    popupNotification.style.display = 'block';
-
-    setTimeout(() => {
-        closePopupNotification();
-    }, 2000);
-}
-
-function closePopupNotification() {
-    const popupNotification = document.getElementById('popupNotification');
-    popupNotification.style.display = 'none';
-}
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const toggleButton = document.getElementById("togglePasswordBtn");

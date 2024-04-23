@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"project/internal/utils"
+	"project/internal/utils/mapping"
 
 	"github.com/gin-gonic/gin"
 )
@@ -51,8 +52,10 @@ func (m *Manager) GET_HTML_Profile(c *gin.Context) {
 		})
 		return
 	}
-	c.HTML(200, "profile.html", user)
+	userJson := mapping.TrimUserJson(user)
+	c.HTML(200, "profile.html", userJson)
 }
+
 func (m *Manager) GET_HTML_Base(c *gin.Context) {
 	token, err := c.Cookie("jwtToken")
 	if err != nil {
@@ -76,7 +79,8 @@ func (m *Manager) GET_HTML_Base(c *gin.Context) {
 		})
 		return
 	}
-	c.HTML(200, "profile.html", nil)
+
+	c.HTML(200, "base.html", nil)
 }
 
 // gives permission to change password HTML

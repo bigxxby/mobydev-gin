@@ -11,10 +11,6 @@
 </head>
 
 <body>
-
-
-
-
     <a href="/">
         <h1>ÖZINŞE</h1>
     </a>
@@ -29,16 +25,20 @@
                         <a href="/#"><button>check</button></a>
                         <a href="/#"><button>check</button></a>
                         <a href="/#"><button>check</button></a>
+
                         <a href="/#"><button>check</button></a>
                         <a href="/#"><button>check</button></a>
                         <a href="/#"><button>check</button></a>
+
+
                     </div>
+
                     <a href="/profile">
 
                         <div class="profileWindow" id="profileWindow">
                             <img src="static/images/default.jpg" alt="img">
                             <div class="profileData">
-                                
+
                     </a>
                 </div>
             </div>
@@ -48,6 +48,7 @@
     </div>
 
     <div class="filters">
+
         <input type="search" class="search-input" placeholder="Search...">
         <select id="movieCategory">
         </select>
@@ -66,35 +67,40 @@
                 .catch(error => {
                     console.error('Ошибка при загрузке категорий:', error);
                 });
-            
+
         </script>
-        
+
     </div>
-    
+
 
     <div class="block">
-        
+
     </div>
 
 
-        <script>
 
-            document.addEventListener('DOMContentLoaded', async () => {
-                const blockElement = document.querySelector('.block');
 
-                try {
-                    const response = await fetch('api/movies/main');
-                    const moviesData = await response.json();
 
-                    moviesData.movies.forEach(movie => {
-                        const movieDiv = document.createElement('div');
-                        movieDiv.classList.add('movie');
 
-                        const categoryName = movie.category[0]?.category_name || 'N/A';
-                        const genreName = movie.genre[0]?.name || 'N/A';
-                        const ageCategoryName = movie.ageCategory[0]?.name || 'N/A';
+    <script>
 
-                        movieDiv.innerHTML = `
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            const blockElement = document.querySelector('.block');
+
+            try {
+                const response = await fetch('api/movies/main');
+                const moviesData = await response.json();
+                console.log(moviesData)
+                moviesData.movies.forEach(movie => {
+                    const movieDiv = document.createElement('div');
+                    movieDiv.classList.add('movie');
+
+                    const categoryName = movie.category[0]?.category_name || 'N/A';
+                    const genreName = movie.genre[0]?.name || 'N/A';
+                    const ageCategoryName = movie.ageCategory[0]?.name || 'N/A';
+
+                    movieDiv.innerHTML = `
                                     <img src="${movie.imageUrl}" alt="${movie.name}">
                                     <h2>${movie.name}</h2>
                                     <p>Year: ${movie.year}</p>
@@ -104,20 +110,20 @@
                                     <p>Age Category: ${ageCategoryName}</p>
                                 `;
 
-                        blockElement.appendChild(movieDiv);
-                    });
-                } catch (error) {
-                    console.error('Ошибка при загрузке данных:', error);
-                }
-            });
-        </script>
+                    blockElement.appendChild(movieDiv);
+                });
+            } catch (error) {
+                console.error('Ошибка при загрузке данных:', error);
+            }
+        });
+    </script>
 
 
 
 
 
 
-        </script>
+    </script>
 
     </div>
     </div>

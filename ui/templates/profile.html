@@ -4,7 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="static/css/base.css">
+    <link rel="stylesheet" href="static/css/profile.css">
+    <link rel="stylesheet" href="profile.css">
+
     <link rel="shortcut icon" href="static/images/icons/logo.png" type="image/x-icon">
     <title>Your profile</title>
     <script src="static/script/profile.js"></script>
@@ -30,32 +32,17 @@
 
             </div>
 
-
-
             <div class="block">
-                <p>
+                <p>Id: {{.Id}}</p>
+                <p>Email: {{.Email}}</p>
+                <p>Name: {{.Name}}</p>
+                <p>Phone: {{.Phone}}</p>
+                <p>Date of Birth: {{.DateOfBirth}}</p>
+                <p>Role: {{.Role}}</p>
 
-                    {{.Id}}
-                </p>
-                <p>
-                    {{.Email}}
-
-                </p>
-                <p>
-                    {{.Password}}
-
-                </p>
-                {{.Name.String}}
-                {{.Phone.String}}
-                {{.DateOfBirth.String}}
-                {{.Role}}
-                {{.CreatedAt.String}}
-                
-
-
-
-           
+                <button onclick="openModal()">Edit</button>
             </div>
+
 
         </div>
     </div>
@@ -68,6 +55,78 @@
 
 
     </div>
+    <script>
+        function openModal() {
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+    </script>
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <label>Name:</label>
+            <input type="text" name="name" id="name" value="{{.Name}}">
+
+            <label>Phone:</label>
+            <input type="text" id="phone" name="phone" value="{{.Phone}}"
+                oninput="this.value = this.value.replace(/[^0-9]/g, '').substring(0, 15)" maxlength="15" minlength="7">
+
+
+            <label>Date of Birth:</label>
+            <input type="date" name="dob" id="dob" value="{{.DateOfBirth}}">
+            <input type="submit" onclick="sendPutRequest()" id="id" name="{{.Id}}" value="Save">
+        </div>
+    </div>
+    <script>
+        function sendPutRequest() {
+
+            let url = `/api/profile`;
+            // Получаем данные из полей формы
+            let name = document.getElementById('name').value;
+            let phone = document.getElementById('phone').value;
+            let date_of_birth = document.getElementById('dob').value; // Используем правильное ID для даты рождения
+            // Формируем объект данных
+            if (phone[0] != '+') {
+                phone = '+' + phone
+            }
+            let data = {
+                name: name,
+                phone: phone,
+                date_of_birth: date_of_birth
+            };
+            let token = getToken()
+            // Отправляем запрос на сервер
+            fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    return response.json();
+                })
+                .then(data => {
+                    // Обработка ответа от сервера
+                    showPopupNotification(data.message)
+                    closeModal(); // Закрываем модальное окно после успешного обновления
+                })
+                .catch(error => {
+                    showPopupNotification(data.message)
+                    console.error('Fetch error:', error);
+                });
+        }
+
+    </script>
+
     <div id="popupNotification" class="popup-notification">
         <span class="close-popup" onclick="closePopupNotification()">&times;</span>
         <p id="popupMessage"></p>
