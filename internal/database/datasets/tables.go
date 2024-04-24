@@ -54,6 +54,7 @@ func CreateMoviesTable(db *database.Database) error {
 		category_id INTEGER NOT NULL REFERENCES categories(id),
 		age_category_id INTEGER NOT NULL REFERENCES age_categories(id),
 		genre_id INTEGER NOT NULL REFERENCES genres(id),
+		watch_count INTEGER DEFAULT 0,
 		duration_minutes INTEGER NOT NULL,
 		keywords TEXT NOT NULL,
 		description TEXT NOT NULL,

@@ -39,3 +39,23 @@ func (db *MovieRepository) CreateMovie(userId int, imageUrl string, name string,
 
 	return &movie, nil
 }
+func (db *MovieRepository) MovieWasWatchedByUser(movieId int) (int, error) {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return -1, err
+	}
+	defer tx.Rollback()
+
+	query := `UPDATE movies SET watch_count = watch_count + 1 WHERE id = $1 RETURNING watch_count`
+	var watchCount int
+	err = tx.QueryRow(query, movieId).Scan(&watchCount)
+	if err != nil {
+		return -1, err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return -1, err
+	}
+	return watchCount, nil // Возврат текущего количества просмотров фильма
+}

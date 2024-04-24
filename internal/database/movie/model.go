@@ -19,10 +19,9 @@ type Movie struct {
 	Name     string `json:"name" binding:"required"`
 	Year     int    `json:"year" binding:"required"`
 
-	CategoryId    int `json:"categoryId" binding:"required"`
-	AgeCategoryId int `json:"ageCategoryId" binding:"required"`
-	GenreId       int `json:"genreId" binding:"required"`
-
+	CategoryId      int    `json:"categoryId" binding:"required"`
+	AgeCategoryId   int    `json:"ageCategoryId" binding:"required"`
+	GenreId         int    `json:"genreId" binding:"required"`
 	DurationMinutes int    `json:"durationMinutes" binding:"required"`
 	Keywords        string `json:"keywords" binding:"required"`
 	Description     string `json:"description" binding:"required"`
@@ -34,7 +33,7 @@ type Movie struct {
 	SeasonCount int `json:"seasonCount,omitempty" `
 	SeriesCount int `json:"seriesCount,omitempty"`
 
-	// WatchCount  int                    `json:"watchCount"`
+	WatchCount int `json:"watchCount"`
 
 	Categories []categories.Category `json:"category,omitempty"`
 

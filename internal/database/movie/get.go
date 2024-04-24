@@ -1,6 +1,8 @@
 package movie
 
-import "log"
+import (
+	"log"
+)
 
 func (db *MovieRepository) GetMovieById(id int) (*Movie, error) {
 	var movie Movie
@@ -15,6 +17,7 @@ func (db *MovieRepository) GetMovieById(id int) (*Movie, error) {
 		&movie.CategoryId,
 		&movie.AgeCategoryId,
 		&movie.GenreId,
+		&movie.WatchCount,
 		&movie.DurationMinutes,
 		&movie.Keywords,
 		&movie.Description,
@@ -58,6 +61,7 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 				&movie.CategoryId,
 				&movie.AgeCategoryId,
 				&movie.GenreId,
+				&movie.WatchCount,
 				&movie.DurationMinutes,
 				&movie.Keywords,
 				&movie.Description,
@@ -105,6 +109,7 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 				&movie.CategoryId,
 				&movie.AgeCategoryId,
 				&movie.GenreId,
+				&movie.WatchCount,
 				&movie.DurationMinutes,
 				&movie.Keywords,
 				&movie.Description,
@@ -125,7 +130,4 @@ func (db *MovieRepository) GetMovies(limit int) ([]Movie, error) {
 
 		return movies, nil
 	}
-}
-func (m *MovieRepository) GET_Movies_MAIN() {
-
 }

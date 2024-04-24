@@ -1,9 +1,11 @@
 package movies
 
 import (
+	"database/sql"
 	"log"
 	"net/http"
 	"project/internal/database/movie"
+	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -88,13 +90,58 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 		movie.Producer)
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return
 	}
 	c.JSON(200, gin.H{
 		"message": "Movie Created",
+	})
+
+}
+
+func (m *MoviesRoute) GET_Watch(c *gin.Context) {
+	userId := c.GetInt("userId")
+	movieId := c.Param("id")
+	valid, movieIdNum := utils.IsValidNum(movieId)
+	if !valid {
+		c.JSON(400, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
+	if userId == 0 {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"message": "Unauthorized",
+		})
+		return
+	}
+
+	_, err := m.DB.MovieRepository.GetMovieById(movieIdNum)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "Movie not found",
+			})
+			return
+		}
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+	count, err := m.DB.MovieRepository.MovieWasWatchedByUser(movieIdNum)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"message": count,
 	})
 
 }

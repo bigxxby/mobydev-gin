@@ -73,8 +73,8 @@ func main() {
 			movies.POST("/", main.MoviesRoute.POST_Movie)         // admin only
 			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)  // admin only
 			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)        // admin only
-			movies.GET("/main", main.MoviesRoute.GET_Movies_MAIN) //?limit=<limitInt> (with category, age category,genre)
 			movies.GET("/search", main.MoviesRoute.GET_Search)    // ?query=<searchQuery>
+			movies.POST("/:id/watch", main.MoviesRoute.GET_Watch) // +1 movie count ONLY if user authenticated
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")

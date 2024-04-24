@@ -3,6 +3,7 @@ DONE
          -Confirm password
 /trends: -kerek emes
 
+/search: -qazaqsha zaprosqa english istei ma? // join
 
 
 
@@ -20,7 +21,6 @@ NOT DONE
 /movies/main: -180 stroka
   -by genre jeke jeke shygaru , list of genre , list of age category
 
-/search: -qazaqsha zaprosqa english istei ma? // join
 
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
