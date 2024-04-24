@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// TODO JOIN TABLES
 func (m *MoviesRoute) GET_Movies_MAIN(c *gin.Context) {
 	limit := c.Query("limit")
 	if limit == "" {

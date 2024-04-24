@@ -90,7 +90,7 @@ func (m *AuthRoute) POST_ResetPassword(c *gin.Context) {
 		})
 		return
 	}
-	err = utils.CheckValidForReg(data.Email, data.NewPassword, "user")
+	err = utils.CheckValidForReg(data.Email, data.NewPassword)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": "Password not valid",

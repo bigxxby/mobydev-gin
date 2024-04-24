@@ -63,13 +63,6 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 		return
 	}
 
-	if err != nil {
-		log.Println(err.Error())
-		c.JSON(500, gin.H{
-			"message": "Internal server error",
-		})
-		return
-	}
 	c.JSON(200, gin.H{
 		"message": "Profile updated",
 	})

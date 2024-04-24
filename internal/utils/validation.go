@@ -8,7 +8,7 @@ import (
 	"unicode"
 )
 
-func CheckValidForReg(email, password, role string) error {
+func CheckValidForReg(email, password string) error {
 	_, err := mail.ParseAddress(email)
 	if err != nil {
 		return err
@@ -16,9 +16,7 @@ func CheckValidForReg(email, password, role string) error {
 	if !isValidPassword(password) {
 		return errors.New("password is not valid")
 	}
-	if !(role == "user" || role == "admin" || role == "mod") {
-		return errors.New("role is not valid")
-	}
+
 	return nil
 }
 

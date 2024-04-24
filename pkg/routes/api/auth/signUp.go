@@ -13,10 +13,16 @@ func (m *AuthRoute) POST_SignUp(c *gin.Context) {
 
 	time.Sleep(1 * time.Second) //art. delay
 	data := struct {
-		Email    string `json:"email" binding:"required"`
-		Password string `json:"password" binding:"required"`
-		Role     string `json:"role" binding:"required"`
+		Email           string `json:"email" binding:"required"`
+		Password        string `json:"password" binding:"required"`
+		ConfirmPassword string `json:"confirmPassword" binding:"required"`
 	}{}
+	if data.Password != data.ConfirmPassword {
+		c.JSON(400, gin.H{
+			"message": "Пароли не совпадают",
+		})
+		return
+	}
 	if err := c.BindJSON(&data); err != nil {
 		c.JSON(400, gin.H{
 			"message": "Неверный формат данных",
@@ -24,14 +30,14 @@ func (m *AuthRoute) POST_SignUp(c *gin.Context) {
 		return
 	}
 
-	err := logic.CheckValidForReg(data.Email, data.Password, data.Role)
+	err := logic.CheckValidForReg(data.Email, data.Password)
 	if err != nil {
 		c.JSON(400, gin.H{
 			"message": err.Error(),
 		})
 		return
 	}
-	exists, err := m.DB.UserRepository.CreateUser(data.Email, data.Password, data.Role)
+	exists, err := m.DB.UserRepository.CreateUser(data.Email, data.Password)
 	if exists {
 		c.JSON(400, gin.H{
 			"message": "Пользователь уже существует",

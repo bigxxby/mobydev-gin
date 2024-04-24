@@ -108,48 +108,6 @@ func TestGetSeasonByID(t *testing.T) {
 	assert.Equal(t, http.StatusOK, resp.Code, "Expected status OK")
 }
 
-func TestGetTrendByID(t *testing.T) {
-	Setup()
-
-	router := gin.Default()
-	trends := router.Group("/api/trends")
-	{
-		trends.GET("/:id", main.TrendsRoute.GET_Trend)
-	}
-
-	req, err := http.NewRequest("GET", "/api/trends/1", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	resp := httptest.NewRecorder()
-
-	router.ServeHTTP(resp, req)
-
-	assert.Equal(t, http.StatusOK, resp.Code, "Expected status OK")
-}
-
-func TestGetTrends(t *testing.T) {
-	Setup()
-
-	router := gin.Default()
-	trends := router.Group("/api/trends")
-	{
-		trends.GET("/", main.TrendsRoute.GET_Trends)
-	}
-
-	req, err := http.NewRequest("GET", "/api/trends/", nil)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	resp := httptest.NewRecorder()
-
-	router.ServeHTTP(resp, req)
-
-	assert.Equal(t, http.StatusOK, resp.Code, "Expected status OK")
-}
-
 func TestGetCategories(t *testing.T) {
 	Setup()
 

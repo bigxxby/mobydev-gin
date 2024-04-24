@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func (db *UserRepository) CreateUser(email, password string, role string) (bool, error) {
+func (db *UserRepository) CreateUser(email, password string) (bool, error) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	var count int
 	err := db.Database.QueryRow("SELECT COUNT(*) FROM users WHERE email = $1", email).Scan(&count)
@@ -32,8 +32,8 @@ func (db *UserRepository) CreateUser(email, password string, role string) (bool,
 	}
 
 	_, err = tx.Exec(`
-	    INSERT INTO users (email, password , role ) VALUES ($1, $2 , $3)
-	`, email, string(hashedPassword), role)
+	    INSERT INTO users (email, password,role) VALUES ($1, $2, 'user' )
+	`, email, string(hashedPassword))
 	if err != nil {
 		return false, err
 	}
