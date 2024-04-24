@@ -17,13 +17,12 @@ Use the following credentials to log in as an admin:
 
 - **Email:** big@example.com
 - **Password:** Aa12345678#
+
 ## For testing
+
 ```bash
 test/examplesForTesting.txt
 ```
-
-
-
 
 ## Features in Progress
 
@@ -81,11 +80,10 @@ The process for changing a password involves several steps, from sending a verif
 
 - **Status:** NOT DONE
 
-
 ## General Notes:
+
 You must include a valid authentication token in the request headers if its a route that require admin privilege or user auth.
 Admin routes are indicated where only administrators have access. Admin token saved in local storage after login.
-
 
 ## API Reference
 
@@ -117,7 +115,7 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Search Movies
 
-- `GET /api/movies/search`: Search for movies based on a query. Use `query` parameter to specify the search query. 
+- `GET /api/movies/search`: Search for movies based on a query. Use `query` parameter to specify the search query.
 
 ### Seasons
 
@@ -141,16 +139,6 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 - `PUT /api/profile`: Update profile details of the currently authenticated user. Fields that can be updated include `dob`, `name`, and `phone`. **User auth**.
 
-### Trends
-
-#### Retrieve Trend by ID
-
-- `GET /api/trends/:id`: Retrieve details of a trend by its ID.
-
-#### Retrieve All Trends
-
-- `GET /api/trends`: Retrieve all current trends.
-
 ### Authentication
 
 #### Register New User
@@ -159,13 +147,13 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Sign In User
 
-- `POST /api/signIn`: Authenticate and sign in a user. Required fields: `email`, `password`. 
+- `POST /api/signIn`: Authenticate and sign in a user. Required fields: `email`, `password`.
 
 ### Favorites
 
 #### Retrieve Favorites
 
-- `GET /api/favorites`: Retrieve favorite movies of the currently authenticated user.  **User auth**.
+- `GET /api/favorites`: Retrieve favorite movies of the currently authenticated user. **User auth**.
 
 #### Add Favorite
 
@@ -231,7 +219,7 @@ Admin routes are indicated where only administrators have access. Admin token sa
 
 #### Retrieve Age Category by ID
 
-- `GET /api/ageCategories/:id`: Retrieve an age category by its ID. 
+- `GET /api/ageCategories/:id`: Retrieve an age category by its ID.
 
 #### Add Age Category
 
@@ -252,11 +240,6 @@ Admin routes are indicated where only administrators have access. Admin token sa
 - `POST api/verify` : Gets code from user and verifies it, if valid sends to the email the link with token for resetting the password and to the frontend to redirect the user
 - `GET /change-password`: Grants permission to change the password upon successful verification.
 - `POST /reset-password`: Updates the password with a new one after successful verification and permission.
-
-
-
-
-
 
 ```
 .

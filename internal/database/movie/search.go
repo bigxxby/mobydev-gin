@@ -5,12 +5,12 @@ import (
 )
 
 func (db *MovieRepository) SearchMovie(query string) ([]Movie, error) {
-	query = "%" + query + "%"
 	query = strings.ToLower(query)
 
 	sqlQuery := `
-	SELECT * FROM movies 
-		WHERE to_tsvector('english', name || ' ' || keywords) @@ plainto_tsquery('english', $1)
+		SELECT * FROM movies
+		WHERE LOWER(name) LIKE '%' || $1 || '%'
+		OR LOWER(keywords) LIKE '%' || $1 || '%'
 	`
 
 	rows, err := db.Database.Query(sqlQuery, query)
