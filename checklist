@@ -6,6 +6,8 @@ DONE
 /search: -qazaqsha zaprosqa english istei ma? // join
 
 
+api/movies/:id/watch added watch count 
+
 
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
