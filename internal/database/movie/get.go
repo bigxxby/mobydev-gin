@@ -52,7 +52,7 @@ func (db *MovieRepository) GetMovieById(id int) (*Movie, error) {
 }
 
 // get all movies
-func (db *MovieRepository) GetMovies() ([]Movie, error) {
+func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
 	stmt, err := db.Database.Prepare("SELECT * FROM movies")
 	if err != nil {
 		return nil, err
@@ -90,6 +90,19 @@ func (db *MovieRepository) GetMovies() ([]Movie, error) {
 		if err != nil {
 			return nil, err
 		}
+		if userId > 0 {
+
+			var exists bool
+			err = db.Database.QueryRow("SELECT EXISTS (SELECT 1 FROM favorites WHERE movie_id = $1 AND user_id=$2)", movie.Id, userId).Scan(
+				&exists,
+			)
+			if err != nil {
+				return nil, err
+			}
+			if exists {
+				movie.IsFavorite = true
+			}
+		}
 
 		genreRows, err := db.Database.Query("SELECT g.name FROM genres g INNER JOIN movie_genres mg ON g.id = mg.genre_id WHERE mg.movie_id = $1", movie.Id)
 		if err != nil {
@@ -115,7 +128,7 @@ func (db *MovieRepository) GetMovies() ([]Movie, error) {
 }
 
 // returns movies include limit
-func (db *MovieRepository) GetMoviesLimit(limit int) ([]Movie, error) {
+func (db *MovieRepository) GetMoviesLimit(limit int, userId int) ([]Movie, error) {
 	stmt, err := db.Database.Prepare("SELECT * FROM movies LIMIT $1")
 	if err != nil {
 		return nil, err
@@ -152,6 +165,18 @@ func (db *MovieRepository) GetMoviesLimit(limit int) ([]Movie, error) {
 		)
 		if err != nil {
 			return nil, err
+		}
+		if userId > 0 {
+			var exists bool
+			err = db.Database.QueryRow("SELECT EXISTS (SELECT 1 FROM favorites WHERE movie_id = $1 AND user_id=$2)", movie.Id, userId).Scan(
+				&exists,
+			)
+			if err != nil {
+				return nil, err
+			}
+			if exists {
+				movie.IsFavorite = true
+			}
 		}
 
 		genreRows, err := db.Database.Query("SELECT g.name FROM genres g INNER JOIN movie_genres mg ON g.id = mg.genre_id WHERE mg.movie_id = $1", movie.Id)

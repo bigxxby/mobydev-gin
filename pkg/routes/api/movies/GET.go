@@ -9,9 +9,10 @@ import (
 )
 
 func (m *MoviesRoute) GET_Movies(c *gin.Context) {
+	userId := c.GetInt("userId")
 	limit := c.Query("limit")
 	if limit == "" {
-		movies, err := m.DB.MovieRepository.GetMovies()
+		movies, err := m.DB.MovieRepository.GetMovies(userId)
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{
@@ -32,7 +33,7 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 		})
 		return
 	}
-	movies, err := m.DB.MovieRepository.GetMoviesLimit(num)
+	movies, err := m.DB.MovieRepository.GetMoviesLimit(num, userId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -40,6 +41,7 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(200, gin.H{
 		"movies": movies,
 	})

@@ -35,7 +35,7 @@ type Movie struct {
 
 	WatchCount int `json:"watchCount"`
 
-	IsFavorite bool `json:"isFavorite,omitempty"`
+	IsFavorite bool `json:"isFavorite"`
 }
 
 // movie that is created (no genres required)
