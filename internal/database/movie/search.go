@@ -31,7 +31,6 @@ func (db *MovieRepository) SearchMovie(query string) ([]Movie, error) {
 			&movie.Year,
 			&movie.CategoryId,
 			&movie.AgeCategoryId,
-			&movie.GenreId,
 			&movie.WatchCount,
 			&movie.DurationMinutes,
 			&movie.Keywords,

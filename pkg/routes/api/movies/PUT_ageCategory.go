@@ -4,15 +4,12 @@ import (
 	"database/sql"
 	"log"
 	"net/http"
-	"project/internal/database/movie"
 	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
-// update movie
-
-func (m *MoviesRoute) PUT_Movie(c *gin.Context) {
+func (m *MoviesRoute) PUT_MovieAgeCategory(c *gin.Context) {
 	movieId := c.Param("id")
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")
@@ -24,28 +21,28 @@ func (m *MoviesRoute) PUT_Movie(c *gin.Context) {
 		return
 	}
 
-	valid, num := utils.IsValidNum(movieId)
+	valid, movieIdNum := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(http.StatusUnauthorized, gin.H{
 			"message": "Bad request",
 		})
 		return
 	}
-
-	var movie movie.Movie
-	err := c.BindJSON(&movie)
+	data := struct {
+		AgeCategoryName string `json:"ageCategoryName" binding:"required"`
+	}{}
+	err := c.BindJSON(&data)
 	if err != nil {
-		log.Println(err.Error())
 		c.JSON(400, gin.H{
 			"message": "Bad request",
 		})
 		return
 	}
-	err = m.DB.MovieRepository.CheckMovieExistsById(num)
+	ageCategory, err := m.DB.AgeRepository.GetAgeCategoryByName(data.AgeCategoryName)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{
-				"message": "Movie not found",
+				"message": "ageCategory not found",
 			})
 			return
 		}
@@ -56,29 +53,16 @@ func (m *MoviesRoute) PUT_Movie(c *gin.Context) {
 		return
 	}
 
-	err = m.DB.MovieRepository.UpdateMovie(
-		num, // movie id we want to update
-		movie.ImageUrl,
-		movie.Name,
-		movie.Year,
-		movie.CategoryId,
-		movie.AgeCategoryId,
-		movie.GenreId,
-		movie.DurationMinutes,
-		movie.Description,
-		movie.Keywords,
-		movie.Director,
-		movie.Producer,
-	)
+	err = m.DB.MovieRepository.UpdateMovieAgeCategory(movieIdNum, ageCategory.ID)
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(500, gin.H{
-			"message": "Internal server error",
+		c.JSON(404, gin.H{
+			"message": "Movie not found",
 		})
 		return
 	}
 	c.JSON(200, gin.H{
-		"message": "Movie Updated",
+		"message": "Movie ageCategory updated",
 	})
 
 }

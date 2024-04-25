@@ -2,10 +2,6 @@ package movie
 
 import (
 	"database/sql"
-	"project/internal/database/age"
-	"project/internal/database/categories"
-	"project/internal/database/genres"
-	"project/internal/database/trend"
 )
 
 type MovieRepository struct {
@@ -19,32 +15,30 @@ type Movie struct {
 	Name     string `json:"name" binding:"required"`
 	Year     int    `json:"year" binding:"required"`
 
-	CategoryId      int    `json:"categoryId" binding:"required"`
-	AgeCategoryId   int    `json:"ageCategoryId" binding:"required"`
-	GenreId         int    `json:"genreId" binding:"required"`
+	Category    string   `json:"category"`
+	AgeCategory string   `json:"ageCategory"`
+	Genres      []string `json:"genres" binding:"required"` //many to many table
+
+	CategoryId    int `json:"categoryId" binding:"required"`
+	AgeCategoryId int `json:"ageCategoryId" binding:"required"`
+
 	DurationMinutes int    `json:"durationMinutes" binding:"required"`
 	Keywords        string `json:"keywords" binding:"required"`
 	Description     string `json:"description" binding:"required"`
 	Director        string `json:"director" binding:"required"`
 	Producer        string `json:"producer" binding:"required"`
-	CreatedAt       string `json:"createdAt"`
-	UpdatedAt       string `json:"updatedAt"`
 
-	SeasonCount int `json:"seasonCount,omitempty" `
-	SeriesCount int `json:"seriesCount,omitempty"`
+	CreatedAt   string `json:"createdAt"`
+	UpdatedAt   string `json:"updatedAt"`
+	SeasonCount int    `json:"seasonCount,omitempty" `
+	SeriesCount int    `json:"seriesCount,omitempty"`
 
 	WatchCount int `json:"watchCount"`
 
-	Categories []categories.Category `json:"category,omitempty"`
-
-	Genres []genres.Genre `json:"genre,omitempty"`
-
-	AgeCategories []age.AgeCategory `json:"ageCategory,omitempty"`
-
-	Trend trend.Trend `json:"trend,omitempty"`
-
 	IsFavorite bool `json:"isFavorite,omitempty"`
 }
+
+// movie that is created (no genres required)
 
 // type MovieMain struct {
 // 	Id              int    `json:"id"`

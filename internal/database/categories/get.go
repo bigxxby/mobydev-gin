@@ -18,6 +18,24 @@ func (db *CategoryRepository) GetCategoryById(id int) (*Category, error) {
 
 	return &category, nil
 }
+func (db *CategoryRepository) GetCategoryByName(name string) (*Category, error) {
+	var category Category
+
+	query := `SELECT * FROM categories WHERE name = $1`
+
+	err := db.Database.QueryRow(query, name).Scan(
+		&category.ID,
+		&category.UserID,
+		&category.Name,
+		&category.Description,
+	)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &category, nil
+}
 func (db *CategoryRepository) GetCategories() ([]Category, error) {
 	stmt, err := db.Database.Prepare("SELECT * FROM categories ORDER BY name")
 	if err != nil {

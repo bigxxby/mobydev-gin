@@ -53,7 +53,6 @@ func CreateMoviesTable(db *database.Database) error {
 		year INTEGER NOT NULL,
 		category_id INTEGER NOT NULL REFERENCES categories(id),
 		age_category_id INTEGER NOT NULL REFERENCES age_categories(id),
-		genre_id INTEGER NOT NULL REFERENCES genres(id),
 		watch_count INTEGER DEFAULT 0,
 		duration_minutes INTEGER NOT NULL,
 		keywords TEXT NOT NULL,
@@ -125,32 +124,6 @@ func CreateEpisodesTable(db *database.Database) error {
 		duration_minutes INTEGER,
 		release_date DATE,
 		description TEXT
-	);
-    `)
-	if err != nil {
-		return err
-	}
-
-	err = tx.Commit()
-	if err != nil {
-		return err
-	}
-
-	return nil
-}
-func CreateTrendsTable(db *database.Database) error {
-	tx, err := db.Database.Begin()
-	if err != nil {
-		return err
-	}
-	defer tx.Rollback()
-
-	_, err = tx.Exec(`
-	CREATE TABLE IF NOT EXISTS trends (
-		id SERIAL PRIMARY KEY,
-		movie_id INTEGER REFERENCES movies(id),
-		trend_date DATE NOT NULL,
-		trend_value INTEGER NOT NULL
 	);
     `)
 	if err != nil {
@@ -300,4 +273,33 @@ func CreateCodesTable(db *database.Database) error {
 	}
 
 	return nil
+}
+func CreateMovieGenresTable(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+		CREATE TABLE IF NOT EXISTS movie_genres(
+		id SERIAL PRIMARY KEY, 
+		movie_id INT,
+    	genre_id INT,
+
+    	FOREIGN KEY (movie_id) REFERENCES movies(id),
+    	FOREIGN KEY (genre_id) REFERENCES genres(id)
+		);
+    `)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+
 }

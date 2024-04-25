@@ -73,7 +73,7 @@ func (m *GenreRoute) PUT_Genre(c *gin.Context) {
 	}
 
 	if existingGenre.Name != genre.Name {
-		exists, err = m.DB.GenreRepository.CheckGenreExistsByName(genre.Name)
+		_, exists, err = m.DB.GenreRepository.CheckGenreExistsByName(genre.Name)
 		if exists {
 			c.JSON(409, gin.H{
 				"message": "Genre with this name already exists",

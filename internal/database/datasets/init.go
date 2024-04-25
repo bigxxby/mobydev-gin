@@ -1,6 +1,8 @@
 package datasets
 
-import "project/internal/database"
+import (
+	"project/internal/database"
+)
 
 func InitDatasets(database *database.Database) error {
 

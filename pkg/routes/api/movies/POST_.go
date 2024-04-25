@@ -2,6 +2,7 @@ package movies
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"project/internal/database/movie"
@@ -31,21 +32,15 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 		})
 		return
 	}
-	exists, err := m.DB.GenreRepository.CheckGenreExistsById(movie.GenreId)
-	if err != nil {
-		log.Println(err.Error())
-		c.JSON(500, gin.H{
-			"message": "Internal server error",
+
+	if len(movie.Genres) == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "At least one genre required",
 		})
 		return
 	}
-	if !exists {
-		c.JSON(400, gin.H{
-			"message": "This genre does not exists",
-		})
-		return
-	}
-	exists, err = m.DB.AgeRepository.CheckAgeCategoryExistsId(movie.AgeCategoryId)
+
+	exists, err := m.DB.AgeRepository.CheckAgeCategoryExistsId(movie.AgeCategoryId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -66,7 +61,6 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 			"message": "Internal server error",
 		})
 		return
-
 	}
 	if !exists {
 		c.JSON(400, gin.H{
@@ -74,15 +68,32 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 		})
 		return
 	}
+	genreIds := []int{}
+	for _, genre := range movie.Genres {
+		id, _, err := m.DB.GenreRepository.CheckGenreExistsByName(genre)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				c.JSON(404, gin.H{
+					"message": "This genre (" + genre + ") does not exists",
+				})
+				return
 
-	_, err = m.DB.MovieRepository.CreateMovie(
+			}
+			log.Println(err.Error())
+			c.JSON(500, gin.H{
+				"message": "Internal server error",
+			})
+			return
+		}
+		genreIds = append(genreIds, id)
+	}
+	resultMovie, err := m.DB.MovieRepository.CreateMovie(
 		userId,
 		movie.ImageUrl,
 		movie.Name,
 		movie.Year,
 		movie.CategoryId,
 		movie.AgeCategoryId,
-		movie.GenreId,
 		movie.DurationMinutes,
 		movie.Description,
 		movie.Keywords,
@@ -95,13 +106,21 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 		})
 		return
 	}
+	err = m.DB.MovieRepository.AddGenresToMovie(resultMovie.Id, genreIds)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
 	c.JSON(200, gin.H{
 		"message": "Movie Created",
 	})
-
 }
 
-func (m *MoviesRoute) GET_Watch(c *gin.Context) {
+// +1 watch by authorised user
+func (m *MoviesRoute) POST_Watch(c *gin.Context) {
 	userId := c.GetInt("userId")
 	movieId := c.Param("id")
 	valid, movieIdNum := utils.IsValidNum(movieId)
@@ -140,8 +159,9 @@ func (m *MoviesRoute) GET_Watch(c *gin.Context) {
 		})
 		return
 	}
+	message := fmt.Sprintf("Total watches: %d", count)
 	c.JSON(200, gin.H{
-		"message": count,
+		"message": message,
 	})
 
 }

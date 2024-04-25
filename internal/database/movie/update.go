@@ -1,36 +1,25 @@
 package movie
 
-func (d *MovieRepository) UpdateMovie(id int, imageUrl string, name string, year int, categoryId int, ageCategoryId int, genreId int, durationMinutes int, keywords string, desc string, director string, producer string) error {
+func (d *MovieRepository) UpdateMovieData(id int, name, description, director, producer string, year, durationMinutes int) error {
 	tx, err := d.Database.Begin()
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback()
-	query := `UPDATE movies SET 
-				image_url = $1,
-				name = $2,
-				year = $3,
-				category_id = $4,
-				age_category_id = $5,
-				genre_id = $6,
-				duration_minutes = $7,
-				keywords = $8,
-				description = $9,
-				director = $10,
-				producer = $11,
-				updated_at = CURRENT_TIMESTAMP
-			  WHERE id = $12`
 
-	_, err = tx.Exec(query, imageUrl, name, year, categoryId, ageCategoryId, genreId, durationMinutes, keywords, desc, director, producer, id)
+	q := `UPDATE movies SET name = $1, description = $2, director = $3, producer = $4, year = $5, duration_minutes = $6 WHERE id = $7`
+	_, err = tx.Exec(q, name, description, director, producer, year, durationMinutes, id)
 	if err != nil {
 		return err
 	}
+
 	err = tx.Commit()
 	if err != nil {
 		return err
 	}
 	return nil
 }
+
 func (db *MovieRepository) MovieWasWatchedByUser(movieId int) (int, error) {
 	tx, err := db.Database.Begin()
 	if err != nil {
@@ -49,5 +38,84 @@ func (db *MovieRepository) MovieWasWatchedByUser(movieId int) (int, error) {
 	if err != nil {
 		return -1, err
 	}
-	return watchCount, nil // Возврат текущего количества просмотров фильма
+	return watchCount, nil
+}
+func (db *MovieRepository) AddGenresToMovie(movieId int, genresId []int) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	for _, genreID := range genresId {
+		_, err = tx.Exec("INSERT INTO movie_genres (movie_id, genre_id) VALUES ($1, $2)", movieId, genreID)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (d *MovieRepository) UpdateMovieCategory(movieId, categoryId int) error {
+	tx, err := d.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	q := `UPDATE movies SET category_id = $1 WHERE id = $2`
+	_, err = tx.Exec(q, categoryId, movieId)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func (d *MovieRepository) UpdateMovieAgeCategory(movieId, ageCategoryId int) error {
+	tx, err := d.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	q := `UPDATE movies SET age_category_id = $1 WHERE id = $2`
+	_, err = tx.Exec(q, ageCategoryId, movieId)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+func (db *MovieRepository) RemoveGenresFromMovie(movieId int, genresId []int) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	for _, genreID := range genresId {
+		_, err = tx.Exec("DELETE FROM movie_genres WHERE movie_id = $1 AND genre_id = $2", movieId, genreID)
+		if err != nil {
+			return err
+		}
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+	return nil
 }

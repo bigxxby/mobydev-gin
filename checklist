@@ -2,27 +2,34 @@ DONE
 /signup: -Registracia kezinde rol berilmeidi
          -Confirm password
 /trends: -kerek emes
-
 /search: -qazaqsha zaprosqa english istei ma? // join
-
-
 api/movies/:id/watch added watch count 
+  -CategoryID emes , categoryName shygu kerek (AgeCategoryId , GenreId...)
+/delete genre
+
+
+
+
+workiing
+/movies[GET]: -id , name , image , genre jetedi // MAKE FOR ONE REQUEST, (remove genre id etc.. instead use name)
+
+
 
 
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
-/movies[GET]: -id , name , image , genre jetedi // MAKE FOR ONE REQUEST, (remove genre id etc.. instead use name)
 /movies/:id [GET]:
-  -CategoryID emes , categoryName shygu kerek (AgeCategoryId , GenreId...)
   -bir movieda birneshe screenshot bolady , qosu kerek //MAKE NEW TABLE
   -uqsas telehikaialar qosu
   -isFavorite qosu kerek
 /favorites [GET]: -MovieID emes , Movie-dyn dannyilary shygu kerek , imageUrl
 /categories: -ar user
-
+/add keywords
 /movies/main: -180 stroka
   -by genre jeke jeke shygaru , list of genre , list of age category
-
+/season/:movieId/ [POST] add season 
+/episode/:seasonId/ [POST] add episode 
+/api/swagger
 
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady

@@ -9,7 +9,6 @@ import (
 	"project/internal/database/genres"
 	"project/internal/database/movie"
 	"project/internal/database/season"
-	"project/internal/database/trend"
 	"project/internal/database/user"
 )
 
@@ -19,7 +18,6 @@ type Database struct {
 	MovieRepository      *movie.MovieRepository
 	SeasonRepository     *season.SeasonRepository
 	EpisodeRepository    *episode.EpisodeRepository
-	TrendRepository      *trend.TrendRepository
 	FavoritesRepository  *favorites.FavoritesRepository
 	CategoriesRepository *categories.CategoryRepository
 	GenreRepository      *genres.GenreRepository

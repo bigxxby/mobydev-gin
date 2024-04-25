@@ -11,7 +11,7 @@ import (
 func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 	limit := c.Query("limit")
 	if limit == "" {
-		movies, err := m.DB.MovieRepository.GetMovies(0)
+		movies, err := m.DB.MovieRepository.GetMovies()
 		if err != nil {
 			log.Println(err.Error())
 			c.JSON(500, gin.H{
@@ -32,7 +32,7 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 		})
 		return
 	}
-	movies, err := m.DB.MovieRepository.GetMovies(num)
+	movies, err := m.DB.MovieRepository.GetMoviesLimit(num)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{

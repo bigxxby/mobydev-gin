@@ -33,15 +33,16 @@ func CreateTables(db *database.Database) error {
 	if err != nil {
 		return err
 	}
-	err = CreateTrendsTable(db)
-	if err != nil {
-		return err
-	}
+
 	err = CreateFavoritesTable(db)
 	if err != nil {
 		return err
 	}
 	err = CreateCodesTable(db)
+	if err != nil {
+		return err
+	}
+	err = CreateMovieGenresTable(db)
 	if err != nil {
 		return err
 	}

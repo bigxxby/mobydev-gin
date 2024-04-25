@@ -12,7 +12,6 @@ import (
 	"project/internal/database/genres"
 	"project/internal/database/movie"
 	"project/internal/database/season"
-	"project/internal/database/trend"
 
 	"project/internal/database/categories"
 	"project/internal/database/user"
@@ -57,7 +56,6 @@ func CreateDatabaseStruct() (*database.Database, error) {
 		FavoritesRepository:  &favorites.FavoritesRepository{Database: db},
 		SeasonRepository:     &season.SeasonRepository{Database: db},
 		EpisodeRepository:    &episode.EpisodeRepository{Database: db},
-		TrendRepository:      &trend.TrendRepository{Database: db},
 		CategoriesRepository: &categories.CategoryRepository{Database: db},
 		GenreRepository:      &genres.GenreRepository{Database: db},
 		AgeRepository:        &age.AgeRepository{Database: db},

@@ -57,12 +57,12 @@ func insertTestMovies(db *database.Database) error {
 	defer tx.Rollback()
 
 	_, err = tx.Exec(`
-        INSERT INTO movies (user_id, image_url,category_id,age_category_id,genre_id, name, year, duration_minutes, keywords, description, director, producer)
+        INSERT INTO movies (user_id, image_url,category_id,age_category_id, name, year, duration_minutes, keywords, description, director, producer)
         VALUES 
-        (1, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 1',  202, 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
-        (2, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 2',  2019, 90, 'comedy, romance', 'Description for Movie 2', 'Director 2', 'Producer 2'),
-        (3, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 3',  2021,  110, 'drama', 'Description for Movie 3', 'Director 3', 'Producer 3'),
-        (4, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1,1, 'Movie 4',  2018,  105, 'thriller, mystery', 'Description for Movie 4', 'Director 4', 'Producer 4')
+        (1, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1, 'Movie 1',  202, 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
+        (2, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1, 'Movie 2',  2019, 90, 'comedy, romance', 'Description for Movie 2', 'Director 2', 'Producer 2'),
+        (3, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1, 'Movie 3',  2021,  110, 'drama', 'Description for Movie 3', 'Director 3', 'Producer 3'),
+        (4, 'https://www.prolydian.com/sites/default/files/2020-12/api.png',1,1, 'Movie 4',  2018,  105, 'thriller, mystery', 'Description for Movie 4', 'Director 4', 'Producer 4')
     `)
 	if err != nil {
 		return err
@@ -245,6 +245,31 @@ func insertTestGenres(db *database.Database) error {
 	(1,'Action', 'this is actiion'),
 	(1,'Comedy' , 'this is comedy'),
 	(1,'Drama' , 'this is drama ')
+	`)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+func insertTestMovieGenres(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+	INSERT INTO movie_genres (movie_id, genre_id)
+	VALUES 
+	(1,1),
+	(1,2),
+	(1,2)
 	`)
 	if err != nil {
 		return err

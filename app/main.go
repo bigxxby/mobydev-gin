@@ -68,13 +68,16 @@ func main() {
 		// movies
 		movies := apiRoutes.Group("/movies")
 		{
-			movies.GET("/", main.MoviesRoute.GET_Movies)          //?limit=<limitInt>
-			movies.GET("/:id", main.MoviesRoute.GET_Movie)        // returns movie by id of movie
-			movies.POST("/", main.MoviesRoute.POST_Movie)         // admin only
-			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)  // admin only
-			movies.PUT("/:id", main.MoviesRoute.PUT_Movie)        // admin only
-			movies.GET("/search", main.MoviesRoute.GET_Search)    // ?query=<searchQuery>
-			movies.POST("/:id/watch", main.MoviesRoute.GET_Watch) // +1 movie count ONLY if user authenticated
+			movies.GET("/", main.MoviesRoute.GET_Movies)                           //?limit=<limitInt>
+			movies.GET("/:id", main.MoviesRoute.GET_Movie)                         // returns movie by id of movie
+			movies.POST("/", main.MoviesRoute.POST_Movie)                          // admin only
+			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)                   // admin only
+			movies.GET("/search", main.MoviesRoute.GET_Search)                     // ?query=<searchQuery>
+			movies.POST("/:id/watch", main.MoviesRoute.POST_Watch)                 // +1 movie count ONLY if user authenticated
+			movies.PUT("/:id/category", main.MoviesRoute.PUT_MovieCategory)        // admin only change category
+			movies.PUT("/:id/data", main.MoviesRoute.PUT_MovieData)                // admin only change data of movie (not related to other tables)
+			movies.PUT("/:id/age-category", main.MoviesRoute.PUT_MovieAgeCategory) // admin only
+			movies.PUT("/:id/genres", main.MoviesRoute.PUT_MovieGenres)            // admin only
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")

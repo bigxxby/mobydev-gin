@@ -36,7 +36,7 @@ func (m *GenreRoute) POST_Genre(c *gin.Context) {
 		return
 	}
 
-	exists, err := m.DB.GenreRepository.CheckGenreExistsByName(genre.Name)
+	_, exists, err := m.DB.GenreRepository.CheckGenreExistsByName(genre.Name)
 	if exists {
 		c.JSON(409, gin.H{
 			"message": "Genre with this name already exists",

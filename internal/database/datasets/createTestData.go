@@ -1,8 +1,6 @@
 package datasets
 
 import (
-	"database/sql"
-	"log"
 	"project/internal/database"
 )
 
@@ -38,28 +36,15 @@ func CreateTestData(db *database.Database) error {
 	if err != nil {
 		return err
 	}
-	err = insertTestTrends(db)
-	if err != nil {
-		return err
-	}
+
 	err = insertTestFavorites(db)
 	if err != nil {
 		return err
 	}
-
-	return nil
-}
-func DropTables(db *sql.DB) error {
-	tables := []string{"episodes", "seasons", "movies", "users", "trends", "favorites", "categories", "age_categories", "genres", "codes"}
-
-	for _, table := range tables {
-		_, err := db.Exec("DROP TABLE IF EXISTS " + table + " CASCADE")
-		if err != nil {
-			log.Fatalf("Failed to drop table %s: %v", table, err)
-			return err
-		}
+	err = insertTestMovieGenres(db)
+	if err != nil {
+		return err
 	}
 
-	log.Println("All tables dropped successfully")
 	return nil
 }
