@@ -26,7 +26,6 @@ func (db *MovieRepository) SearchMovie(query string) ([]Movie, error) {
 		err := rows.Scan(
 			&movie.Id,
 			&movie.UserId,
-			&movie.ImageUrl,
 			&movie.Name,
 			&movie.Year,
 			&movie.CategoryId,

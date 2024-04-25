@@ -2,11 +2,9 @@ package movie
 
 import (
 	"database/sql"
-	"log"
 )
 
 func (db *MovieRepository) CheckMovieExistsById(movieId int) error {
-	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	stmt, err := db.Database.Prepare("SELECT * FROM movies WHERE id = $1")
 	if err != nil {

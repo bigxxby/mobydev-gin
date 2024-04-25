@@ -11,6 +11,7 @@ import (
 	"project/internal/database/favorites"
 	"project/internal/database/genres"
 	"project/internal/database/movie"
+	"project/internal/database/posters"
 	"project/internal/database/season"
 
 	"project/internal/database/categories"
@@ -59,6 +60,7 @@ func CreateDatabaseStruct() (*database.Database, error) {
 		CategoriesRepository: &categories.CategoryRepository{Database: db},
 		GenreRepository:      &genres.GenreRepository{Database: db},
 		AgeRepository:        &age.AgeRepository{Database: db},
+		PosterRepo:           &posters.PosterRepo{Database: db},
 	}
 	return &database, err
 }

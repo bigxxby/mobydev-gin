@@ -8,6 +8,7 @@ import (
 	"project/internal/database/favorites"
 	"project/internal/database/genres"
 	"project/internal/database/movie"
+	"project/internal/database/posters"
 	"project/internal/database/season"
 	"project/internal/database/user"
 )
@@ -22,4 +23,5 @@ type Database struct {
 	CategoriesRepository *categories.CategoryRepository
 	GenreRepository      *genres.GenreRepository
 	AgeRepository        *age.AgeRepository
+	PosterRepo           *posters.PosterRepo
 }

@@ -23,10 +23,6 @@ func (db *MovieRepository) DeleteMovie(movieId string) error {
 	if err != nil {
 		return err
 	}
-	_, err = tx.Exec("DELETE FROM trends WHERE movie_id=$1", movieId)
-	if err != nil {
-		return err
-	}
 
 	_, err = tx.Exec("DELETE FROM episodes WHERE season_id IN (SELECT id FROM seasons WHERE movie_id=$1)", movieId)
 	if err != nil {

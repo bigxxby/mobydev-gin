@@ -9,12 +9,12 @@ type MovieRepository struct {
 }
 
 type Movie struct {
-	Id       int    `json:"id"`
-	UserId   string `json:"userId"`
-	ImageUrl string `json:"imageUrl" binding:"required"`
-	Name     string `json:"name" binding:"required"`
-	Year     int    `json:"year" binding:"required"`
+	Id     int    `json:"id"`
+	UserId string `json:"userId"`
+	Name   string `json:"name" binding:"required"`
+	Year   int    `json:"year" binding:"required"`
 
+	//options
 	Category    string   `json:"category"`
 	AgeCategory string   `json:"ageCategory"`
 	Genres      []string `json:"genres" binding:"required"` //many to many table

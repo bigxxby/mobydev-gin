@@ -89,7 +89,6 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 	}
 	resultMovie, err := m.DB.MovieRepository.CreateMovie(
 		userId,
-		movie.ImageUrl,
 		movie.Name,
 		movie.Year,
 		movie.CategoryId,

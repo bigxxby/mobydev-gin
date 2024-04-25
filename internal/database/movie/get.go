@@ -9,7 +9,7 @@ func (db *MovieRepository) GetMovieById(id int) (*Movie, error) {
 
 	var movie Movie
 
-	err = stmt.QueryRow(id).Scan(&movie.Id, &movie.UserId, &movie.ImageUrl, &movie.Name, &movie.Year,
+	err = stmt.QueryRow(id).Scan(&movie.Id, &movie.UserId, &movie.Name, &movie.Year,
 		&movie.CategoryId, &movie.AgeCategoryId, &movie.WatchCount, &movie.DurationMinutes,
 		&movie.Keywords, &movie.Description, &movie.Director, &movie.Producer,
 		&movie.CreatedAt, &movie.UpdatedAt)
@@ -69,7 +69,7 @@ func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
 
 	for rows.Next() {
 		var movie Movie
-		err := rows.Scan(&movie.Id, &movie.UserId, &movie.ImageUrl, &movie.Name, &movie.Year,
+		err := rows.Scan(&movie.Id, &movie.UserId, &movie.Name, &movie.Year,
 			&movie.CategoryId, &movie.AgeCategoryId, &movie.WatchCount, &movie.DurationMinutes,
 			&movie.Keywords, &movie.Description, &movie.Director, &movie.Producer,
 			&movie.CreatedAt, &movie.UpdatedAt)
@@ -145,7 +145,7 @@ func (db *MovieRepository) GetMoviesLimit(limit int, userId int) ([]Movie, error
 
 	for rows.Next() {
 		var movie Movie
-		err := rows.Scan(&movie.Id, &movie.UserId, &movie.ImageUrl, &movie.Name, &movie.Year,
+		err := rows.Scan(&movie.Id, &movie.UserId, &movie.Name, &movie.Year,
 			&movie.CategoryId, &movie.AgeCategoryId, &movie.WatchCount, &movie.DurationMinutes,
 			&movie.Keywords, &movie.Description, &movie.Director, &movie.Producer,
 			&movie.CreatedAt, &movie.UpdatedAt)

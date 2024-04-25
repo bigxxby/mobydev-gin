@@ -8,12 +8,14 @@ api/movies/:id/watch added watch count
 /delete genre
 /movies[GET]: -id , name , image , genre jetedi // MAKE FOR ONE REQUEST, (remove genre id etc.. instead use name)
 
+-isFavorite qosu kerek
 
 
 
 workiing
-  -isFavorite qosu kerek
-
+DELETE POSTERS
+PUT POSTERS
+add it to the main movies GET to display all posters
 
 
 
@@ -30,6 +32,7 @@ NOT DONE
 /season/:movieId/ [POST] add season 
 /episode/:seasonId/ [POST] add episode 
 /api/swagger
+/filtes by watches
 
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady

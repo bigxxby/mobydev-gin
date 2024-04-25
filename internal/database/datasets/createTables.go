@@ -46,5 +46,9 @@ func CreateTables(db *database.Database) error {
 	if err != nil {
 		return err
 	}
+	err = CreateTablePosters(db)
+	if err != nil {
+		return err
+	}
 	return nil
 }

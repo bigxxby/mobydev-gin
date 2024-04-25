@@ -147,8 +147,13 @@ func main() {
 			age.DELETE("/:id", main.AgeRoute.DELETE_AgeCategory) //admin only
 			age.PUT("/:id", main.AgeRoute.PUT_AgeCategory)       //admin only
 		}
+		//posters
+		posters := apiRoutes.Group("/posters")
+		{
+			posters.GET("/:id", main.PosterRoute.GET_PostersOfMoive)   //get posters of moive
+			posters.POST("/:id", main.PosterRoute.POST_PostersOfMoive) //create posters of movie
+		}
 
 	}
-
 	router.Run(":8080")
 }

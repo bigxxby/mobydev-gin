@@ -37,11 +37,11 @@ func CreateTestData(db *database.Database) error {
 		return err
 	}
 
-	err = insertTestFavorites(db)
+	err = insertTestMovieGenres(db)
 	if err != nil {
 		return err
 	}
-	err = insertTestMovieGenres(db)
+	err = insertTestPosters(db)
 	if err != nil {
 		return err
 	}

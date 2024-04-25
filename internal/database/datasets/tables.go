@@ -48,7 +48,6 @@ func CreateMoviesTable(db *database.Database) error {
 	CREATE TABLE IF NOT EXISTS movies (
 		id SERIAL PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id),
-		image_url TEXT NOT NULL,
 		name TEXT NOT NULL,
 		year INTEGER NOT NULL,
 		category_id INTEGER NOT NULL REFERENCES categories(id),
@@ -148,7 +147,7 @@ func CreateFavoritesTable(db *database.Database) error {
 	CREATE TABLE IF NOT EXISTS favorites (
 		id SERIAL PRIMARY KEY,
 		user_id INTEGER NOT NULL REFERENCES users(id),
-		movie_id INTEGER NOT NULL REFERENCES movies(id),
+		movie_id INTEGER NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
 		added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 	);
     `)
@@ -302,4 +301,33 @@ func CreateMovieGenresTable(db *database.Database) error {
 
 	return nil
 
+}
+func CreateTablePosters(db *database.Database) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	_, err = tx.Exec(`
+		CREATE TABLE IF NOT EXISTS posters(
+			id SERIAL PRIMARY KEY,
+			movie_id INT NOT NULL REFERENCES movies(id) ON DELETE CASCADE,
+			main_poster TEXT NOT NULL,
+			second_poster TEXT,
+			third_poster TEXT,
+			fourth_poster TEXT,
+			fifth_poster TEXT
+		);
+	`)
+	if err != nil {
+		return err
+	}
+
+	err = tx.Commit()
+	if err != nil {
+		return err
+	}
+
+	return nil
 }

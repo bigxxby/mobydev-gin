@@ -6,7 +6,7 @@ import (
 )
 
 func DropTables(db *sql.DB) error {
-	tables := []string{"episodes", "seasons", "movies", "users", "favorites", "categories", "age_categories", "codes", "movie_genres", "genres"}
+	tables := []string{"episodes", "seasons", "movies", "users", "favorites", "categories", "age_categories", "posters", "codes", "movie_genres", "genres"}
 
 	for _, table := range tables {
 		_, err := db.Exec("DROP TABLE IF EXISTS " + table + " CASCADE")

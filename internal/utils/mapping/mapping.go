@@ -1,6 +1,7 @@
 package mapping
 
 import (
+	"project/internal/database/posters"
 	"project/internal/database/user"
 
 	"github.com/gin-gonic/gin"
@@ -51,6 +52,26 @@ func TrimUserJson(userVar *user.User) user.UserJson {
 	}
 
 	return userJson
+}
+func TrimPoster(poster posters.Poster) posters.PosterJson {
+	var posterJson posters.PosterJson
+	posterJson.Id = poster.Id
+	posterJson.MovieId = poster.MovieId
+	posterJson.MainPoster = poster.MainPoster
+	if poster.SecondaryPoster.Valid {
+		posterJson.SecondaryPoster = poster.SecondaryPoster.String
+	}
+	if poster.ThirdPoster.Valid {
+		posterJson.ThirdPoster = poster.ThirdPoster.String
+	}
+	if poster.FourthPoster.Valid {
+		posterJson.FourthPoster = poster.FourthPoster.String
+	}
+	if poster.FifthPoster.Valid {
+		posterJson.FifthPoster = poster.FifthPoster.String
+	}
+
+	return posterJson
 }
 
 // func TrimMovies(movies []database.Movie) []database.MovieJson {
