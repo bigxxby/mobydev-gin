@@ -49,7 +49,8 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 }
 func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 	movieId := c.Param("id")
-	valid, num := utils.IsValidNum(movieId)
+	userId := c.GetInt("userId")
+	valid, movieIdNum := utils.IsValidNum(movieId)
 	if !valid {
 		log.Println("num is not valid")
 		c.JSON(400, gin.H{
@@ -57,7 +58,8 @@ func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 		})
 		return
 	}
-	movie, err := m.DB.MovieRepository.GetMovieById(num)
+
+	movie, err := m.DB.MovieRepository.GetMovieById(userId, movieIdNum)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{

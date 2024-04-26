@@ -2,10 +2,11 @@ package favorites
 
 import (
 	"database/sql"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"project/internal/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (m *FavoritesRoute) DELETE_Favorite(c *gin.Context) {

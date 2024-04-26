@@ -136,7 +136,7 @@ func (m *MoviesRoute) POST_Watch(c *gin.Context) {
 		return
 	}
 
-	_, err := m.DB.MovieRepository.GetMovieById(movieIdNum)
+	_, err := m.DB.MovieRepository.GetMovieById(userId, movieIdNum)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			c.JSON(404, gin.H{

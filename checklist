@@ -7,25 +7,24 @@ api/movies/:id/watch added watch count
   -CategoryID emes , categoryName shygu kerek (AgeCategoryId , GenreId...)
 /delete genre
 /movies[GET]: -id , name , image , genre jetedi // MAKE FOR ONE REQUEST, (remove genre id etc.. instead use name)
-
+DELETE POSTERS
+PUT POSTERS
+  -bir movieda birneshe screenshot bolady , qosu kerek //MAKE NEW TABLE
+add it to the main movies GET to display all posters
 -isFavorite qosu kerek
 
 
 
 workiing
-DELETE POSTERS
-PUT POSTERS
-add it to the main movies GET to display all posters
+/favorites [GET]: -MovieID emes , Movie-dyn dannyilary shygu kerek , imageUrl
 
 
 
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
 /movies/:id [GET]:
-  -bir movieda birneshe screenshot bolady , qosu kerek //MAKE NEW TABLE
   -uqsas telehikaialar qosu
 /categories: -ar user
-/favorites [GET]: -MovieID emes , Movie-dyn dannyilary shygu kerek , imageUrl
 /add keywords
 /movies/main: -180 stroka
   -by genre jeke jeke shygaru , list of genre , list of age category
@@ -40,4 +39,5 @@ NOT DONE
 
 
 
-//NOTE Updated_at timestamp of movie struct works not on everything(add posters , add genres)
+//NOTES Updated_at timestamp of movie struct works not on everything(add posters , add genres)
+//api/movies/2/ [PUT] can add multiple same genres name  
