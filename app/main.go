@@ -150,9 +150,10 @@ func main() {
 		//posters
 		posters := apiRoutes.Group("/posters")
 		{
-			posters.GET("/:id", main.PosterRoute.GET_PostersOfMoive)   //get posters of movie
-			posters.POST("/:id", main.PosterRoute.POST_PostersOfMoive) //create posters of movie (admin)
-			posters.DELETE("/:id", main.PosterRoute.DELETE_Posters)    //delete posters (admin )
+			posters.GET("/:id", main.PosterRoute.GET_PostersOfMoive)           //get posters of movie
+			posters.POST("/:id", main.PosterRoute.POST_PostersOfMoive)         //create posters of movie (admin)
+			posters.DELETE("/:id", main.PosterRoute.DELETE_Posters)            //delete posters (admin )
+			posters.DELETE("/movie/:id", main.PosterRoute.DELETE_PostersMovie) //delete posters of movie id (admin )
 		}
 
 	}
