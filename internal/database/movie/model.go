@@ -13,7 +13,8 @@ type Movie struct {
 	UserId string `json:"userId"`
 	Name   string `json:"name" binding:"required"`
 	Year   int    `json:"year" binding:"required"`
-
+	// Poster posters.PosterJson `json:"posters"`
+	Poster [5]string `json:"posters"`
 	//options
 	Category    string   `json:"category"`
 	AgeCategory string   `json:"ageCategory"`

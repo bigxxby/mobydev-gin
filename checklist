@@ -37,3 +37,7 @@ NOT DONE
 
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
+
+
+
+//NOTE Updated_at timestamp of movie struct works not on everything(add posters , add genres)

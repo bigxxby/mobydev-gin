@@ -103,6 +103,11 @@ func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
 				movie.IsFavorite = true
 			}
 		}
+		posters := [5]string{"", "", "", "", ""}
+		db.Database.QueryRow("SELECT main_poster, second_poster, third_poster, fourth_poster, fifth_poster FROM posters WHERE movie_id = $1", movie.Id).Scan(
+			&posters[0], &posters[1], &posters[2], &posters[3], &posters[4],
+		)
+		movie.Poster = posters
 
 		genreRows, err := db.Database.Query("SELECT g.name FROM genres g INNER JOIN movie_genres mg ON g.id = mg.genre_id WHERE mg.movie_id = $1", movie.Id)
 		if err != nil {
@@ -178,6 +183,11 @@ func (db *MovieRepository) GetMoviesLimit(limit int, userId int) ([]Movie, error
 				movie.IsFavorite = true
 			}
 		}
+		posters := [5]string{}
+		db.Database.QueryRow("SELECT main_poster, second_poster, third_poster, fourth_poster, fifth_poster FROM posters WHERE movie_id = $1", movie.Id).Scan(
+			&posters[0], &posters[1], &posters[2], &posters[3], &posters[4],
+		)
+		movie.Poster = posters
 
 		genreRows, err := db.Database.Query("SELECT g.name FROM genres g INNER JOIN movie_genres mg ON g.id = mg.genre_id WHERE mg.movie_id = $1", movie.Id)
 		if err != nil {
