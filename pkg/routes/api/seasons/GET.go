@@ -37,15 +37,30 @@ func (m *SeasonsRoute) GET_Season(c *gin.Context) {
 
 }
 
-// func (m *SeasonsRoute) GET_AllSeasonsOfMovie(c *gin.Context) {
-// 	movieId := c.Param("id")
-// 	valid, movieIdNum := utils.IsValidNum(movieId)
-// 	if !valid {
-// 		c.JSON(http.StatusUnauthorized, gin.H{
-// 			"message": "Bad request",
-// 		})
-// 		return
-// 	}
-
-// 	c.JSON(200, []seasons)
-// }
+func (m *SeasonsRoute) GET_AllSeasonsOfMovie(c *gin.Context) {
+	movieId := c.Param("id")
+	valid, movieIdNum := utils.IsValidNum(movieId)
+	if !valid {
+		c.JSON(400, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
+	seasons, err := m.DB.SeasonRepository.GetAllSeasonsOfMovieId(movieIdNum)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			c.JSON(404, gin.H{
+				"message": "No seasons found",
+			})
+			return
+		}
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal Server Error",
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"seasons": seasons,
+	})
+}

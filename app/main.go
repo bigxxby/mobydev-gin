@@ -83,12 +83,14 @@ func main() {
 		seasons := apiRoutes.Group("/seasons")
 		{
 			seasons.GET("/:id", main.SeasonsRoute.GET_Season)                  // returns season by id
-			seasons.GET("/:id/movie", main.SeasonsRoute.GET_AllSeasonsOfMovie) // returns all seasons by movieId (only get)
+			seasons.GET("/:id/movie", main.SeasonsRoute.GET_AllSeasonsOfMovie) // returns all seasons by movieId
+			seasons.POST("/:id", main.SeasonsRoute.POST_CreateSeason)          // adds season to the movie Id (admin)
 		}
 		//episodes
 		episodes := apiRoutes.Group("/episodes")
 		{
-			episodes.GET("/:id", main.EpisodesRoute.GET_Episode) // returns all episodes by seasonId  (only get)
+			episodes.GET("/:id", main.EpisodesRoute.GET_Episode)   // returns all episodes by seasonId
+			episodes.POST("/:id", main.EpisodesRoute.POST_Episode) // adds episode to the season
 		}
 
 		// profile
