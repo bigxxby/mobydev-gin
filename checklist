@@ -30,6 +30,7 @@ NOT DONE
 /movies/main: -180 stroka
   -by genre jeke jeke shygaru , list of genre , list of age category
 /season/:movieId/ [POST] add season 
+/show season series
 /episode/:seasonId/ [POST] add episode 
 /api/swagger
 /filtes by watches

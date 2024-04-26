@@ -8,8 +8,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// adds posters to he movie by array of 5 (CAN ACCEPT only 5 ulrs)
 func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 	movieId := c.Param("id")
+	userId := c.GetInt("userId")
+	userRole := c.GetString("role")
+	if userId == 0 || userRole != "admin" {
+		c.JSON(http.StatusUnauthorized, gin.H{
+			"messsage": "Unauthorized",
+		})
+		return
+	}
 	valid, movieIdNum := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -18,13 +27,7 @@ func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 		return
 	}
 	data := struct {
-		Id           int    `json:"id"`
-		MovieId      int    `json:"movieId"`
-		MainPoster   string `json:"mainPoster" binding:"required"`
-		SecondPoster string `json:"secondPoster"`
-		ThirdPoster  string `json:"thirdPoster"`
-		FourthPoster string `json:"fourthPoster"`
-		FifthPoster  string `json:"fifthPoster"`
+		Posters [5]string `json:"posters" binding:"required"`
 	}{}
 	err := c.BindJSON(&data)
 	if err != nil {
@@ -34,6 +37,7 @@ func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 		})
 		return
 	}
+
 	err = m.DB.MovieRepository.CheckMovieExistsById(movieIdNum)
 	if err != nil {
 		c.JSON(404, gin.H{
@@ -50,12 +54,16 @@ func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 		return
 	}
 	if has {
-		c.JSON(http.StatusConflict, gin.H{
-			"message": "Movie already have posters, please update, or delete to add posters",
-		})
-		return
+		err = m.DB.PosterRepo.DeletePostersOfMovie(movieIdNum)
+		if err != nil {
+			log.Println(err.Error())
+			c.JSON(http.StatusInternalServerError, gin.H{
+				"message": "Internal server error",
+			})
+			return
+		}
 	}
-	err = m.DB.PosterRepo.AddPostersMovieById(movieIdNum, data.MainPoster, data.SecondPoster, data.ThirdPoster, data.FourthPoster, data.FifthPoster)
+	err = m.DB.PosterRepo.AddPostersMovieById(movieIdNum, data.Posters)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(http.StatusInternalServerError, gin.H{
