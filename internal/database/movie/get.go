@@ -1,7 +1,6 @@
 package movie
 
 func (db *MovieRepository) GetMovieById(userId, movieId int) (*Movie, error) {
-	// Запрос для выборки всех данных о фильме с заданным ID
 	query := `
         SELECT m.id, m.user_id, m.name, m.year, m.category_id, m.age_category_id,
                m.watch_count, m.duration_minutes, m.keywords, m.description,
@@ -106,7 +105,6 @@ func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
 			movie.IsFavorite = exists
 		}
 
-		// Получение жанров фильма
 		genreRows, err := db.Database.Query("SELECT g.name FROM genres g INNER JOIN movie_genres mg ON g.id = mg.genre_id WHERE mg.movie_id = $1", movie.Id)
 		if err != nil {
 			return nil, err
@@ -173,7 +171,6 @@ func (db *MovieRepository) GetMoviesLimit(limit int, userId int) ([]Movie, error
 			movie.IsFavorite = exists
 		}
 
-		// Получение жанров фильма
 		genreRows, err := db.Database.Query("SELECT g.name FROM genres g INNER JOIN movie_genres mg ON g.id = mg.genre_id WHERE mg.movie_id = $1", movie.Id)
 		if err != nil {
 			return nil, err

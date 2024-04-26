@@ -21,3 +21,6 @@ func (db *SeasonRepository) GetSeasonById(id int) (*Season, error) {
 
 	return &season, nil
 }
+func (db *SeasonRepository) GetAllSeasonsOfMovieId(movieID int) ([]Season, error) {
+	return nil, nil
+}

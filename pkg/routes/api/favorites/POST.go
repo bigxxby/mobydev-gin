@@ -2,10 +2,11 @@ package favorites
 
 import (
 	"database/sql"
-	"github.com/gin-gonic/gin"
 	"log"
 	"net/http"
 	"project/internal/utils"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (m *FavoritesRoute) POST_Favorite(c *gin.Context) {
@@ -63,8 +64,9 @@ func (m *FavoritesRoute) POST_Favorite(c *gin.Context) {
 		})
 		return
 	}
+
 	c.JSON(200, gin.H{
-		"message":  "Movie added to favorites",
-		"favorite": favorite,
+		"message": "Movie added to favorites",
+		"movieId": favorite.MovieID,
 	})
 }

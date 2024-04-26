@@ -36,3 +36,16 @@ func (m *SeasonsRoute) GET_Season(c *gin.Context) {
 	c.JSON(200, season)
 
 }
+
+// func (m *SeasonsRoute) GET_AllSeasonsOfMovie(c *gin.Context) {
+// 	movieId := c.Param("id")
+// 	valid, movieIdNum := utils.IsValidNum(movieId)
+// 	if !valid {
+// 		c.JSON(http.StatusUnauthorized, gin.H{
+// 			"message": "Bad request",
+// 		})
+// 		return
+// 	}
+
+// 	c.JSON(200, []seasons)
+// }

@@ -12,11 +12,11 @@ PUT POSTERS
   -bir movieda birneshe screenshot bolady , qosu kerek //MAKE NEW TABLE
 add it to the main movies GET to display all posters
 -isFavorite qosu kerek
+/favorites [GET]: -MovieID emes , Movie-dyn dannyilary shygu kerek , imageUrl
 
 
 
 workiing
-/favorites [GET]: -MovieID emes , Movie-dyn dannyilary shygu kerek , imageUrl
 
 
 

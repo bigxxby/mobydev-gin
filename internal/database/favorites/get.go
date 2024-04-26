@@ -3,7 +3,13 @@ package favorites
 func (db *FavoritesRepository) GetFavoritesByUserId(id int) ([]Favorite, error) {
 	var favorites []Favorite
 
-	query := `SELECT * FROM favorites WHERE user_id = $1`
+	query := `
+		SELECT f.id, f.user_id, f.movie_id, f.added_at, m.name, m.year, m.category_id, m.age_category_id, m.watch_count, 
+			   m.duration_minutes, m.keywords, m.description, m.director, m.producer, m.created_at, m.updated_at
+		FROM favorites f
+		JOIN movies m ON f.movie_id = m.id
+		WHERE f.user_id = $1
+	`
 
 	rows, err := db.Database.Query(query, id)
 	if err != nil {
@@ -19,13 +25,23 @@ func (db *FavoritesRepository) GetFavoritesByUserId(id int) ([]Favorite, error) 
 			&favorite.UserID,
 			&favorite.MovieID,
 			&favorite.AddedAt,
+			&favorite.Movie.Name,
+			&favorite.Movie.Year,
+			&favorite.Movie.CategoryId,
+			&favorite.Movie.AgeCategoryId,
+			&favorite.Movie.WatchCount,
+			&favorite.Movie.DurationMinutes,
+			&favorite.Movie.Keywords,
+			&favorite.Movie.Description,
+			&favorite.Movie.Director,
+			&favorite.Movie.Producer,
+			&favorite.Movie.CreatedAt,
+			&favorite.Movie.UpdatedAt,
 		)
-
 		if err != nil {
 			return nil, err
 		}
 		favorites = append(favorites, favorite)
-
 	}
 
 	return favorites, nil
