@@ -45,7 +45,6 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"movies": movies,
 	})
-
 }
 func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 	movieId := c.Param("id")

@@ -36,7 +36,6 @@ workiing
 
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
-/movies/:id [GET]:
 /categories: -ar user
 /add keywords
 /movies/main: -180 stroka
