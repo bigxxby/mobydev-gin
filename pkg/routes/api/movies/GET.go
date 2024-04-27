@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"log"
 	"project/internal/utils"
-	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -82,8 +81,7 @@ func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 		})
 		return
 	}
-	keyWords := strings.Split(movie.Keywords, ",")
-	similar, err := m.DB.MovieRepository.GetSimilarMoviesLimit5(keyWords, movie.Id)
+	similar, err := m.DB.MovieRepository.GetSimilarMoviesLimit5(movie.Keywords, movie.Id)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
