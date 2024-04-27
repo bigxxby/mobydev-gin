@@ -17,11 +17,21 @@ add it to the main movies GET to display all posters
 /season/:movieId/ [POST] add season 
 /episode/:seasonId/ [POST] add episode 
 // delete episodes , delete season , update operations ?
+/get season count / episode count on movies
+
+
+
+
+
+?not done
+  -uqsas telehikaialar qosu
+
+
+
 
 
 
 workiing
-/get season count / episode count on movies
 
 
 NOT DONE 
@@ -32,7 +42,6 @@ NOT DONE
 /movies/main: -180 stroka
   -by genre jeke jeke shygaru , list of genre , list of age category
 /api/swagger
-  -uqsas telehikaialar qosu
 /filtes by watches
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
@@ -43,3 +52,4 @@ NOT DONE
 //api/movies/2/ [PUT] can add multiple same genres name  
 //can add episode number not structered (multiple episode on number on the same number)
 //can add season number not structered (multiple seasons on number on the same number)
+//movie search and simular movies searches movie by keywords, and it works only if keywords have spaces after ","  if like this -> "thiriller,drama" will not work.
