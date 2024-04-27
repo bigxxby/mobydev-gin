@@ -73,24 +73,34 @@ func main() {
 			movies.POST("/", main.MoviesRoute.POST_Movie)                          // admin only
 			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)                   // admin only
 			movies.GET("/search", main.MoviesRoute.GET_Search)                     // ?query=<searchQuery>
-			movies.POST("/:id/watch", main.MoviesRoute.POST_Watch)                 // +1 movie count ONLY if user authenticated
-			movies.PUT("/:id/category", main.MoviesRoute.PUT_MovieCategory)        // admin only change category
-			movies.PUT("/:id/data", main.MoviesRoute.PUT_MovieData)                // admin only change data of movie (not related to other tables)
-			movies.PUT("/:id/age-category", main.MoviesRoute.PUT_MovieAgeCategory) // admin only
-			movies.PUT("/:id/genres", main.MoviesRoute.PUT_MovieGenres)            // admin only
+			movies.POST("watch/:id", main.MoviesRoute.POST_Watch)                  // +1 movie count ONLY if user authenticated
+			movies.PUT("category/:id", main.MoviesRoute.PUT_MovieCategory)         // admin only change category
+			movies.PUT("/data/:id", main.MoviesRoute.PUT_MovieData)                // admin only change data of movie (not related to other tables)
+			movies.PUT("/age-category/:id", main.MoviesRoute.PUT_MovieAgeCategory) // admin only
+			movies.PUT("/genres/:id", main.MoviesRoute.PUT_MovieGenres)            // admin only
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")
 		{
-			seasons.GET("/:id", main.SeasonsRoute.GET_Season)                  // returns season by id
-			seasons.GET("/:id/movie", main.SeasonsRoute.GET_AllSeasonsOfMovie) // returns all seasons by movieId
-			seasons.POST("/:id", main.SeasonsRoute.POST_CreateSeason)          // adds season to the movie Id (admin)
+			seasons.GET("/:id", main.SeasonsRoute.GET_Season)                                 // returns season by id
+			seasons.GET("/movie/:id", main.SeasonsRoute.GET_AllSeasonsOfMovie)                // returns all seasons by movieId
+			seasons.POST("/:id", main.SeasonsRoute.POST_CreateSeason)                         // adds season to the movie Id (admin)
+			seasons.POST("/:id/multiple", main.SeasonsRoute.POST_CreateSeasons)               // adds season to the movie Id (admin)
+			seasons.PUT("/:id", main.SeasonsRoute.PUT_Season)                                 // updates season by its id
+			seasons.DELETE("/:id", main.SeasonsRoute.DELETE_Season)                           // deletes season by id  (admin)
+			seasons.DELETE("/movie/:id/:seasonNumber", main.SeasonsRoute.DELETE_SeasonNumber) // deletes *ALL season numers of current movie id  (admin)
+			seasons.DELETE("/movie/:id/clear", main.SeasonsRoute.DELETE_AllEpisodesOfSeason)  // deletes all seasons of current movie id  (admin)
 		}
-		//episodes
+		//episodes (order not structured can add same episodes over and over)
 		episodes := apiRoutes.Group("/episodes")
 		{
-			episodes.GET("/:id", main.EpisodesRoute.GET_Episode)   // returns all episodes by seasonId
-			episodes.POST("/:id", main.EpisodesRoute.POST_Episode) // adds episode to the season
+			episodes.GET("/:id", main.EpisodesRoute.GET_Episode)                                            // returns all episodes by seasonId
+			episodes.POST("/:id", main.EpisodesRoute.POST_Episode)                                          // adds episode to the season
+			episodes.POST("/:id/multiple", main.EpisodesRoute.POST_Episodes)                                // adds multiple episodes to the season
+			episodes.PUT("/:id", main.EpisodesRoute.PUT_Episode)                                            // updates episode by its id
+			episodes.DELETE("/:id", main.EpisodesRoute.DELETE_Episode)                                      // deletes episode by its id
+			episodes.DELETE("/season/:id/:episodeNumber", main.EpisodesRoute.DELETE_EpisodeOfCurrentSeason) // deletes *ALL episodes by episode_number of selected season
+			episodes.DELETE("/season/:id/clear", main.EpisodesRoute.DELETE_AllEpisodesOfSeason)             // deletes all episodes of selected season
 		}
 
 		// profile

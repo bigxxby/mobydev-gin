@@ -86,7 +86,7 @@ func CreateSeasonsTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS seasons (
 		id SERIAL PRIMARY KEY,
-		user_id INTEGER NOT NULL REFERENCES users(id),
+		user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 		movie_id INTEGER REFERENCES movies(id),  
 		season_number INTEGER NOT NULL,
 		name TEXT NOT NULL,
@@ -115,9 +115,9 @@ func CreateEpisodesTable(db *database.Database) error {
 	_, err = tx.Exec(`
 	CREATE TABLE IF NOT EXISTS episodes (
 		id SERIAL PRIMARY KEY,
-		user_id INTEGER NOT NULL REFERENCES users(id),
+		user_id INTEGER NOT NULL REFERENCES users(id) ,
 		url TEXT NOT NULL, 
-		season_id INTEGER REFERENCES seasons(id),  
+		season_id INTEGER REFERENCES seasons(id) ON DELETE CASCADE,  
 		episode_number INTEGER NOT NULL,
 		name TEXT,
 		duration_minutes INTEGER,
