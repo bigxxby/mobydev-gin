@@ -16,7 +16,7 @@ func (m *MoviesRoute) GET_Search(c *gin.Context) {
 		return
 	}
 	userId := c.GetInt("userId")
-	movies, err := m.DB.MovieRepository.SearchMovies(query, userId)
+	movies, err := m.DB.MovieRepository.SearchMovie(query, userId)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
