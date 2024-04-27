@@ -1,5 +1,7 @@
 package movie
 
+import "database/sql"
+
 func (db *MovieRepository) GetMovieById(userId, movieId int) (*Movie, error) {
 	query := `
         SELECT m.id, m.user_id, m.name, m.year, m.category_id, m.age_category_id,
@@ -15,16 +17,16 @@ func (db *MovieRepository) GetMovieById(userId, movieId int) (*Movie, error) {
     `
 
 	row := db.Database.QueryRow(query, movieId)
-
 	var movie Movie
-
 	row.Scan(&movie.Id, &movie.UserId, &movie.Name, &movie.Year,
 		&movie.CategoryId, &movie.AgeCategoryId, &movie.WatchCount, &movie.DurationMinutes,
 		&movie.Keywords, &movie.Description, &movie.Director, &movie.Producer,
 		&movie.CreatedAt, &movie.UpdatedAt, &movie.Category, &movie.AgeCategory,
 		&movie.Poster[0], &movie.Poster[1], &movie.Poster[2],
 		&movie.Poster[3], &movie.Poster[4])
-
+	if movie.Id == 0 {
+		return nil, sql.ErrNoRows
+	}
 	genreQuery := `
         SELECT g.name
         FROM genres g
@@ -60,8 +62,8 @@ func (db *MovieRepository) GetMovieById(userId, movieId int) (*Movie, error) {
 		return nil, err
 	}
 	movie.IsFavorite = isFavorite > 0
-
 	return &movie, nil
+
 }
 
 func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
@@ -110,6 +112,15 @@ func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
 			return nil, err
 		}
 		defer genreRows.Close()
+		var countSeasons int
+		var seasonId int
+		var countEpisodes int
+
+		db.Database.QueryRow("SELECT COUNT(*) FROM seasons WHERE movie_id = $1", movie.Id).Scan(&countSeasons)
+		db.Database.QueryRow("SELECT id FROM seasons WHERE movie_id = $1;", movie.Id).Scan(&seasonId)
+		db.Database.QueryRow("SELECT COUNT(*) FROM episodes WHERE season_id = $1", seasonId).Scan(&countEpisodes)
+		movie.SeasonCount = countSeasons
+		movie.SeriesCount = countEpisodes
 
 		var genresArr []string
 		for genreRows.Next() {
@@ -176,6 +187,15 @@ func (db *MovieRepository) GetMoviesLimit(limit int, userId int) ([]Movie, error
 			return nil, err
 		}
 		defer genreRows.Close()
+
+		var countSeasons int
+		var seasonId int
+		var countEpisodes int
+		db.Database.QueryRow("SELECT COUNT(*) FROM seasons WHERE movie_id = $1", movie.Id).Scan(&countSeasons)
+		db.Database.QueryRow("SELECT id FROM seasons WHERE movie_id = $1;", movie.Id).Scan(&seasonId)
+		db.Database.QueryRow("SELECT COUNT(*) FROM episodes WHERE season_id = $1", seasonId).Scan(&countEpisodes)
+		movie.SeasonCount = countSeasons
+		movie.SeriesCount = countEpisodes
 
 		var genresArr []string
 		for genreRows.Next() {

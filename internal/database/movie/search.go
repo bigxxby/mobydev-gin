@@ -51,3 +51,36 @@ func (db *MovieRepository) SearchMovie(query string) ([]Movie, error) {
 
 	return movies, nil
 }
+
+func (db *MovieRepository) GetSimilarMoviesLimit5(movieKeywords string, excludeMovieID int) ([]Movie, error) {
+	var similarMovies []Movie
+
+	query := `
+        SELECT m.id, m.name, p.main_poster
+        FROM movies m
+        JOIN posters p ON m.id = p.movie_id
+        WHERE m.keywords LIKE '%' || $1 || '%'
+        AND m.id != $2
+        LIMIT 5
+    `
+
+	rows, err := db.Database.Query(query, movieKeywords, excludeMovieID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var movie Movie
+		if err := rows.Scan(&movie.Id, &movie.Name, &movie.Poster[0]); err != nil {
+			return nil, err
+		}
+		similarMovies = append(similarMovies, movie)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+
+	return similarMovies, nil
+}

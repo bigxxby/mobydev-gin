@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 	"project/internal/utils"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -73,5 +74,27 @@ func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 		})
 		return
 	}
-	c.JSON(200, movie)
+	seasons, err := m.DB.SeasonRepository.GetAllSeasonsOfMovieId(movie.Id)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+	keyWords := strings.Split(movie.Keywords, ",")
+	similar, err := m.DB.MovieRepository.GetSimilarMoviesLimit5(keyWords, movie.Id)
+	if err != nil {
+		log.Println(err.Error())
+		c.JSON(500, gin.H{
+			"message": "Internal server error",
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"movie":   movie,
+		"seasons": seasons,
+		"simular": similar,
+	})
 }

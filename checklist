@@ -16,24 +16,24 @@ add it to the main movies GET to display all posters
 /show season series
 /season/:movieId/ [POST] add season 
 /episode/:seasonId/ [POST] add episode 
+// delete episodes , delete season , update operations ?
 
 
 
 workiing
-// delete episodes , delete season , update operations ?
+/get season count / episode count on movies
 
 
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
 /movies/:id [GET]:
-  -uqsas telehikaialar qosu
 /categories: -ar user
 /add keywords
 /movies/main: -180 stroka
   -by genre jeke jeke shygaru , list of genre , list of age category
 /api/swagger
+  -uqsas telehikaialar qosu
 /filtes by watches
-
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
 
