@@ -19,29 +19,29 @@ add it to the main movies GET to display all posters
 // delete episodes , delete season , update operations ?
 /get season count / episode count on movies
 
+/movies/main: -180 stroka
+  -by genre jeke jeke shygaru , list of genre , list of age category
 
 
 
 
 ?not done
-  -uqsas telehikaialar qosu
-
-
+-uqsas telehikaialar qosu not workign properly
+// filter by genres , age , categories not working properly
 
 
 
 
 workiing
+/filtes by watches
+
+
 
 
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
 /categories: -ar user
-/add keywords
-/movies/main: -180 stroka
-  -by genre jeke jeke shygaru , list of genre , list of age category
 /api/swagger
-/filtes by watches
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
 
@@ -51,4 +51,4 @@ NOT DONE
 //api/movies/2/ [PUT] can add multiple same genres name  
 //can add episode number not structered (multiple episode on number on the same number)
 //can add season number not structered (multiple seasons on number on the same number)
-//movie search and simular movies searches movie by keywords, and it works only if keywords have spaces after ","  if like this -> "thiriller,drama" will not work.
+// ? movie search and simular movies searches movie by keywords, and it works only if keywords have spaces after ","  if like this -> "thiriller,drama" will not work.
