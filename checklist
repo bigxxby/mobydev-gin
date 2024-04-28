@@ -28,12 +28,24 @@ add it to the main movies GET to display all posters
 ?not done
 -uqsas telehikaialar qosu not workign properly
 // filter by genres , age , categories not working properly
+/filtes by watches
 
 
 
 
 workiing
-/filtes by watches
+/api/swagger
+not done docs - 
+-users
+-posters
+-seasons
+-genres
+-favorites
+-update pass
+-search
+
+
+
 
 
 
@@ -43,14 +55,17 @@ workiing
 NOT DONE 
 /reset-password: -2 password bolu kerek i olardy check jasaisyn , reset token qajet emes
 /categories: -ar user
-/api/swagger
 /send-code: -code-ty ariptermen generecia jasau kerek
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
 
 
 
-//NOTES Updated_at timestamp of movie struct works not on everything(add posters , add genres)
+//NOTES 
+// Updated_at timestamp of movie struct works not on everything(add posters , add genres)
 //api/movies/2/ [PUT] can add multiple same genres name  
 //can add episode number not structered (multiple episode on number on the same number)
 //can add season number not structered (multiple seasons on number on the same number)
 // ? movie search and simular movies searches movie by keywords, and it works only if keywords have spaces after ","  if like this -> "thiriller,drama" will not work.
+// adding large number on CRUD opreations will give 500 error, need to fix
+// finish password and search, make docs for them
+// fix episode docs

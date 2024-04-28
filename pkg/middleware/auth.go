@@ -19,7 +19,6 @@ func AuthMiddleware() gin.HandlerFunc {
 			log.Println(err.Error())
 			return
 		}
-
 		c.Set("userId", userId)
 		c.Set("role", userRole)
 

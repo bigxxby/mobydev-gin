@@ -1,16 +1,23 @@
 package main
 
 import (
-	"log"
-	// _ "project/app/docs" ////////////////////// SWAGGER
+	"log" ////////////////////// SWAGGER
+	_ "project/docs"
 	"project/internal/database/datasets"
 	"project/pkg/middleware"
 	"project/pkg/routes"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	swaggerFiles "github.com/swaggo/files"
+	swagger "github.com/swaggo/gin-swagger"
 )
 
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+// @title		ozinshe-api
+// @version	1.0
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	//env
@@ -35,7 +42,7 @@ func main() {
 	router := gin.Default()
 
 	// add swagger
-	// router.GET("/docs/*any", ginSwagger.WrapHandler(swagFiles.Handler))/////////   SWAGGER
+	router.GET("/docs/*any", swagger.WrapHandler(swaggerFiles.Handler))
 
 	router.LoadHTMLGlob("ui/templates/*")
 
@@ -64,20 +71,36 @@ func main() {
 	// API
 	apiRoutes := router.Group("/api")
 	apiRoutes.Use(middleware.AuthMiddleware())
+
 	{
+
+		// auth
+		auth := apiRoutes.Group("/")
+		{
+			auth.POST("/check-auth", main.AuthRoute.POST_CheckAuth) //returns CURRENT users role
+			auth.POST("/signUp", main.AuthRoute.POST_SignUp)        //{email, password, role } required bindings
+			auth.POST("/signIn", main.AuthRoute.POST_SignIn)        //{email, password } required bindings
+			//htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //-------->
+			auth.POST("/send-code", main.AuthRoute.POST_SendCode) // sends restore code to the users email
+			auth.POST("/verify", main.AuthRoute.POST_VerifyCode)  // gets code from user an verifies it, if valid sends to the email link for resetting the pass
+			// htmlRoutes.GET("/change-password", main.GET_ChangePassword) //------->
+			auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // changes password of the user
+
+		}
 		// movies
 		movies := apiRoutes.Group("/movies")
 		{
 			movies.GET("/", main.MoviesRoute.GET_Movies)                           //?limit=<limitInt>
 			movies.GET("/:id", main.MoviesRoute.GET_Movie)                         // returns movie by id of movie
-			movies.POST("/", main.MoviesRoute.POST_Movie)                          // admin only
-			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)                   // admin only
+			movies.GET("/genre", main.MoviesRoute.GET_MoviesByGenre)               // return all movie of genre ?genre=<genre name>
+			movies.POST("/", main.MoviesRoute.POST_Movie)                          // admin only create movie
+			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)                   // admin only deletes movie
 			movies.GET("/search", main.MoviesRoute.GET_Search)                     // ?query=<searchQuery>
-			movies.POST("watch/:id", main.MoviesRoute.POST_Watch)                  // +1 movie count ONLY if user authenticated
+			movies.POST("watch/:id", main.MoviesRoute.POST_Watch)                  // +1 movie watch count ONLY if user authenticated
 			movies.PUT("category/:id", main.MoviesRoute.PUT_MovieCategory)         // admin only change category
 			movies.PUT("/data/:id", main.MoviesRoute.PUT_MovieData)                // admin only change data of movie (not related to other tables)
-			movies.PUT("/age-category/:id", main.MoviesRoute.PUT_MovieAgeCategory) // admin only
-			movies.PUT("/genres/:id", main.MoviesRoute.PUT_MovieGenres)            // admin only
+			movies.PUT("/age-category/:id", main.MoviesRoute.PUT_MovieAgeCategory) // admin only change age category of the movie
+			movies.PUT("/genres/:id", main.MoviesRoute.PUT_MovieGenres)            // admin only change genres of the movie
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")
@@ -97,7 +120,7 @@ func main() {
 			episodes.GET("/:id", main.EpisodesRoute.GET_Episode)                                            // returns all episodes by seasonId
 			episodes.POST("/:id", main.EpisodesRoute.POST_Episode)                                          // adds episode to the season
 			episodes.POST("/:id/multiple", main.EpisodesRoute.POST_Episodes)                                // adds multiple episodes to the season
-			episodes.PUT("/:id", main.EpisodesRoute.PUT_Episode)                                            // updates episode by its id
+			episodes.PUT("/:id", main.EpisodesRoute.PUT_Episode)                                            // updates episode by its ids
 			episodes.DELETE("/:id", main.EpisodesRoute.DELETE_Episode)                                      // deletes episode by its id
 			episodes.DELETE("/season/:id/:episodeNumber", main.EpisodesRoute.DELETE_EpisodeOfCurrentSeason) // deletes *ALL episodes by episode_number of selected season
 			episodes.DELETE("/season/:id/clear", main.EpisodesRoute.DELETE_AllEpisodesOfSeason)             // deletes all episodes of selected season
@@ -108,20 +131,6 @@ func main() {
 		{
 			profile.GET("/", main.UsersRoute.GET_Profile) //get profile of current user
 			profile.PUT("/", main.UsersRoute.PUT_Profile) //update profile of current user (dob , name , phone)
-		}
-
-		// auth
-		auth := apiRoutes.Group("/")
-		{
-			auth.POST("/check-auth", main.AuthRoute.POST_CheckAuth) //returns CURRENT users role
-			auth.POST("/signUp", main.AuthRoute.POST_SignUp)        //{email, password, role } required bindings
-			auth.POST("/signIn", main.AuthRoute.POST_SignIn)        //{email, password } required bindings
-			//htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //-------->
-			auth.POST("/send-code", main.AuthRoute.POST_SendCode) // sends restore code to the users email
-			auth.POST("/verify", main.AuthRoute.POST_VerifyCode)  // gets code from user an verifies it, if valid sends to the email link for resetting the pass
-			// htmlRoutes.GET("/change-password", main.GET_ChangePassword) //------->
-			auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // changes password of the user
-
 		}
 
 		// favorites
@@ -152,7 +161,7 @@ func main() {
 
 		}
 		//age
-		age := apiRoutes.Group("/ageCategories")
+		age := apiRoutes.Group("/age-categories")
 		{
 			age.GET("/", main.AgeRoute.GET_AgeCategories)        // return all age categories
 			age.GET("/:id", main.AgeRoute.GET_AgeCategory)       //return category by id

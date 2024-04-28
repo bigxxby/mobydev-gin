@@ -32,7 +32,7 @@ require (
 	github.com/swaggo/files v1.0.1 // indirect
 	github.com/swaggo/gin-swagger v1.6.0 // indirect
 	github.com/swaggo/swag v1.16.3 // indirect
-	github.com/urfave/cli/v2 v2.27.1 // indirect
+	github.com/urfave/cli/v2 v2.27.2 // indirect
 	github.com/xrash/smetrics v0.0.0-20240312152122-5f08fbb34913 // indirect
 	golang.org/x/tools v0.20.0 // indirect
 	gopkg.in/alexcesaro/quotedprintable.v3 v3.0.0-20150716171945-2caba252f4dc // indirect

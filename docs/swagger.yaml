@@ -1,0 +1,1222 @@
+definitions:
+  age.AgeCategory:
+    properties:
+      id:
+        type: integer
+      max_age:
+        type: integer
+      min_age:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - max_age
+    - min_age
+    - name
+    type: object
+  episode.Episode:
+    properties:
+      description:
+        type: string
+      duration_minutes:
+        type: integer
+      episode_number:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+      release_date:
+        type: string
+      season_id:
+        type: integer
+      url:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - duration_minutes
+    - episode_number
+    - name
+    - release_date
+    - url
+    type: object
+  episodes.EpisodeRequest:
+    properties:
+      description:
+        type: string
+      duration_minutes:
+        type: integer
+      episode_number:
+        type: integer
+      name:
+        type: string
+      release_date:
+        type: string
+      url:
+        type: string
+    required:
+    - duration_minutes
+    - episode_number
+    - name
+    - release_date
+    - url
+    type: object
+  episodes.EpisodeRequestBody:
+    properties:
+      episodes:
+        items:
+          $ref: '#/definitions/episodes.EpisodeRequest'
+        type: array
+    type: object
+  movie.Movie:
+    properties:
+      ageCategory:
+        description: one to many
+        type: string
+      ageCategoryId:
+        type: integer
+      category:
+        description: one to many
+        type: string
+      categoryId:
+        type: integer
+      createdAt:
+        type: string
+      description:
+        type: string
+      director:
+        type: string
+      durationMinutes:
+        type: integer
+      genres:
+        description: many to many table
+        items:
+          type: string
+        type: array
+      id:
+        type: integer
+      isFavorite:
+        type: boolean
+      keywords:
+        type: string
+      name:
+        type: string
+      posters:
+        description: Maximum of 5 posters for one movie
+        items:
+          type: string
+        type: array
+      producer:
+        type: string
+      seasonCount:
+        type: integer
+      seriesCount:
+        type: integer
+      updatedAt:
+        type: string
+      userId:
+        type: string
+      watchCount:
+        type: integer
+      year:
+        type: integer
+    required:
+    - ageCategoryId
+    - categoryId
+    - description
+    - director
+    - durationMinutes
+    - genres
+    - keywords
+    - name
+    - producer
+    - year
+    type: object
+  routes.AgeCategoryRequest:
+    properties:
+      max_age:
+        type: integer
+      min_age:
+        type: integer
+      name:
+        type: string
+      note:
+        type: string
+    required:
+    - max_age
+    - min_age
+    - name
+    type: object
+  routes.CategoryRequest:
+    properties:
+      category_name:
+        type: string
+      description:
+        type: string
+    required:
+    - category_name
+    - description
+    type: object
+  routes.DefaultMessageResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  routes.EpisodeRequest:
+    properties:
+      description:
+        type: string
+      duration_minutes:
+        type: integer
+      episode_number:
+        type: integer
+      name:
+        type: string
+      release_date:
+        type: string
+      url:
+        type: string
+    required:
+    - duration_minutes
+    - episode_number
+    - name
+    - release_date
+    - url
+    type: object
+  routes.ManyMoviesResponse:
+    properties:
+      movies:
+        items:
+          $ref: '#/definitions/movie.Movie'
+        type: array
+    type: object
+  routes.MovieCreateRequest:
+    properties:
+      ageCategoryId:
+        type: integer
+      categoryId:
+        type: integer
+      description:
+        type: string
+      director:
+        type: string
+      durationMinutes:
+        type: integer
+      genres:
+        description: many to many table
+        items:
+          type: string
+        type: array
+      keywords:
+        type: string
+      name:
+        type: string
+      producer:
+        type: string
+      year:
+        type: integer
+    required:
+    - ageCategoryId
+    - categoryId
+    - description
+    - director
+    - durationMinutes
+    - genres
+    - keywords
+    - name
+    - producer
+    - year
+    type: object
+  routes.MovieDataRequest:
+    properties:
+      description:
+        type: string
+      director:
+        type: string
+      durationMinutes:
+        type: integer
+      keywords:
+        type: string
+      name:
+        type: string
+      producer:
+        type: string
+      year:
+        type: integer
+    required:
+    - description
+    - director
+    - durationMinutes
+    - keywords
+    - name
+    - producer
+    - year
+    type: object
+  routes.MovieGenresRequest:
+    properties:
+      genres:
+        items:
+          type: string
+        type: array
+    required:
+    - genres
+    type: object
+  routes.MovieResponse:
+    properties:
+      movie:
+        $ref: '#/definitions/movie.Movie'
+    type: object
+  routes.SignInRequest:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  routes.SignInResponse:
+    properties:
+      message:
+        type: string
+      token:
+        type: string
+    type: object
+  routes.SignUpRequest:
+    properties:
+      confirmPassword:
+        type: string
+      email:
+        type: string
+      password:
+        type: string
+    required:
+    - confirmPassword
+    - email
+    - password
+    type: object
+info:
+  contact: {}
+paths:
+  /api/age-categories:
+    get:
+      description: Retrieves all age categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/age.AgeCategory'
+            type: array
+        "404":
+          description: Age categories not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get all age categories
+    post:
+      description: Creates a new age category
+      parameters:
+      - description: Age Category
+        in: body
+        name: ageCategory
+        required: true
+        schema:
+          $ref: '#/definitions/routes.AgeCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Age category created
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Age category already exists
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new age category
+  /api/age-categories/{id}:
+    delete:
+      description: Deletes an age category with the specified ID
+      parameters:
+      - description: Age Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category Deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Age category Not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Age category is Used in movies
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete an age category
+    get:
+      description: Retrieves an age category with the specified ID
+      parameters:
+      - description: Age Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/age.AgeCategory'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Age category not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get an age category by ID
+    put:
+      description: Updates an age category with the specified ID
+      parameters:
+      - description: Age Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Age Category
+        in: body
+        name: ageCategory
+        required: true
+        schema:
+          $ref: '#/definitions/routes.AgeCategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category Updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Age category Not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Age Category with this name already exists
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update an age category
+  /api/categories:
+    get:
+      description: Retrieves all categories
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Categories Retrieved
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Categories not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get all categories
+    post:
+      description: Creates a new category
+      parameters:
+      - description: Category object to be created
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/routes.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category Created
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Category already exists
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a category
+  /api/categories/{id}:
+    delete:
+      description: Deletes a category with the specified ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category Deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Cannot delete category because it is used in movies
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Category not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a category
+    get:
+      description: Retrieves the category with the specified ID
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category Retrieved
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Category not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get a category
+    put:
+      description: Updates an existing category
+      parameters:
+      - description: Category ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated category object
+        in: body
+        name: category
+        required: true
+        schema:
+          $ref: '#/definitions/routes.CategoryRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Category Updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Category Not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Category with this name already exists
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a category
+  /api/check-auth:
+    post:
+      consumes:
+      - application/json
+      description: Check user authentication and return user role
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully checked authentication
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: 'Unauthorized: User not authenticated'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Check authentication
+  /api/episodes/{id}:
+    delete:
+      description: Deletes an episode with the specified ID
+      parameters:
+      - description: Episode ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Episode deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Episode Not Found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete an episode
+    get:
+      description: Retrieves an episode with the specified ID
+      parameters:
+      - description: Episode ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Episode
+          schema:
+            $ref: '#/definitions/episode.Episode'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Episode not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Retrieve an episode
+    post:
+      description: Creates a single episode for the specified season
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Episode
+        in: body
+        name: episode
+        required: true
+        schema:
+          $ref: '#/definitions/routes.EpisodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Episode added
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Season not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create episode
+    put:
+      description: Updates an existing episode
+      parameters:
+      - description: Episode ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Episode
+        in: body
+        name: episode
+        required: true
+        schema:
+          $ref: '#/definitions/routes.EpisodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Episode updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Episode not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update episode
+  /api/episodes/{id}/multiple:
+    post:
+      description: Creates multiple episodes for the specified season
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Episodes
+        in: body
+        name: episodes
+        required: true
+        schema:
+          $ref: '#/definitions/episodes.EpisodeRequestBody'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Multiple Episodes added
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Season not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create episodes
+  /api/movies:
+    get:
+      description: Retrieves movies for a user
+      parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/routes.ManyMoviesResponse'
+        "400":
+          description: Invalid limit parameter
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get all movies
+    post:
+      description: Creates a new movie with provided details
+      parameters:
+      - description: Movie object
+        in: body
+        name: movie
+        required: true
+        schema:
+          $ref: '#/definitions/routes.MovieCreateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie Created
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Category not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new movie
+  /api/movies/{id}:
+    delete:
+      description: Deletes a movie with the specified ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie Deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a movie
+    get:
+      description: Retrieves details of a specific movie including its seasons and
+        similar movies
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/routes.MovieResponse'
+        "400":
+          description: Invalid movie ID
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get movie details
+  /api/movies/age-category/{id}:
+    put:
+      description: Updates the age category of a movie with the specified ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Age Category Name
+        in: body
+        name: ageCategoryName
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie ageCategory updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update movie age category
+  /api/movies/category/{id}:
+    put:
+      description: Updates the category of a movie with the specified ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Category Name
+        in: body
+        name: categoryName
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie category updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update movie category
+  /api/movies/data/{id}:
+    put:
+      description: Updates the data of a movie with the specified ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Movie Data
+        in: body
+        name: movieData
+        required: true
+        schema:
+          $ref: '#/definitions/routes.MovieDataRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie data updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update movie data
+  /api/movies/genre:
+    get:
+      description: Retrieves movies by genre for a user
+      parameters:
+      - description: Genre
+        in: query
+        name: genre
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get movies by genre
+  /api/movies/genres/{id}:
+    put:
+      description: Updates the genres of a movie with the specified ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Genres
+        in: body
+        name: genres
+        required: true
+        schema:
+          $ref: '#/definitions/routes.MovieGenresRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Genres Updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Genre does not exist
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update movie genres
+  /api/signIn:
+    post:
+      consumes:
+      - application/json
+      description: 'Sign in with email and password to obtain JWT token. Creditnails
+        for sign in "email": "big@example.com",  "password": "Aa12345678#"'
+      parameters:
+      - description: Email and password
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully signed in
+          schema:
+            $ref: '#/definitions/routes.SignInResponse'
+        "400":
+          description: Invalid data format
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: User does not exist or incorrect password
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Sign in
+  /api/signUp:
+    post:
+      consumes:
+      - application/json
+      description: Register a new user
+      parameters:
+      - description: Email, password, and confirm password
+        in: body
+        name: body
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SignUpRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully registered
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Invalid email or password format
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Sign up
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

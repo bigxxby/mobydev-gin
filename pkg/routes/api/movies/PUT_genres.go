@@ -9,6 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PUT_MovieGenres updates the genres of a movie
+// @Summary Update movie genres
+// @Description Updates the genres of a movie with the specified ID
+// @Produce json
+// @Param id path string true "Movie ID"
+// @Security ApiKeyAuth
+// @Param genres body routes.MovieGenresRequest true "Genres"
+// @Success 200 {object} routes.DefaultMessageResponse "Genres Updated"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Genre does not exist"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/movies/genres/{id} [put]
 func (m *MoviesRoute) PUT_MovieGenres(c *gin.Context) {
 	movieId := c.Param("id")
 	userRole := c.GetString("role")
@@ -33,6 +46,7 @@ func (m *MoviesRoute) PUT_MovieGenres(c *gin.Context) {
 	}{}
 	err := c.BindJSON(&data)
 	if err != nil {
+		log.Println(err.Error())
 		c.JSON(400, gin.H{
 			"message": "Bad request",
 		})

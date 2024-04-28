@@ -1,6 +1,8 @@
 package movie
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 func (db *MovieRepository) GetMovieById(userId, movieId int) (*Movie, error) {
 	query := `

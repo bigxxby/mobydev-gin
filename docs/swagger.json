@@ -1,0 +1,1867 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {}
+    },
+    "paths": {
+        "/api/age-categories": {
+            "get": {
+                "description": "Retrieves all age categories",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all age categories",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/age.AgeCategory"
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Age categories not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates a new age category",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create a new age category",
+                "parameters": [
+                    {
+                        "description": "Age Category",
+                        "name": "ageCategory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.AgeCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Age category created",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Age category already exists",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/age-categories/{id}": {
+            "get": {
+                "description": "Retrieves an age category with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get an age category by ID",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Age Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/age.AgeCategory"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Age category not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates an age category with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update an age category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Age Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Age Category",
+                        "name": "ageCategory",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.AgeCategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category Updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Age category Not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Age Category with this name already exists",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes an age category with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete an age category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Age Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category Deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Age category Not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Age category is Used in movies",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieves all categories",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all categories",
+                "responses": {
+                    "200": {
+                        "description": "Categories Retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Categories not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates a new category",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create a category",
+                "parameters": [
+                    {
+                        "description": "Category object to be created",
+                        "name": "category",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.CategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category Created",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Category already exists",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieves the category with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get a category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category Retrieved",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates an existing category",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update a category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated category object",
+                        "name": "category",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.CategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category Updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Category Not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Category with this name already exists",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes a category with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Category ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Category Deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Cannot delete category because it is used in movies",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/check-auth": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Check user authentication and return user role",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Check authentication",
+                "responses": {
+                    "200": {
+                        "description": "Successfully checked authentication",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized: User not authenticated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/episodes/{id}": {
+            "get": {
+                "description": "Retrieves an episode with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve an episode",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Episode ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Episode",
+                        "schema": {
+                            "$ref": "#/definitions/episode.Episode"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Episode not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates an existing episode",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update episode",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Episode ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Episode",
+                        "name": "episode",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.EpisodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Episode updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Episode not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates a single episode for the specified season",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create episode",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Episode",
+                        "name": "episode",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.EpisodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Episode added",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Season not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes an episode with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete an episode",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Episode ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Episode deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Episode Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/episodes/{id}/multiple": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates multiple episodes for the specified season",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create episodes",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Episodes",
+                        "name": "episodes",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/episodes.EpisodeRequestBody"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Multiple Episodes added",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Season not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies": {
+            "get": {
+                "description": "Retrieves movies for a user",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get all movies",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/routes.ManyMoviesResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid limit parameter",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates a new movie with provided details",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Create a new movie",
+                "parameters": [
+                    {
+                        "description": "Movie object",
+                        "name": "movie",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.MovieCreateRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie Created",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Category not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/age-category/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates the age category of a movie with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update movie age category",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Age Category Name",
+                        "name": "ageCategoryName",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie ageCategory updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/category/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates the category of a movie with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update movie category",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Category Name",
+                        "name": "categoryName",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie category updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/data/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates the data of a movie with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update movie data",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Movie Data",
+                        "name": "movieData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.MovieDataRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie data updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/genre": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieves movies by genre for a user",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get movies by genre",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Genre",
+                        "name": "genre",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/genres/{id}": {
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates the genres of a movie with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update movie genres",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Genres",
+                        "name": "genres",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.MovieGenresRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Genres Updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Genre does not exist",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/{id}": {
+            "get": {
+                "description": "Retrieves details of a specific movie including its seasons and similar movies",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Get movie details",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/routes.MovieResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid movie ID",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes a movie with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete a movie",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie Deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/signIn": {
+            "post": {
+                "description": "Sign in with email and password to obtain JWT token. Creditnails for sign in \"email\": \"big@example.com\",  \"password\": \"Aa12345678#\"",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Sign in",
+                "parameters": [
+                    {
+                        "description": "Email and password",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully signed in",
+                        "schema": {
+                            "$ref": "#/definitions/routes.SignInResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid data format",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "User does not exist or incorrect password",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/signUp": {
+            "post": {
+                "description": "Register a new user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Sign up",
+                "parameters": [
+                    {
+                        "description": "Email, password, and confirm password",
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.SignUpRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully registered",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid email or password format",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "age.AgeCategory": {
+            "type": "object",
+            "required": [
+                "max_age",
+                "min_age",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "max_age": {
+                    "type": "integer"
+                },
+                "min_age": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "episode.Episode": {
+            "type": "object",
+            "required": [
+                "duration_minutes",
+                "episode_number",
+                "name",
+                "release_date",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "duration_minutes": {
+                    "type": "integer"
+                },
+                "episode_number": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "season_id": {
+                    "type": "integer"
+                },
+                "url": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "episodes.EpisodeRequest": {
+            "type": "object",
+            "required": [
+                "duration_minutes",
+                "episode_number",
+                "name",
+                "release_date",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "duration_minutes": {
+                    "type": "integer"
+                },
+                "episode_number": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "episodes.EpisodeRequestBody": {
+            "type": "object",
+            "properties": {
+                "episodes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/episodes.EpisodeRequest"
+                    }
+                }
+            }
+        },
+        "movie.Movie": {
+            "type": "object",
+            "required": [
+                "ageCategoryId",
+                "categoryId",
+                "description",
+                "director",
+                "durationMinutes",
+                "genres",
+                "keywords",
+                "name",
+                "producer",
+                "year"
+            ],
+            "properties": {
+                "ageCategory": {
+                    "description": "one to many",
+                    "type": "string"
+                },
+                "ageCategoryId": {
+                    "type": "integer"
+                },
+                "category": {
+                    "description": "one to many",
+                    "type": "string"
+                },
+                "categoryId": {
+                    "type": "integer"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "director": {
+                    "type": "string"
+                },
+                "durationMinutes": {
+                    "type": "integer"
+                },
+                "genres": {
+                    "description": "many to many table",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "isFavorite": {
+                    "type": "boolean"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "posters": {
+                    "description": "Maximum of 5 posters for one movie",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "producer": {
+                    "type": "string"
+                },
+                "seasonCount": {
+                    "type": "integer"
+                },
+                "seriesCount": {
+                    "type": "integer"
+                },
+                "updatedAt": {
+                    "type": "string"
+                },
+                "userId": {
+                    "type": "string"
+                },
+                "watchCount": {
+                    "type": "integer"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.AgeCategoryRequest": {
+            "type": "object",
+            "required": [
+                "max_age",
+                "min_age",
+                "name"
+            ],
+            "properties": {
+                "max_age": {
+                    "type": "integer"
+                },
+                "min_age": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.CategoryRequest": {
+            "type": "object",
+            "required": [
+                "category_name",
+                "description"
+            ],
+            "properties": {
+                "category_name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.DefaultMessageResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.EpisodeRequest": {
+            "type": "object",
+            "required": [
+                "duration_minutes",
+                "episode_number",
+                "name",
+                "release_date",
+                "url"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "duration_minutes": {
+                    "type": "integer"
+                },
+                "episode_number": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "url": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.ManyMoviesResponse": {
+            "type": "object",
+            "properties": {
+                "movies": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/movie.Movie"
+                    }
+                }
+            }
+        },
+        "routes.MovieCreateRequest": {
+            "type": "object",
+            "required": [
+                "ageCategoryId",
+                "categoryId",
+                "description",
+                "director",
+                "durationMinutes",
+                "genres",
+                "keywords",
+                "name",
+                "producer",
+                "year"
+            ],
+            "properties": {
+                "ageCategoryId": {
+                    "type": "integer"
+                },
+                "categoryId": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "director": {
+                    "type": "string"
+                },
+                "durationMinutes": {
+                    "type": "integer"
+                },
+                "genres": {
+                    "description": "many to many table",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.MovieDataRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "director",
+                "durationMinutes",
+                "keywords",
+                "name",
+                "producer",
+                "year"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "director": {
+                    "type": "string"
+                },
+                "durationMinutes": {
+                    "type": "integer"
+                },
+                "keywords": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "producer": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.MovieGenresRequest": {
+            "type": "object",
+            "required": [
+                "genres"
+            ],
+            "properties": {
+                "genres": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "routes.MovieResponse": {
+            "type": "object",
+            "properties": {
+                "movie": {
+                    "$ref": "#/definitions/movie.Movie"
+                }
+            }
+        },
+        "routes.SignInRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "password"
+            ],
+            "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.SignInResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "routes.SignUpRequest": {
+            "type": "object",
+            "required": [
+                "confirmPassword",
+                "email",
+                "password"
+            ],
+            "properties": {
+                "confirmPassword": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}

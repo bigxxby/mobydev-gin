@@ -9,6 +9,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GET_Episode retrieves an episode by ID
+// @Summary Retrieve an episode
+// @Description Retrieves an episode with the specified ID
+// @Produce json
+// @Param id path int true "Episode ID"
+// @Success 200 {object} episode.Episode "Episode"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 404 {object} routes.DefaultMessageResponse "Episode not found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal Server Error"
+// @Router /api/episodes/{id} [get]
 func (m *EpisodesRoute) GET_Episode(c *gin.Context) {
 	episodeId := c.Param("id")
 	valid, episodeIdNums := utils.IsValidNum(episodeId)

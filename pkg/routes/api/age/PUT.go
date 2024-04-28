@@ -9,6 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PUT_AgeCategory updates an age category
+// @Summary Update an age category
+// @Description Updates an age category with the specified ID
+// @Produce json
+// @Security ApiKeyAuth
+// @Param id path int true "Age Category ID"
+// @Param ageCategory body routes.AgeCategoryRequest true "Age Category"
+// @Success 200 {object} routes.DefaultMessageResponse "Category Updated"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Age category Not found"
+// @Failure 409 {object} routes.DefaultMessageResponse "Age Category with this name already exists"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/age-categories/{id} [put]
 func (m *AgeRoute) PUT_AgeCategory(c *gin.Context) {
 	ageId := c.Param("id")
 	userRole := c.GetString("role")
@@ -42,7 +56,7 @@ func (m *AgeRoute) PUT_AgeCategory(c *gin.Context) {
 	valid = isValidAgeCategory(ageCategory)
 	if !valid {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
+			"message": "Age category is not valid",
 		})
 		return
 	}

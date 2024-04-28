@@ -8,13 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	type Category struct {
-//		ID          int    `json:"id"`
-//		UserID      int    `json:"user_id"` // created by
-//		Name        string `json:"category_name"`
-//		Description string `json:"description"`
-//		Created_at  string `json:"created_at"`
-//	}
+// POST_Category creates a new category
+// @Summary Create a category
+// @Description Creates a new category
+// @Produce json
+// @Security ApiKeyAuth
+// @Param category body routes.CategoryRequest true "Category object to be created"
+// @Success 200 {object} routes.DefaultMessageResponse "Category Created"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 409 {object} routes.DefaultMessageResponse "Category already exists"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/categories [post]
 func (m *CategoriesRoute) POST_Category(c *gin.Context) {
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")
@@ -45,7 +50,7 @@ func (m *CategoriesRoute) POST_Category(c *gin.Context) {
 	}
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return
@@ -54,7 +59,7 @@ func (m *CategoriesRoute) POST_Category(c *gin.Context) {
 	_, err = m.DB.CategoriesRepository.CreateCategory(userId, category.Name, category.Description)
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return

@@ -8,8 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// delete category
-
+// DELETE_Category deletes a category
+// @Summary Delete a category
+// @Description Deletes a category with the specified ID
+// @Produce json
+// @Security ApiKeyAuth
+// @Param id path int true "Category ID"
+// @Success 200 {object} routes.DefaultMessageResponse "Category Deleted"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Category not found"
+// @Failure 400 {object} routes.DefaultMessageResponse "Cannot delete category because it is used in movies"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/categories/{id} [delete]
 func (m *CategoriesRoute) DELETE_Category(c *gin.Context) {
 	categoryId := c.Param("id")
 	userRole := c.GetString("role")
@@ -23,7 +34,7 @@ func (m *CategoriesRoute) DELETE_Category(c *gin.Context) {
 	}
 	valid, categoryIdNum := utils.IsValidNum(categoryId)
 	if !valid {
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(400, gin.H{
 			"message": "Bad request",
 		})
 		return
@@ -45,8 +56,7 @@ func (m *CategoriesRoute) DELETE_Category(c *gin.Context) {
 	}
 	used, err := m.DB.CategoriesRepository.CheckCategoryIsUsedInMovies(categoryIdNum)
 	if used {
-		log.Println("Cant delete category when in use of other movies")
-		c.JSON(400, gin.H{
+		c.JSON(409, gin.H{
 			"message": "Cannot delete category because it is used in movies",
 		})
 		return

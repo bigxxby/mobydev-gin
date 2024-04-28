@@ -9,13 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	type Category struct {
-//		ID          int    `json:"id"`
-//		UserID      int    `json:"user_id"` // created by
-//		Name        string `json:"category_name"`
-//		Description string `json:"description"`
-//		Created_at  string `json:"created_at"`
-//	}
+// PUT_Category updates a category
+// @Summary Update a category
+// @Description Updates an existing category
+// @Produce json
+// @Security ApiKeyAuth
+// @Param id path int true "Category ID"
+// @Param category body routes.CategoryRequest true "Updated category object"
+// @Success 200 {object} routes.DefaultMessageResponse "Category Updated"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Category Not found"
+// @Failure 409 {object} routes.DefaultMessageResponse "Category with this name already exists"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/categories/{id} [put]
 func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 	categoryId := c.Param("id")
 	userRole := c.GetString("role")
@@ -56,7 +63,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 	}
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return
@@ -65,7 +72,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 	existingCategory, err := m.DB.CategoriesRepository.GetCategoryById(categoryIdNum)
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return
@@ -81,7 +88,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 		}
 		if err != nil {
 			log.Println(err.Error())
-			c.JSON(http.StatusUnauthorized, gin.H{
+			c.JSON(500, gin.H{
 				"message": "Internal server error",
 			})
 			return
@@ -91,7 +98,7 @@ func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 	_, err = m.DB.CategoriesRepository.UpdateCategory(categoryIdNum, category.Name, category.Description)
 	if err != nil {
 		log.Println(err.Error())
-		c.JSON(http.StatusUnauthorized, gin.H{
+		c.JSON(500, gin.H{
 			"message": "Internal server error",
 		})
 		return

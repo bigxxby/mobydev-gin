@@ -13,11 +13,11 @@ type Movie struct {
 	UserId string `json:"userId"`
 	Name   string `json:"name" binding:"required"`
 	Year   int    `json:"year" binding:"required"`
-	// Poster posters.PosterJson `json:"posters"`
-	Poster [5]string `json:"posters"`
-	//options
-	Category    string   `json:"category"`
-	AgeCategory string   `json:"ageCategory"`
+
+	Poster [5]string `json:"posters"` //Maximum of 5 posters for one movie
+
+	Category    string   `json:"category"`                  //one to many
+	AgeCategory string   `json:"ageCategory"`               //one to many
 	Genres      []string `json:"genres" binding:"required"` //many to many table
 
 	CategoryId      int    `json:"categoryId" binding:"required"`
@@ -37,38 +37,3 @@ type Movie struct {
 
 	IsFavorite bool `json:"isFavorite"`
 }
-
-// movie that is created (no genres required)
-
-// type MovieMain struct {
-// 	Id              int    `json:"id"`
-// 	UserId          string `json:"userId"`
-// 	ImageUrl        string `json:"imageUrl" binding:"required"`
-// 	Name            string `json:"name" binding:"required"`
-// 	Year            int    `json:"year" binding:"required"`
-// 	CategoryId      int    `json:"categoryId" binding:"required"`
-// 	AgeCategoryId   int    `json:"ageCategoryId" binding:"required"`
-// 	GenreId         int    `json:"genreId" binding:"required"`
-// 	DurationMinutes int    `json:"durationMinutes" binding:"required"`
-// 	Keywords        string `json:"keywords" binding:"required"`
-// 	Description     string `json:"description" binding:"required"`
-// 	Director        string `json:"director" binding:"required"`
-// 	Producer        string `json:"producer" binding:"required"`
-// 	CreatedAt       string `json:"createdAt"`
-// 	UpdatedAt       string `json:"updatedAt"`
-
-// 	SeasonCount int `json:"seasonCount"`
-// 	SeriesCount int `json:"seriesCount"`
-
-// 	// WatchCount  int                    `json:"watchCount"`
-
-// 	Categories []categories.Category `json:"category"`
-
-// 	Genres []genres.Genre `json:"genre"`
-
-// 	AgeCategories []age.AgeCategory `json:"ageCategory"`
-
-// 	Trend trend.Trend `json:"trend"`
-
-// 	IsFavorite bool `json:"isFavorite"`
-// }

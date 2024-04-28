@@ -8,6 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// POST_AgeCategory creates a new age category
+// @Summary Create a new age category
+// @Description Creates a new age category
+// @Produce json
+// @Security ApiKeyAuth
+// @Param ageCategory body routes.AgeCategoryRequest true "Age Category"
+// @Success 200 {object} routes.DefaultMessageResponse "Age category created"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 409 {object} routes.DefaultMessageResponse "Age category already exists"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/age-categories [post]
 func (m *AgeRoute) POST_AgeCategory(c *gin.Context) {
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")
@@ -21,14 +33,6 @@ func (m *AgeRoute) POST_AgeCategory(c *gin.Context) {
 
 	var ageCategory age.AgeCategory
 
-	// if (ageCategory.MaxAge < ageCategory.MinAge) || (ageCategory.MaxAge < ageCategory.MinAge) || (ageCategory.MaxAge > 100) || (ageCategory.MinAge < 0) {
-	// 	log.Println("Min and Max age bad request")
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"message": "Bad request",
-	// 	})
-	// 	return
-	// }
-
 	err := c.BindJSON(&ageCategory)
 	if err != nil {
 		log.Println(err.Error())
@@ -39,8 +43,9 @@ func (m *AgeRoute) POST_AgeCategory(c *gin.Context) {
 	}
 	valid := isValidAgeCategory(ageCategory)
 	if !valid {
+
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
+			"message": "Age Category is not valid",
 		})
 		return
 	}

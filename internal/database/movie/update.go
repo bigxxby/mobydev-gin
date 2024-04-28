@@ -1,14 +1,14 @@
 package movie
 
-func (d *MovieRepository) UpdateMovieData(id int, name, description, director, producer string, year, durationMinutes int) error {
+func (d *MovieRepository) UpdateMovieData(id int, name, description, director, producer string, year, durationMinutes int, keywords string) error {
 	tx, err := d.Database.Begin()
 	if err != nil {
 		return err
 	}
 	defer tx.Rollback()
 
-	q := `UPDATE movies SET name = $1, description = $2, director = $3, producer = $4, year = $5, duration_minutes = $6 WHERE id = $7`
-	_, err = tx.Exec(q, name, description, director, producer, year, durationMinutes, id)
+	q := `UPDATE movies SET name = $1, description = $2, director = $3, producer = $4, year = $5, duration_minutes = $6, keywords = $7 WHERE id = $8`
+	_, err = tx.Exec(q, name, description, director, producer, year, durationMinutes, keywords, id)
 	if err != nil {
 		return err
 	}

@@ -38,3 +38,19 @@ func (db *AgeRepository) CheckAgeCategoryExistsId(ageId int) (bool, error) {
 	}
 	return exists, nil
 }
+func (db *AgeRepository) CheckAgeCategoryIsUsedInMovies(categoryId int) (bool, error) {
+	var exists bool
+
+	query := `
+        SELECT EXISTS(
+            SELECT 1 FROM movies WHERE category_id = $1
+        )
+    `
+
+	err := db.Database.QueryRow(query, categoryId).Scan(&exists)
+	if err != nil {
+		return false, err
+	}
+
+	return exists, nil
+}

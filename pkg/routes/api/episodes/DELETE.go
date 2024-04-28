@@ -8,6 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// DELETE_Episode deletes an episode
+// @Summary Delete an episode
+// @Description Deletes an episode with the specified ID
+// @Produce json
+// @Security ApiKeyAuth
+// @Param id path int true "Episode ID"
+// @Success 200 {object} routes.DefaultMessageResponse "Episode deleted"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Episode Not Found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/episodes/{id} [delete]
 func (m *EpisodesRoute) DELETE_Episode(c *gin.Context) {
 	episodeId := c.Param("id")
 	userRole := c.GetString("role")
@@ -24,7 +36,14 @@ func (m *EpisodesRoute) DELETE_Episode(c *gin.Context) {
 		})
 		return
 	}
-	err := m.DB.EpisodeRepository.DeleteEpisodeById(episodeIdNum)
+	err := m.DB.EpisodeRepository.CheckEpisodeExistsById(episodeIdNum)
+	if err != nil {
+		c.JSON(404, gin.H{
+			"message": "Episode not found",
+		})
+		return
+	}
+	err = m.DB.EpisodeRepository.DeleteEpisodeById(episodeIdNum)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "Internal server error",

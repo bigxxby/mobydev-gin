@@ -10,6 +10,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PUT_Episode updates an episode
+// @Summary Update episode
+// @Description Updates an existing episode
+// @Produce json
+// @Param id path int true "Episode ID"
+// @Security ApiKeyAuth
+// @Param episode body routes.EpisodeRequest true "Episode"
+// @Success 200 {object} routes.DefaultMessageResponse "Episode updated"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Episode not found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/episodes/{id} [put]
 func (m *EpisodesRoute) PUT_Episode(c *gin.Context) {
 	episodeId := c.Param("id")
 	userId := c.GetInt("userId")
