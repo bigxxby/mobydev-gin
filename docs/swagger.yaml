@@ -301,6 +301,30 @@ definitions:
     - email
     - password
     type: object
+  routes.UserProfileRequest:
+    properties:
+      dot:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+    type: object
+  routes.UserProfileResponse:
+    properties:
+      dot:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      role:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -1153,6 +1177,64 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update movie genres
+  /api/profile:
+    get:
+      description: Retrieves the profile of the authenticated user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User profile
+          schema:
+            $ref: '#/definitions/routes.UserProfileResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get current users profile
+    put:
+      consumes:
+      - application/json
+      description: Retrieves the profile of the authenticated user
+      parameters:
+      - description: User object to be updated
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/routes.UserProfileRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Profile updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update current users profile
   /api/signIn:
     post:
       consumes:

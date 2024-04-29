@@ -10,6 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// PUT_Profile updates current user profile
+// @Summary Update current users profile
+// @Description Retrieves the profile of the authenticated user
+// @Accept json
+// @Produce json
+// @Param user body routes.UserProfileRequest true "User object to be updated"
+// @Security ApiKeyAuth
+// @Success 200 {object} routes.DefaultMessageResponse "Profile updated"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/profile [put]
 func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 	userId := c.GetInt("userId")
 	if userId == 0 {
@@ -31,7 +43,7 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 	if len(user.Name) > 16 {
 		log.Println("Name is too long")
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
+			"message": "Name is too long",
 		})
 		return
 	}
@@ -49,7 +61,7 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 	if (user.Phone != "") && !(utils.IsValidPhoneNumber(user.Phone)) {
 		log.Println("Phone Number is not valid")
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
+			"message": "Phone Number is not valid",
 		})
 		return
 	}

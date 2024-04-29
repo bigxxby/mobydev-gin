@@ -36,7 +36,6 @@ add it to the main movies GET to display all posters
 workiing
 /api/swagger
 not done docs - 
--users
 -posters
 -seasons
 -genres
@@ -69,3 +68,5 @@ NOT DONE
 // adding large number on CRUD opreations will give 500 error, need to fix
 // finish password and search, make docs for them
 // fix episode docs
+
+//swag init -g server/main.go

@@ -1,6 +1,9 @@
 package routes
 
-import "project/internal/database/movie"
+import (
+	"project/internal/database/movie"
+	"time"
+)
 
 type SignInRequest struct {
 	Email    string `json:"email" binding:"required"`
@@ -72,4 +75,17 @@ type EpisodeRequest struct {
 }
 type EpisodeRequestBody struct {
 	Episodes []EpisodeRequest `json:"episodes"`
+}
+type UserProfileResponse struct {
+	ID    int       `json:"id"`
+	Name  string    `json:"name"`
+	Email string    `json:"email"`
+	Phone string    `json:"phone"`
+	Role  string    `json:"role"`
+	Dot   time.Time `json:"dot"`
+}
+type UserProfileRequest struct {
+	Name  string    `json:"name"`
+	Phone string    `json:"phone"`
+	Dot   time.Time `json:"dot"`
 }
