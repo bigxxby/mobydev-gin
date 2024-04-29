@@ -10,19 +10,19 @@ import (
 )
 
 // PUT_Category updates a category
-// @Summary Update a category
-// @Description Updates an existing category
-// @Produce json
-// @Security ApiKeyAuth
-// @Param id path int true "Category ID"
-// @Param category body routes.CategoryRequest true "Updated category object"
-// @Success 200 {object} routes.DefaultMessageResponse "Category Updated"
-// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
-// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
-// @Failure 404 {object} routes.DefaultMessageResponse "Category Not found"
-// @Failure 409 {object} routes.DefaultMessageResponse "Category with this name already exists"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/categories/{id} [put]
+//	@Summary		Update a category
+//	@Description	Updates an existing category
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			id			path		int								true	"Category ID"
+//	@Param			category	body		routes.CategoryRequest			true	"Updated category object"
+//	@Success		200			{object}	routes.DefaultMessageResponse	"Category Updated"
+//	@Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404			{object}	routes.DefaultMessageResponse	"Category Not found"
+//	@Failure		409			{object}	routes.DefaultMessageResponse	"Category with this name already exists"
+//	@Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/categories/{id} [put]
 func (m *CategoriesRoute) PUT_Category(c *gin.Context) {
 	categoryId := c.Param("id")
 	userRole := c.GetString("role")

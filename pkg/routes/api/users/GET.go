@@ -10,15 +10,15 @@ import (
 )
 
 // GET_Profile retrieves user profile
-// @Summary Get current users profile
-// @Description Retrieves the profile of the authenticated user
-// @Produce json
-// @Security ApiKeyAuth
-// @Success 200 {object} routes.UserProfileResponse "User profile"
-// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
-// @Failure 404 {object} routes.DefaultMessageResponse "User not found"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/profile [get]
+//	@Summary		Get current users profile
+//	@Description	Retrieves the profile of the authenticated user
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Success		200	{object}	routes.UserProfileResponse		"User profile"
+//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404	{object}	routes.DefaultMessageResponse	"User not found"
+//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/profile [get]
 func (m *UsersRoute) GET_Profile(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	userId := c.GetInt("userId")

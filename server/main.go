@@ -13,11 +13,11 @@ import (
 	swagger "github.com/swaggo/gin-swagger"
 )
 
-// @securityDefinitions.apikey ApiKeyAuth
-// @in header
-// @name Authorization
-// @title		ozinshe-api
-// @version	1.0
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						Authorization
+// @title						ozinshe-api
+// @version					1.0
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	//env
@@ -26,7 +26,6 @@ func main() {
 		log.Println(err.Error())
 		return
 	}
-
 	//init main
 	main, err := routes.Init()
 	if err != nil {
@@ -80,11 +79,19 @@ func main() {
 			auth.POST("/check-auth", main.AuthRoute.POST_CheckAuth) //returns CURRENT users role
 			auth.POST("/signUp", main.AuthRoute.POST_SignUp)        //{email, password, role } required bindings
 			auth.POST("/signIn", main.AuthRoute.POST_SignIn)        //{email, password } required bindings
+
+			//OLD
+
 			//htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //-------->
-			auth.POST("/send-code", main.AuthRoute.POST_SendCode) // sends restore code to the users email
-			auth.POST("/verify", main.AuthRoute.POST_VerifyCode)  // gets code from user an verifies it, if valid sends to the email link for resetting the pass
+			// auth.POST("/send-code", main.AuthRoute.POST_SendCode) // sends restore code to the users email
+			// auth.POST("/verify", main.AuthRoute.POST_VerifyCode)  // gets code from user an verifies it, if valid sends to the email link for resetting the pass
 			// htmlRoutes.GET("/change-password", main.GET_ChangePassword) //------->
-			auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // changes password of the user
+			// auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // changes password of the user
+
+			//NEW
+			auth.POST("/send-code", main.AuthRoute.POST_SendCode)             // sends verifiication code to the email
+			auth.POST("/verify-code", main.AuthRoute.POST_VerifyCode)         // verifies code and changes users pass to temporary
+			auth.POST("/change-password", main.AuthRoute.POST_ChangePassword) // changes password of the user
 
 		}
 		// movies

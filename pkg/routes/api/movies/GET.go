@@ -9,14 +9,14 @@ import (
 )
 
 // GET_Movies retrieves movies for a user
-// @Summary Get all movies
-// @Description Retrieves movies for a user
-// @Produce json
-// @Param limit query int false "Limit"
-// @Success 200 {object} routes.ManyMoviesResponse "OK"
-// @Failure 400 {object} routes.DefaultMessageResponse"Invalid limit parameter"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/movies [get]
+//	@Summary		Get all movies
+//	@Description	Retrieves movies for a user
+//	@Produce		json
+//	@Param			limit	query		int							false	"Limit"
+//	@Success		200		{object}	routes.ManyMoviesResponse	"OK"
+//	@Failure		400		{object}	routes.DefaultMessageResponse"Invalid limit parameter"
+//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/movies [get]
 func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 	userId := c.GetInt("userId")
 	limit := c.Query("limit")
@@ -57,15 +57,15 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 }
 
 // GET_Movie retrieves details of a specific movie
-// @Summary Get movie details
-// @Description Retrieves details of a specific movie including its seasons and similar movies
-// @Produce json
-// @Param id path string true "Movie ID"
-// @Success 200 {object} routes.MovieResponse "OK"
-// @Failure 400 {object} routes.DefaultMessageResponse "Invalid movie ID"
-// @Failure 404 {object} routes.DefaultMessageResponse "Movie not found"
-// @Failure 500 {object} routes.DefaultMessageResponse"Internal server error"
-// @Router /api/movies/{id} [get]
+//	@Summary		Get movie details
+//	@Description	Retrieves details of a specific movie including its seasons and similar movies
+//	@Produce		json
+//	@Param			id	path		string							true	"Movie ID"
+//	@Success		200	{object}	routes.MovieResponse			"OK"
+//	@Failure		400	{object}	routes.DefaultMessageResponse	"Invalid movie ID"
+//	@Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
+//	@Failure		500	{object}	routes.DefaultMessageResponse"Internal server error"
+//	@Router			/api/movies/{id} [get]
 func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")

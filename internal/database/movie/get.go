@@ -99,7 +99,7 @@ func (db *MovieRepository) GetMovies(userId int) ([]Movie, error) {
 		if err != nil {
 			return nil, err
 		}
-
+		//JOIN ADD
 		if userId > 0 {
 			var exists bool
 			err = db.Database.QueryRow("SELECT EXISTS (SELECT 1 FROM favorites WHERE movie_id = $1 AND user_id = $2)", movie.Id, userId).Scan(&exists)

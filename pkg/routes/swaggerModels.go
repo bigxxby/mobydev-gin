@@ -25,6 +25,18 @@ type SignInResponse struct {
 type DefaultMessageResponse struct {
 	Message string `json:"message"`
 }
+type ChangePasswordRequest struct {
+	OldPassword     string `json:"oldPassword" binding:"required"`
+	NewPassword     string `json:"newPassword" binding:"required"`
+	ConfirmPassword string `json:"confirmPassword" binding:"required"`
+}
+type VerifyCodeRequest struct {
+	Email string `json:"email" binding:"required"`
+	Code  string `json:"code" binding:"required"`
+}
+type SendCodeRequest struct {
+	Email string `json:"email" binding:"required"`
+}
 type ManyMoviesResponse struct {
 	Movies []movie.Movie `json:"movies"`
 }

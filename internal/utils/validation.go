@@ -2,9 +2,11 @@ package utils
 
 import (
 	"errors"
+	"math/rand"
 	"net/mail"
 	"regexp"
 	"strconv"
+	"time"
 	"unicode"
 )
 
@@ -17,6 +19,12 @@ func CheckValidForReg(email, password string) error {
 		return errors.New("password is not valid")
 	}
 
+	return nil
+}
+func CheckPasswordIsValid(password string) error {
+	if !isValidPassword(password) {
+		return errors.New("password is not valid")
+	}
 	return nil
 }
 
@@ -34,6 +42,34 @@ func isValidPassword(password string) bool {
 	hasSpecialChar := regexp.MustCompile(`[@#$%^&+=!]`).MatchString
 
 	return !onlyLatin && hasUpperCase(password) && hasLowerCase(password) && hasDigit(password) && hasSpecialChar(password)
+}
+
+func GenerateTempPassword(length int) string {
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+
+	var passwordChars = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&+=")
+	var specialChars = []rune("@#$%^&+=")
+
+	// At least one uppercase letter and one special character
+	hasUpper := false
+	hasSpecial := false
+
+	password := make([]rune, length)
+	for i := range password {
+		if i == length-2 && !hasUpper {
+			password[i] = rune('A' + r.Intn(26))
+			hasUpper = true
+		} else if i == length-1 && !hasSpecial {
+			password[i] = specialChars[r.Intn(len(specialChars))]
+			hasSpecial = true
+		} else {
+			password[i] = passwordChars[r.Intn(len(passwordChars))]
+		}
+	}
+	r.Shuffle(len(password), func(i, j int) {
+		password[i], password[j] = password[j], password[i]
+	})
+	return string(password)
 }
 
 func containsNonLatinLetters(str string) bool { // checks if password has not latin symbols

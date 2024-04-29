@@ -75,3 +75,18 @@ func (db *UserRepository) CheckUserСredentials(email, password string) (*User, 
 	}
 	return nil, false, nil
 }
+func (db *UserRepository) CheckUserPassoword(userId int, password string) error {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+	q := "SELECT password FROM users WHERE id=$1"
+	hashPassword := ""
+	err := db.Database.QueryRow(q, userId).Scan(&hashPassword)
+	if err != nil {
+		return err
+	}
+	err = bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

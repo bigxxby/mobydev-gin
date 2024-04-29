@@ -44,3 +44,21 @@ func (db *UserRepository) UpdatePassword(email, password string) error {
 	}
 	return nil
 }
+func (db *UserRepository) UpdatePasswordById(userId int, password string) error {
+	tx, err := db.Database.Begin()
+	if err != nil {
+		return err
+	}
+	defer tx.Rollback()
+
+	query := "UPDATE users SET password = $1, updated_at = CURRENT_TIMESTAMP  WHERE id = $2"
+	_, err = tx.Exec(query, password, userId)
+	if err != nil {
+		return err
+	}
+	err = tx.Commit()
+	if err != nil {
+		return nil
+	}
+	return nil
+}

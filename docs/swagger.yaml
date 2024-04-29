@@ -162,6 +162,19 @@ definitions:
     - category_name
     - description
     type: object
+  routes.ChangePasswordRequest:
+    properties:
+      confirmPassword:
+        type: string
+      newPassword:
+        type: string
+      oldPassword:
+        type: string
+    required:
+    - confirmPassword
+    - newPassword
+    - oldPassword
+    type: object
   routes.DefaultMessageResponse:
     properties:
       message:
@@ -271,6 +284,13 @@ definitions:
       movie:
         $ref: '#/definitions/movie.Movie'
     type: object
+  routes.SendCodeRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
   routes.SignInRequest:
     properties:
       email:
@@ -324,6 +344,16 @@ definitions:
         type: string
       role:
         type: string
+    type: object
+  routes.VerifyCodeRequest:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+    required:
+    - code
+    - email
     type: object
 info:
   contact: {}
@@ -668,6 +698,42 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update a category
+  /api/change-password:
+    post:
+      consumes:
+      - application/json
+      description: Changes the password of the authenticated user
+      parameters:
+      - description: Password change data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/routes.ChangePasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Change user password
+      tags:
+      - passwordChange
   /api/check-auth:
     post:
       consumes:
@@ -687,6 +753,8 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Check authentication
+      tags:
+      - authentication
   /api/episodes/{id}:
     delete:
       description: Deletes an episode with the specified ID
@@ -1235,6 +1303,40 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update current users profile
+  /api/send-code:
+    post:
+      consumes:
+      - application/json
+      description: Sends a verification code to the provided email address
+      parameters:
+      - description: Email data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SendCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Code sent
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Send verification code
+      tags:
+      - passwordChange
   /api/signIn:
     post:
       consumes:
@@ -1268,6 +1370,8 @@ paths:
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       summary: Sign in
+      tags:
+      - authentication
   /api/signUp:
     post:
       consumes:
@@ -1296,6 +1400,37 @@ paths:
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       summary: Sign up
+  /api/verify-code:
+    post:
+      consumes:
+      - application/json
+      description: Verifies the verification code for the provided email address and
+        generates a temporary password
+      parameters:
+      - description: Verification code data
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/routes.VerifyCodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Temporary password sent
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Verify verification code
+      tags:
+      - passwordChange
 securityDefinitions:
   ApiKeyAuth:
     in: header

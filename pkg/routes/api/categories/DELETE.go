@@ -9,18 +9,18 @@ import (
 )
 
 // DELETE_Category deletes a category
-// @Summary Delete a category
-// @Description Deletes a category with the specified ID
-// @Produce json
-// @Security ApiKeyAuth
-// @Param id path int true "Category ID"
-// @Success 200 {object} routes.DefaultMessageResponse "Category Deleted"
-// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
-// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
-// @Failure 404 {object} routes.DefaultMessageResponse "Category not found"
-// @Failure 400 {object} routes.DefaultMessageResponse "Cannot delete category because it is used in movies"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/categories/{id} [delete]
+//	@Summary		Delete a category
+//	@Description	Deletes a category with the specified ID
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			id	path		int								true	"Category ID"
+//	@Success		200	{object}	routes.DefaultMessageResponse	"Category Deleted"
+//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404	{object}	routes.DefaultMessageResponse	"Category not found"
+//	@Failure		400	{object}	routes.DefaultMessageResponse	"Cannot delete category because it is used in movies"
+//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/categories/{id} [delete]
 func (m *CategoriesRoute) DELETE_Category(c *gin.Context) {
 	categoryId := c.Param("id")
 	userRole := c.GetString("role")
