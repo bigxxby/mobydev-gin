@@ -97,17 +97,19 @@ func main() {
 		// movies
 		movies := apiRoutes.Group("/movies")
 		{
-			movies.GET("/", main.MoviesRoute.GET_Movies)                           //?limit=<limitInt>
-			movies.GET("/:id", main.MoviesRoute.GET_Movie)                         // returns movie by id of movie
-			movies.GET("/genre", main.MoviesRoute.GET_MoviesByGenre)               // return all movie of genre ?genre=<genre name>
-			movies.POST("/", main.MoviesRoute.POST_Movie)                          // admin only create movie
-			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)                   // admin only deletes movie
-			movies.GET("/search", main.MoviesRoute.GET_Search)                     // ?query=<searchQuery>
-			movies.POST("watch/:id", main.MoviesRoute.POST_Watch)                  // +1 movie watch count ONLY if user authenticated
-			movies.PUT("category/:id", main.MoviesRoute.PUT_MovieCategory)         // admin only change category
-			movies.PUT("/data/:id", main.MoviesRoute.PUT_MovieData)                // admin only change data of movie (not related to other tables)
-			movies.PUT("/age-category/:id", main.MoviesRoute.PUT_MovieAgeCategory) // admin only change age category of the movie
-			movies.PUT("/genres/:id", main.MoviesRoute.PUT_MovieGenres)            // admin only change genres of the movie
+			movies.GET("/", main.MoviesRoute.GET_Movies)                               //?limit=<limitInt>
+			movies.GET("/:id", main.MoviesRoute.GET_Movie)                             // returns movie by id of movie
+			movies.GET("/genre/", main.MoviesRoute.GET_EveryMovieByGenre)              // get all movies for every genre
+			movies.GET("/category/", main.MoviesRoute.GET_EveryMovieByCategory)        // get all movies for every category
+			movies.GET("/age-category/", main.MoviesRoute.GET_EveryMovieByAgeCategory) // get all movies for every age category
+			movies.POST("/", main.MoviesRoute.POST_Movie)                              // admin only create movie
+			movies.DELETE("/:id", main.MoviesRoute.DELETE_Movie)                       // admin only deletes movie
+			movies.GET("/search", main.MoviesRoute.GET_Search)                         // ?query=<searchQuery>
+			movies.POST("watch/:id", main.MoviesRoute.POST_Watch)                      // +1 movie watch count ONLY if user authenticated
+			movies.PUT("category/:id", main.MoviesRoute.PUT_MovieCategory)             // admin only change category
+			movies.PUT("/data/:id", main.MoviesRoute.PUT_MovieData)                    // admin only change data of movie (not related to other tables)
+			movies.PUT("/age-category/:id", main.MoviesRoute.PUT_MovieAgeCategory)     // admin only change age category of the movie
+			movies.PUT("/genres/:id", main.MoviesRoute.PUT_MovieGenres)                // admin only change genres of the movie
 		}
 		//seasons
 		seasons := apiRoutes.Group("/seasons")

@@ -15,13 +15,11 @@ type SignUpRequest struct {
 	ConfirmPassword string `json:"confirmPassword" binding:"required"`
 }
 
-// SignInResponse представляет структуру ответа на успешную аутентификацию
 type SignInResponse struct {
 	Message string `json:"message"`
 	Token   string `json:"token"`
 }
 
-// routes.DefaultMessageResponse
 type DefaultMessageResponse struct {
 	Message string `json:"message"`
 }

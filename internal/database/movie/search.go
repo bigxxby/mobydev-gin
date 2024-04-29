@@ -156,8 +156,8 @@ func (db *MovieRepository) getMoviesByCategoryQuery(userId int, filterValue stri
                c.name AS category_name, ac.name AS age_category_name,
                p.main_poster, p.second_poster, p.third_poster, p.fourth_poster, p.fifth_poster
         FROM movies m
-        RIGHT JOIN categories c ON m.category_id = c.id
-        RIGHT JOIN age_categories ac ON m.age_category_id = ac.id
+        LEFT JOIN categories c ON m.category_id = c.id
+        LEFT JOIN age_categories ac ON m.age_category_id = ac.id
         LEFT JOIN posters p ON m.id = p.movie_id
         INNER JOIN movie_genres mg ON m.id = mg.movie_id
         INNER JOIN genres g ON mg.genre_id = g.id

@@ -37,3 +37,8 @@ type Movie struct {
 
 	IsFavorite bool `json:"isFavorite"`
 }
+type MovieShort struct {
+	Id         int    `json:"id"`
+	Name       string `json:"name"`
+	MainPoster string `json:"mainPoster"`
+}

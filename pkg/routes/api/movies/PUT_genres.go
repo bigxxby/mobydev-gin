@@ -10,6 +10,7 @@ import (
 )
 
 // PUT_MovieGenres updates the genres of a movie
+//
 //	@Summary		Update movie genres
 //	@Description	Updates the genres of a movie with the specified ID
 //	@Produce		json
@@ -58,7 +59,18 @@ func (m *MoviesRoute) PUT_MovieGenres(c *gin.Context) {
 		})
 		return
 	}
+	encountered := make(map[string]bool)
+	for _, str := range data.Genres {
+		if encountered[str] {
+			c.JSON(400, gin.H{
+				"message": "Genres must be unique",
+			})
+			return
+		}
+		encountered[str] = true
+	}
 	genresIdsNew := []int{}
+
 	for _, genre := range data.Genres {
 		genreId, _, err := m.DB.GenreRepository.CheckGenreExistsByName(genre)
 		if err != nil {
@@ -76,6 +88,7 @@ func (m *MoviesRoute) PUT_MovieGenres(c *gin.Context) {
 		}
 		genresIdsNew = append(genresIdsNew, genreId)
 	}
+
 	err = m.DB.MovieRepository.AddGenresToMovie(movieIdNum, genresIdsNew)
 	if err != nil {
 		log.Println(err.Error())

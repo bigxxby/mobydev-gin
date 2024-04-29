@@ -4,13 +4,13 @@ import (
 	"log"
 	"net/http"
 	"project/internal/database/user"
-	"project/internal/utils"
 	"time"
 
 	"github.com/gin-gonic/gin"
 )
 
 // PUT_Profile updates current user profile
+//
 //	@Summary		Update current users profile
 //	@Description	Retrieves the profile of the authenticated user
 //	@Accept			json
@@ -57,13 +57,6 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 			})
 			return
 		}
-	}
-	if (user.Phone != "") && !(utils.IsValidPhoneNumber(user.Phone)) {
-		log.Println("Phone Number is not valid")
-		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "Phone Number is not valid",
-		})
-		return
 	}
 
 	err = m.DB.UserRepository.UpdateProfile(userId, user.Name, user.Phone, &date)

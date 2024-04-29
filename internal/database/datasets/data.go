@@ -59,7 +59,7 @@ func insertTestMovies(db *database.Database) error {
 	_, err = tx.Exec(`
         INSERT INTO movies (user_id, category_id,age_category_id, name, year, duration_minutes, keywords, description, director, producer)
         VALUES 
-        (1, 1,1, 'Movie 1',  202, 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
+        (1, 1,1, 'Movie 1',  2022, 120, 'action, thriller', 'Description for Movie 1', 'Director 1', 'Producer 1'),
         (2, 1,1, 'Movie 2',  2019, 90, 'comedy, romance', 'Description for Movie 2', 'Director 2', 'Producer 2'),
         (3, 1,1, 'Movie 3',  2021,  110, 'drama', 'Description for Movie 3', 'Director 3', 'Producer 3'),
         (4, 1,1, 'Movie 4',  2018,  105, 'thriller, mystery', 'Description for Movie 4', 'Director 4', 'Producer 4')
