@@ -23,12 +23,12 @@ add it to the main movies GET to display all posters
   -by genre jeke jeke shygaru , list of genre , list of age category
 /profile [PUT]: -IsValidPhoneNumber ala salsan bolady , amerikada turatyn qazaqtar install jasasa ol jaqtagy nomerdi qabyldamai qoiady
 //api/movies/2/ [PUT] can add multiple same genres name  
+-uqsas telehikaialar qosu not workign properly //random
 
 
 
 
 ?not done
--uqsas telehikaialar qosu not workign properly //random
 // filter by genres , age , categories not working properly
 /filtes by watches
 

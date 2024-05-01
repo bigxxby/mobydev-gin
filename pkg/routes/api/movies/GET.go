@@ -9,6 +9,7 @@ import (
 )
 
 // GET_Movies retrieves movies for a user
+//
 //	@Summary		Get all movies
 //	@Description	Retrieves movies for a user
 //	@Produce		json
@@ -57,6 +58,7 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 }
 
 // GET_Movie retrieves details of a specific movie
+//
 //	@Summary		Get movie details
 //	@Description	Retrieves details of a specific movie including its seasons and similar movies
 //	@Produce		json
@@ -100,7 +102,9 @@ func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 		})
 		return
 	}
-	similar, err := m.DB.MovieRepository.GetSimilarMoviesLimit5(movie.Keywords, movie.Id)
+
+	//right not just give 5 random movies
+	similar, err := m.DB.MovieRepository.GetSimularMoviesLimit5(movie.Id)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
