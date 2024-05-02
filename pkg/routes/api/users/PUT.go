@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			Profile
 // PUT_Profile updates current user profile
 //
 //	@Summary		Update current users profile

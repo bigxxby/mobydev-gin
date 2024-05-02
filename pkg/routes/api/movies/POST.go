@@ -11,7 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// POST_Movie creates a new movie
+//	@Tags			Movies
 //	@Summary		Create a new movie
 //	@Description	Creates a new movie with provided details
 //	@Produce		json

@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			episodes
 // POST_Episode creates a single episode for a season
+//
 //	@Summary		Create episode
 //	@Description	Creates a single episode for the specified season
 //	@Produce		json
@@ -91,6 +93,7 @@ type EpisodeRequest struct {
 }
 
 // POST_Episodes creates multiple episodes for a season
+//
 //	@Summary		Create episodes
 //	@Description	Creates multiple episodes for the specified season
 //	@Produce		json

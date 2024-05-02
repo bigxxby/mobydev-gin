@@ -9,7 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			episodes
 // GET_Episode retrieves an episode by ID
+//
 //	@Summary		Retrieve an episode
 //	@Description	Retrieves an episode with the specified ID
 //	@Produce		json

@@ -21,6 +21,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "ageCategory"
+                ],
                 "summary": "Get all age categories",
                 "responses": {
                     "200": {
@@ -35,7 +38,7 @@ const docTemplate = `{
                     "404": {
                         "description": "Age categories not found",
                         "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                            "type": "objects"
                         }
                     },
                     "500": {
@@ -55,6 +58,9 @@ const docTemplate = `{
                 "description": "Creates a new age category",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "ageCategory"
                 ],
                 "summary": "Create a new age category",
                 "parameters": [
@@ -155,6 +161,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "ageCategory"
+                ],
                 "summary": "Update an age category",
                 "parameters": [
                     {
@@ -222,6 +231,9 @@ const docTemplate = `{
                 "description": "Deletes an age category with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "ageCategory"
                 ],
                 "summary": "Delete an age category",
                 "parameters": [
@@ -322,6 +334,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "categories"
+                ],
                 "summary": "Create a category",
                 "parameters": [
                     {
@@ -378,6 +393,9 @@ const docTemplate = `{
                 "description": "Retrieves the category with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "categories"
                 ],
                 "summary": "Get a category",
                 "parameters": [
@@ -625,12 +643,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
-                    },
-                    "401": {
-                        "description": "Unauthorized: User not authenticated",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
                     }
                 }
             }
@@ -640,6 +652,9 @@ const docTemplate = `{
                 "description": "Retrieves an episode with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "episodes"
                 ],
                 "summary": "Retrieve an episode",
                 "parameters": [
@@ -687,6 +702,9 @@ const docTemplate = `{
                 "description": "Updates an existing episode",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "episodes"
                 ],
                 "summary": "Update episode",
                 "parameters": [
@@ -750,6 +768,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "episodes"
+                ],
                 "summary": "Create episode",
                 "parameters": [
                     {
@@ -805,6 +826,9 @@ const docTemplate = `{
                 "description": "Deletes an episode with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "episodes"
                 ],
                 "summary": "Delete an episode",
                 "parameters": [
@@ -914,6 +938,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Movies"
+                ],
                 "summary": "Get all movies",
                 "parameters": [
                     {
@@ -953,6 +980,9 @@ const docTemplate = `{
                 "description": "Creates a new movie with provided details",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Movies"
                 ],
                 "summary": "Create a new movie",
                 "parameters": [
@@ -1010,6 +1040,9 @@ const docTemplate = `{
                 "description": "Updates the age category of a movie with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Movies"
                 ],
                 "summary": "Update movie age category",
                 "parameters": [
@@ -1075,6 +1108,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Movies"
+                ],
                 "summary": "Update movie category",
                 "parameters": [
                     {
@@ -1139,6 +1175,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Movies"
+                ],
                 "summary": "Update movie data",
                 "parameters": [
                     {
@@ -1192,49 +1231,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/movies/genre": {
-            "get": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Retrieves movies by genre for a user",
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Get movies by genre",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Genre",
-                        "name": "genre",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    }
-                }
-            }
-        },
         "/api/movies/genres/{id}": {
             "put": {
                 "security": [
@@ -1245,6 +1241,9 @@ const docTemplate = `{
                 "description": "Updates the genres of a movie with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Movies"
                 ],
                 "summary": "Update movie genres",
                 "parameters": [
@@ -1305,6 +1304,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Movies"
+                ],
                 "summary": "Get movie details",
                 "parameters": [
                     {
@@ -1351,6 +1353,9 @@ const docTemplate = `{
                 "description": "Deletes a movie with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Movies"
                 ],
                 "summary": "Delete a movie",
                 "parameters": [
@@ -1407,6 +1412,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "Profile"
+                ],
                 "summary": "Get current users profile",
                 "responses": {
                     "200": {
@@ -1447,6 +1455,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Profile"
                 ],
                 "summary": "Update current users profile",
                 "parameters": [
@@ -1600,6 +1611,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "authentication"
                 ],
                 "summary": "Sign up",
                 "parameters": [

@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// PUT_MovieCategory updates the category of a movie
+//	@Tags			Movies
 //	@Summary		Update movie category
 //	@Description	Updates the category of a movie with the specified ID
 //	@Produce		json

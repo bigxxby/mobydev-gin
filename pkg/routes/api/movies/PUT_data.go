@@ -9,19 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// PUT_MovieData updates the data of a movie
-//	@Summary		Update movie data
-//	@Description	Updates the data of a movie with the specified ID
-//	@Produce		json
-//	@Param			id	path	string	true	"Movie ID"
-//	@Security		ApiKeyAuth
-//	@Param			movieData	body		routes.MovieDataRequest			true	"Movie Data"
-//	@Success		200			{object}	routes.DefaultMessageResponse	"Movie data updated"
-//	@Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		404			{object}	routes.DefaultMessageResponse	"Movie not found"
-//	@Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/movies/data/{id} [put]
+// @Tags			Movies
+//
+// @Summary		Update movie data
+// @Description	Updates the data of a movie with the specified ID
+// @Produce		json
+// @Param			id	path	string	true	"Movie ID"
+// @Security		ApiKeyAuth
+// @Param			movieData	body		routes.MovieDataRequest			true	"Movie Data"
+// @Success		200			{object}	routes.DefaultMessageResponse	"Movie data updated"
+// @Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
+// @Failure		404			{object}	routes.DefaultMessageResponse	"Movie not found"
+// @Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/movies/data/{id} [put]
 func (m *MoviesRoute) PUT_MovieData(c *gin.Context) {
 	movieId := c.Param("id")
 	userRole := c.GetString("role")

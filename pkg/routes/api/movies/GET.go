@@ -8,8 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GET_Movies retrieves movies for a user
-//
+//	@Tags			Movies
 //	@Summary		Get all movies
 //	@Description	Retrieves movies for a user
 //	@Produce		json
@@ -58,7 +57,7 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 }
 
 // GET_Movie retrieves details of a specific movie
-//
+//	@Tags			Movies
 //	@Summary		Get movie details
 //	@Description	Retrieves details of a specific movie including its seasons and similar movies
 //	@Produce		json

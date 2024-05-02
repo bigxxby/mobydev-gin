@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Seasons
 func (m *SeasonsRoute) DELETE_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	userRole := c.GetString("role")
@@ -38,6 +39,8 @@ func (m *SeasonsRoute) DELETE_Season(c *gin.Context) {
 		"message": "Season deleted",
 	})
 }
+
+// @Tags Seasons
 func (m *SeasonsRoute) DELETE_SeasonNumber(c *gin.Context) {
 	movieId := c.Param("id")
 	seasonNumber := c.Param("seasonNumber")

@@ -9,6 +9,7 @@ import (
 )
 
 // adds posters to he movie by array of 5 (CAN ACCEPT only 5 ulrs)
+// @Tags Posters
 func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -53,6 +54,7 @@ func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 		})
 		return
 	}
+
 	if has {
 		err = m.DB.PosterRepo.DeletePostersOfMovie(movieIdNum)
 		if err != nil {

@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Posters
 func (m *PosterRoute) GET_PostersOfMoive(c *gin.Context) {
 	movieId := c.Param("id")
 	valid, movieIdNum := utils.IsValidNum(movieId)

@@ -4,11 +4,14 @@ import (
 	"log"
 	"net/http"
 	"project/internal/database/age"
+	"project/internal/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags			ageCategory
 // POST_AgeCategory creates a new age category
+//
 //	@Summary		Create a new age category
 //	@Description	Creates a new age category
 //	@Produce		json
@@ -41,7 +44,7 @@ func (m *AgeRoute) POST_AgeCategory(c *gin.Context) {
 		})
 		return
 	}
-	valid := isValidAgeCategory(ageCategory)
+	valid := utils.IsValidAgeCategory(ageCategory)
 	if !valid {
 
 		c.JSON(http.StatusBadRequest, gin.H{

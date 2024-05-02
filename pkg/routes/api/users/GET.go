@@ -9,7 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			Profile
 // GET_Profile retrieves user profile
+//
 //	@Summary		Get current users profile
 //	@Description	Retrieves the profile of the authenticated user
 //	@Produce		json

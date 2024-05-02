@@ -9,7 +9,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags			ageCategory
 // PUT_AgeCategory updates an age category
+//
 //	@Summary		Update an age category
 //	@Description	Updates an age category with the specified ID
 //	@Produce		json
@@ -53,7 +55,7 @@ func (m *AgeRoute) PUT_AgeCategory(c *gin.Context) {
 		})
 		return
 	}
-	valid = isValidAgeCategory(ageCategory)
+	valid = utils.IsValidAgeCategory(ageCategory)
 	if !valid {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "Age category is not valid",

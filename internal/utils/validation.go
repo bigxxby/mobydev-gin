@@ -4,6 +4,7 @@ import (
 	"errors"
 	"math/rand"
 	"net/mail"
+	"project/internal/database/age"
 	"regexp"
 	"strconv"
 	"time"
@@ -48,7 +49,7 @@ func GenerateTempPassword(length int) string {
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 
 	var passwordChars = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&+=")
-	var specialChars = []rune("@#$%^&+=")
+	var specialChars = []rune("#$%&")
 
 	// At least one uppercase letter and one special character
 	hasUpper := false
@@ -104,4 +105,20 @@ func IsValidPhoneNumber(phoneNumber string) bool {
 
 	match, _ := regexp.MatchString(pattern, phoneNumber)
 	return match
+}
+func IsValidAgeCategory(ageCategory age.AgeCategory) bool {
+	if ageCategory.MinAge <= 0 || ageCategory.MaxAge > 100 {
+		return false
+	}
+	if ageCategory.MaxAge > 100 {
+		return false
+	}
+	if ageCategory.MinAge > ageCategory.MaxAge {
+		return false
+	}
+	if ageCategory.Name == "" {
+		return false
+	}
+
+	return true
 }

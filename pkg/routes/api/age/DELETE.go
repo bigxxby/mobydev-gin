@@ -9,6 +9,8 @@ import (
 )
 
 // DELETE_AgeCategory deletes an age category
+// @Tags			ageCategory
+//
 //	@Summary		Delete an age category
 //	@Description	Deletes an age category with the specified ID
 //	@Produce		json

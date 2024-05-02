@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Seasons
 func (m *SeasonsRoute) GET_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	valid, seasonIdNum := utils.IsValidNum(seasonId)
@@ -37,6 +38,7 @@ func (m *SeasonsRoute) GET_Season(c *gin.Context) {
 
 }
 
+// @Tags Seasons
 func (m *SeasonsRoute) GET_AllSeasonsOfMovie(c *gin.Context) {
 	movieId := c.Param("id")
 	valid, movieIdNum := utils.IsValidNum(movieId)

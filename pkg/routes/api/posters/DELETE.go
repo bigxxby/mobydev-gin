@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Posters
 func (m *PosterRoute) DELETE_Posters(c *gin.Context) {
 	posterId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -60,6 +61,8 @@ func (m *PosterRoute) DELETE_Posters(c *gin.Context) {
 		"message": "Posters Deleted",
 	})
 }
+
+// @Tags Posters
 func (m *PosterRoute) DELETE_PostersMovie(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")

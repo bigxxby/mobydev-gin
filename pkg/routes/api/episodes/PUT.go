@@ -10,7 +10,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			episodes
 // PUT_Episode updates an episode
+//
 //	@Summary		Update episode
 //	@Description	Updates an existing episode
 //	@Produce		json

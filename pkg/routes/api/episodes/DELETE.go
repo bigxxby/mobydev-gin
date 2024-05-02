@@ -8,7 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			episodes
 // DELETE_Episode deletes an episode
+//
 //	@Summary		Delete an episode
 //	@Description	Deletes an episode with the specified ID
 //	@Produce		json

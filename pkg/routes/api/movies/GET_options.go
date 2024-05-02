@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Movies
 func (m *MoviesRoute) GET_EveryMovieByGenre(c *gin.Context) {
 	// userId := c.GetInt("userId")
 	movies, err := m.DB.MovieRepository.GetEveryMovieByGenre()
@@ -19,6 +20,8 @@ func (m *MoviesRoute) GET_EveryMovieByGenre(c *gin.Context) {
 
 	c.JSON(200, movies)
 }
+
+// @Tags Movies
 func (m *MoviesRoute) GET_EveryMovieByCategory(c *gin.Context) {
 	movies, err := m.DB.MovieRepository.GetEveryMovieByCategory()
 	if err != nil {
@@ -31,6 +34,8 @@ func (m *MoviesRoute) GET_EveryMovieByCategory(c *gin.Context) {
 
 	c.JSON(200, movies)
 }
+
+// @Tags Movies
 func (m *MoviesRoute) GET_EveryMovieByAgeCategory(c *gin.Context) {
 	movies, err := m.DB.MovieRepository.GetEveryMovieByAgeCategory()
 	if err != nil {

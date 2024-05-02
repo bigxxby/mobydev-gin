@@ -10,6 +10,7 @@ import (
 )
 
 // DELETE_Movie deletes a movie
+//	@Tags			Movies
 //	@Summary		Delete a movie
 //	@Description	Deletes a movie with the specified ID
 //	@Produce		json

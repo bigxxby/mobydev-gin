@@ -10,11 +10,12 @@ import (
 )
 
 // GET_AgeCategories retrieves all age categories
+//	@Tags			ageCategory
 //	@Summary		Get all age categories
 //	@Description	Retrieves all age categories
 //	@Produce		json
 //	@Success		200	{object}	[]AgeCategory					"OK"
-//	@Failure		404	{object}	routes.DefaultMessageResponse	"Age categories not found"
+//	@Failure		404	{objects}	routes.DefaultMessageResponse	"Age categories not found"
 //	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal Server Error"
 //	@Router			/api/age-categories [get]
 func (m *AgeRoute) GET_AgeCategories(c *gin.Context) {

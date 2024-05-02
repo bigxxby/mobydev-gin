@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Seasons
 func (m *SeasonsRoute) POST_CreateSeason(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -67,6 +68,8 @@ func (m *SeasonsRoute) POST_CreateSeason(c *gin.Context) {
 		"seasonId": seasonId,
 	})
 }
+
+// @Tags Seasons
 func (m *SeasonsRoute) POST_CreateSeasons(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")

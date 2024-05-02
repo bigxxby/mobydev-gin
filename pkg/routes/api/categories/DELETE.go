@@ -9,6 +9,8 @@ import (
 )
 
 // DELETE_Category deletes a category
+//	@Tags	Category
+
 //	@Summary		Delete a category
 //	@Description	Deletes a category with the specified ID
 //	@Produce		json

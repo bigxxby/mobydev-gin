@@ -10,6 +10,8 @@ import (
 )
 
 // GET_Category retrieves a category
+//	@Tags			categories
+//
 //	@Summary		Get a category
 //	@Description	Retrieves the category with the specified ID
 //	@Produce		json
@@ -50,6 +52,8 @@ func (m *CategoriesRoute) GET_Category(c *gin.Context) {
 }
 
 // GET_Categories retrieves all categories
+//	@Tags	categories
+
 //	@Summary		Get all categories
 //	@Description	Retrieves all categories
 //	@Produce		json

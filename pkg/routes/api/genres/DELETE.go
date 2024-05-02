@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags	Category
+//
 //	type Category struct {
 //		ID          int    `json:"id"`
 //		UserID      int    `json:"user_id"` // created by

@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Tags Seasons
 func (m *SeasonsRoute) PUT_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	userId := c.GetInt("userId")

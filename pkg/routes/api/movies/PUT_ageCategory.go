@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// PUT_MovieAgeCategory updates the age category of a movie
+//	@Tags			Movies
 //	@Summary		Update movie age category
 //	@Description	Updates the age category of a movie with the specified ID
 //	@Produce		json
