@@ -9,7 +9,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags Seasons
+// @Tags seasons
+// @Summary Retrieves information about a season
+// @Description Retrieves information about the season with the specified ID
+// @Param id path int true "Season ID"
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} routes.DefaultMessageResponse "Season information"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 404 {object} routes.DefaultMessageResponse "Season not found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal Server Error"
+// @Router /api/seasons/{id} [GET]
 func (m *SeasonsRoute) GET_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	valid, seasonIdNum := utils.IsValidNum(seasonId)
@@ -38,7 +48,17 @@ func (m *SeasonsRoute) GET_Season(c *gin.Context) {
 
 }
 
-// @Tags Seasons
+// @Tags seasons
+// @Summary Retrieves all seasons of a movie
+// @Description Retrieves all seasons of the specified movie
+// @Param id path int true "Movie ID"
+// @Produce json
+// @Security ApiKeyAuth
+// @Success 200 {object} routes.DefaultMessageResponse "All seasons of the movie"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 404 {object} routes.DefaultMessageResponse "No seasons found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal Server Error"
+// @Router /api/seasons/movie/{id} [GET]
 func (m *SeasonsRoute) GET_AllSeasonsOfMovie(c *gin.Context) {
 	movieId := c.Param("id")
 	valid, movieIdNum := utils.IsValidNum(movieId)

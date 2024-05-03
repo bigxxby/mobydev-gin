@@ -121,7 +121,7 @@ func main() {
 			seasons.PUT("/:id", main.SeasonsRoute.PUT_Season)                                 // updates season by its id
 			seasons.DELETE("/:id", main.SeasonsRoute.DELETE_Season)                           // deletes season by id  (admin)
 			seasons.DELETE("/movie/:id/:seasonNumber", main.SeasonsRoute.DELETE_SeasonNumber) // deletes *ALL season numers of current movie id  (admin)
-			seasons.DELETE("/movie/:id/clear", main.SeasonsRoute.DELETE_AllEpisodesOfSeason)  // deletes all seasons of current movie id  (admin)
+			seasons.DELETE("/movie/:id/clear", main.SeasonsRoute.DELETE_AllSeasonsOfMovie)    // deletes all seasons of current movie id  (admin)
 		}
 		//episodes (order not structured can add same episodes over and over)
 		episodes := apiRoutes.Group("/episodes")

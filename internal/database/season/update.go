@@ -2,7 +2,7 @@ package season
 
 import "time"
 
-func (db *SeasonRepository) UpdateSeason(seasonId int, userId int, seasonNumber int, name string, desc string, releaseDate time.Time) error {
+func (db *SeasonRepository) UpdateSeason(seasonId int, seasonNumber int, name string, desc string, releaseDate time.Time) error {
 	tx, err := db.Database.Begin()
 	if err != nil {
 		return err
@@ -11,15 +11,14 @@ func (db *SeasonRepository) UpdateSeason(seasonId int, userId int, seasonNumber 
 
 	q := `
         UPDATE seasons 
-        SET user_id = $1, 
-            season_number = $2, 
-            name = $3, 
-            description = $4, 
-            release_date = $5
-        WHERE id = $6 
+        SET season_number = $1, 
+            name = $2, 
+            description = $3, 
+            release_date = $4
+        WHERE id = $5 
     `
 
-	_, err = tx.Exec(q, userId, seasonNumber, name, desc, releaseDate, seasonId)
+	_, err = tx.Exec(q, seasonNumber, name, desc, releaseDate, seasonId)
 	if err != nil {
 		return err
 	}

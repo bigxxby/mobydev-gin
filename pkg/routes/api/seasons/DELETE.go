@@ -8,7 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags Seasons
+// @Tags seasons
+// @Summary Deletes a season
+// @Description Deletes a season with the specified ID
+// @Param id path int true "Season ID"
+// @Security ApiKeyAuth
+// @Success 200 {object} routes.DefaultMessageResponse "Season deleted"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/seasons/{id} [DELETE]
 func (m *SeasonsRoute) DELETE_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	userRole := c.GetString("role")
@@ -40,7 +49,17 @@ func (m *SeasonsRoute) DELETE_Season(c *gin.Context) {
 	})
 }
 
-// @Tags Seasons
+// @Tags seasons
+// @Summary Deletes all episodes of a specific season
+// @Description Deletes all episodes of the specified season of a movie
+// @Param id path int true "Movie ID"
+// @Param seasonNumber path int true "Season number"
+// @Security ApiKeyAuth
+// @Success 200 {object} routes.DefaultMessageResponse   "All Season numbers deleted"
+// @Failure 400 {object} routes.DefaultMessageResponse  "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse  "Unauthorized"
+// @Failure 500 {object} routes.DefaultMessageResponse  "Internal server error"
+// @Router /api/seasons/movie/{id}/{seasonNumber} [DELETE]
 func (m *SeasonsRoute) DELETE_SeasonNumber(c *gin.Context) {
 	movieId := c.Param("id")
 	seasonNumber := c.Param("seasonNumber")
@@ -80,7 +99,18 @@ func (m *SeasonsRoute) DELETE_SeasonNumber(c *gin.Context) {
 		"message": "All Season numbers deleted",
 	})
 }
-func (m *SeasonsRoute) DELETE_AllEpisodesOfSeason(c *gin.Context) {
+
+// @Tags seasons
+// @Summary Deletes all episodes seasons of a movie
+// @Description Deletes all seasons of the specified movie
+// @Param id path int true "Movie ID"
+// @Security ApiKeyAuth
+// @Success 200 {object} routes.DefaultMessageResponse  "All Seasons of movie deleted"
+// @Failure 400 {object} routes.DefaultMessageResponse  "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse  "Unauthorized"
+// @Failure 500 {object} routes.DefaultMessageResponse  "Internal server error"
+// @Router /api/seasons/movie/{id}/clear [DELETE]
+func (m *SeasonsRoute) DELETE_AllSeasonsOfMovie(c *gin.Context) {
 	movieId := c.Param("id")
 	userRole := c.GetString("role")
 
@@ -108,7 +138,7 @@ func (m *SeasonsRoute) DELETE_AllEpisodesOfSeason(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{
-		"message": "Seasons of movie deleted",
+		"message": "All Seasons of movie deleted",
 	})
 
 }

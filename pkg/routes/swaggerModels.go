@@ -99,3 +99,12 @@ type UserProfileRequest struct {
 	Phone string    `json:"phone"`
 	Dot   time.Time `json:"dot"`
 }
+type SeasonBodyRequest struct {
+	SeasonNumber int    `json:"season_number" binding:"required"`
+	Name         string `json:"name" binding:"required"`
+	Description  string `json:"description" binding:"required"`
+	ReleaseDate  string `json:"release_date" binding:"required"`
+}
+type SeasonsBodyRequest struct {
+	Seasons []SeasonBodyRequest `json:"seasons" binding:"required"`
+}

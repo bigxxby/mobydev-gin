@@ -10,7 +10,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags Seasons
+// @Tags seasons
+// @Summary Updates a season
+// @Description Updates the details of a season with the specified ID
+// @Param id path int true "Season ID"
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param season body routes.SeasonBodyRequest true "Updated season information"
+// @Success 200 {object} routes.DefaultMessageResponse "Season updated"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Season not found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/seasons/{id} [PUT]
 func (m *SeasonsRoute) PUT_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -49,12 +62,12 @@ func (m *SeasonsRoute) PUT_Season(c *gin.Context) {
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(400, gin.H{
-			"message": "Bad request",
+			"message": "Invalid date please use format `2006-01-02`",
 		})
 		return
 	}
 
-	err = m.DB.SeasonRepository.UpdateSeason(seasonIdNum, userId, season.SeasonNumber, season.Name, season.Description, releaseDate)
+	err = m.DB.SeasonRepository.UpdateSeason(seasonIdNum, season.SeasonNumber, season.Name, season.Description, releaseDate)
 	if err != nil {
 		c.JSON(500, gin.H{
 			"message": "Internal server error",

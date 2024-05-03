@@ -103,6 +103,9 @@
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "ageCategory"
+                ],
                 "summary": "Get an age category by ID",
                 "parameters": [
                     {
@@ -1799,6 +1802,468 @@
                 }
             }
         },
+        "/api/seasons/movie/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieves all seasons of the specified movie",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Retrieves all seasons of a movie",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All seasons of the movie",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No seasons found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seasons/movie/{id}/clear": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes all seasons of the specified movie",
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Deletes all episodes seasons of a movie",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Seasons of movie deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seasons/movie/{id}/{seasonNumber}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes all episodes of the specified season of a movie",
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Deletes all episodes of a specific season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Season number",
+                        "name": "seasonNumber",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All Season numbers deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seasons/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Retrieves information about the season with the specified ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Retrieves information about a season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Season information",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Season not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates the details of a season with the specified ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Updates a season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated season information",
+                        "name": "season",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.SeasonBodyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Season updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Season not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates a new season for the specified movie",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Creates a new season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Season Data",
+                        "name": "seasonData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.SeasonBodyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Season Added",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes a season with the specified ID",
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Deletes a season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Season deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/seasons/{id}/multiple": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates multiple seasons for the specified movie",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "seasons"
+                ],
+                "summary": "Creates multiple seasons",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Seasons",
+                        "name": "seasonsData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.SeasonsBodyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Season Added",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/send-code": {
             "post": {
                 "description": "Sends a verification code to the provided email address",
@@ -2405,6 +2870,43 @@
             "properties": {
                 "movie": {
                     "$ref": "#/definitions/movie.Movie"
+                }
+            }
+        },
+        "routes.SeasonBodyRequest": {
+            "type": "object",
+            "required": [
+                "description",
+                "name",
+                "release_date",
+                "season_number"
+            ],
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "release_date": {
+                    "type": "string"
+                },
+                "season_number": {
+                    "type": "integer"
+                }
+            }
+        },
+        "routes.SeasonsBodyRequest": {
+            "type": "object",
+            "required": [
+                "seasons"
+            ],
+            "properties": {
+                "seasons": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/routes.SeasonBodyRequest"
+                    }
                 }
             }
         },

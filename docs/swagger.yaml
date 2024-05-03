@@ -284,6 +284,31 @@ definitions:
       movie:
         $ref: '#/definitions/movie.Movie'
     type: object
+  routes.SeasonBodyRequest:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+      release_date:
+        type: string
+      season_number:
+        type: integer
+    required:
+    - description
+    - name
+    - release_date
+    - season_number
+    type: object
+  routes.SeasonsBodyRequest:
+    properties:
+      seasons:
+        items:
+          $ref: '#/definitions/routes.SeasonBodyRequest'
+        type: array
+    required:
+    - seasons
+    type: object
   routes.SendCodeRequest:
     properties:
       email:
@@ -487,6 +512,8 @@ paths:
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       summary: Get an age category by ID
+      tags:
+      - ageCategory
     put:
       description: Updates an age category with the specified ID
       parameters:
@@ -1512,6 +1539,302 @@ paths:
       summary: Update current users profile
       tags:
       - Profile
+  /api/seasons/{id}:
+    delete:
+      description: Deletes a season with the specified ID
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: Season deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes a season
+      tags:
+      - seasons
+    get:
+      description: Retrieves information about the season with the specified ID
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Season information
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Season not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Retrieves information about a season
+      tags:
+      - seasons
+    post:
+      consumes:
+      - application/json
+      description: Creates a new season for the specified movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Season Data
+        in: body
+        name: seasonData
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SeasonBodyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Season Added
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Creates a new season
+      tags:
+      - seasons
+    put:
+      consumes:
+      - application/json
+      description: Updates the details of a season with the specified ID
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Updated season information
+        in: body
+        name: season
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SeasonBodyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Season updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Season not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Updates a season
+      tags:
+      - seasons
+  /api/seasons/{id}/multiple:
+    post:
+      consumes:
+      - application/json
+      description: Creates multiple seasons for the specified movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Seasons
+        in: body
+        name: seasonsData
+        required: true
+        schema:
+          $ref: '#/definitions/routes.SeasonsBodyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Season Added
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Creates multiple seasons
+      tags:
+      - seasons
+  /api/seasons/movie/{id}:
+    get:
+      description: Retrieves all seasons of the specified movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: All seasons of the movie
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: No seasons found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Retrieves all seasons of a movie
+      tags:
+      - seasons
+  /api/seasons/movie/{id}/{seasonNumber}:
+    delete:
+      description: Deletes all episodes of the specified season of a movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Season number
+        in: path
+        name: seasonNumber
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: All Season numbers deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes all episodes of a specific season
+      tags:
+      - seasons
+  /api/seasons/movie/{id}/clear:
+    delete:
+      description: Deletes all seasons of the specified movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      responses:
+        "200":
+          description: All Seasons of movie deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes all episodes seasons of a movie
+      tags:
+      - seasons
   /api/send-code:
     post:
       consumes:
