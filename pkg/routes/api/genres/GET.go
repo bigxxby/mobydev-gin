@@ -9,6 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// @Summary Get all genres
+// @Description Retrieves all genres
+// @Tags genres
+// @Produce json
+// @Success 200 {object} []genres.Genre "Successful response"
+// @Failure 404 {object} routes.DefaultMessageResponse "No genres added"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/genres [get]
 func (m *GenreRoute) GET_Genres(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	genres, err := m.DB.GenreRepository.GetAllGenres()
@@ -27,6 +35,17 @@ func (m *GenreRoute) GET_Genres(c *gin.Context) {
 	}
 	c.JSON(200, genres)
 }
+
+// @Summary Get a genre by ID
+// @Description Retrieves a genre by its ID
+// @Tags genres
+// @Produce json
+// @Param id path int true "Genre ID"
+// @Success 200 {object} genres.Genre "Successful response"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 404 {object} routes.DefaultMessageResponse "Genre not found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/genres/{id} [get]
 func (m *GenreRoute) GET_Genre(c *gin.Context) {
 	genresId := c.Param("id")
 	valid, genresIdNums := utils.IsValidNum(genresId)

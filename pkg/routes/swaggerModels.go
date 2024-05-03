@@ -111,3 +111,9 @@ type SeasonsBodyRequest struct {
 type PostersBodyRequest struct {
 	Posters [5]string `json:"posters" binding:"required"`
 }
+type Genre struct {
+	ID          int    `json:"id"`
+	UserID      int    `json:"user_id"`
+	Name        string `json:"name"`
+	Description string `json:"description" binding:"required"`
+}

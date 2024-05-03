@@ -1,7 +1,5 @@
 package genres
 
-import "database/sql"
-
 func (db *GenreRepository) GetAllGenres() ([]Genre, error) {
 	query := "SELECT * FROM genres"
 
@@ -35,9 +33,7 @@ func (db *GenreRepository) GetGenreById(id int) (*Genre, error) {
 
 	err := row.Scan(&genre.ID, &genre.UserID, &genre.Name, &genre.Description)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return nil, sql.ErrNoRows
-		}
+
 		return nil, err
 	}
 

@@ -11,3 +11,7 @@ type Genre struct {
 	Name        string `json:"name"`
 	Description string `json:"description" binding:"required"`
 }
+type GenreShort struct {
+	Name        string `json:"name"`
+	Description string `json:"description" binding:"required"`
+}

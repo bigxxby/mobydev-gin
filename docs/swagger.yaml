@@ -73,6 +73,28 @@ definitions:
           $ref: '#/definitions/episodes.EpisodeRequest'
         type: array
     type: object
+  genres.Genre:
+    properties:
+      description:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      user_id:
+        type: integer
+    required:
+    - description
+    type: object
+  genres.GenreShort:
+    properties:
+      description:
+        type: string
+      name:
+        type: string
+    required:
+    - description
+    type: object
   movie.Movie:
     properties:
       ageCategory:
@@ -1196,6 +1218,187 @@ paths:
       summary: Deletes all favorite movies
       tags:
       - favorites
+  /api/genres:
+    get:
+      description: Retrieves all genres
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            items:
+              $ref: '#/definitions/genres.Genre'
+            type: array
+        "404":
+          description: No genres added
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get all genres
+      tags:
+      - genres
+    post:
+      consumes:
+      - application/json
+      description: Creates a new genre if the user has admin privileges
+      parameters:
+      - description: Genre object
+        in: body
+        name: genre
+        required: true
+        schema:
+          $ref: '#/definitions/genres.GenreShort'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful creation
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Genre with this name already exists
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create a new genre
+      tags:
+      - genres
+  /api/genres/{id}:
+    delete:
+      description: Deletes a genre by its ID if the user has admin privileges
+      parameters:
+      - description: Genre ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful deletion
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Genre not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Genre is used in other movies
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete a genre
+      tags:
+      - genres
+    get:
+      description: Retrieves a genre by its ID
+      parameters:
+      - description: Genre ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/genres.Genre'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Genre not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get a genre by ID
+      tags:
+      - genres
+    put:
+      consumes:
+      - application/json
+      description: Updates a genre by its ID if the user has admin privileges
+      parameters:
+      - description: Genre ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Genre object
+        in: body
+        name: genre
+        required: true
+        schema:
+          $ref: '#/definitions/genres.GenreShort'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful update
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Genre Not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Genre with this name already exists
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Update a genre
+      tags:
+      - genres
   /api/movies:
     get:
       description: Retrieves movies for a user
@@ -1675,19 +1878,19 @@ paths:
       - application/json
       responses:
         "200":
-          description: 'message": "Posters added'
+          description: "message\":\t\"Posters added"
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "400":
-          description: 'message": "Bad request'
+          description: "message\":\t\"Bad request"
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "404":
-          description: 'message": "Movie not found'
+          description: "message\":\t\"Movie not found"
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "500":
-          description: 'message": "Internal server error'
+          description: "message\":\t\"Internal server error"
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       security:
