@@ -10,6 +10,7 @@ import (
 )
 
 //	@Tags			Profile
+//
 // PUT_Profile updates current user profile
 //
 //	@Summary		Update current users profile
@@ -32,7 +33,7 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 		return
 	}
 
-	var user user.UserJson
+	var user user.UserShort
 	err := c.BindJSON(&user)
 	if err != nil {
 		log.Println(err.Error())
@@ -49,15 +50,12 @@ func (m *UsersRoute) PUT_Profile(c *gin.Context) {
 		return
 	}
 	var date time.Time
-	if user.DateOfBirth != "" {
-		date, err = time.Parse("2006-01-02", user.DateOfBirth)
-		if err != nil {
-			log.Println(err.Error())
-			c.JSON(http.StatusBadRequest, gin.H{
-				"message": "Bad request",
-			})
-			return
-		}
+	date, err = time.Parse("2006-01-02", user.DateOfBirth)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"message": "Invalid date time,  please user format `2006-01-02`",
+		})
+		return
 	}
 
 	err = m.DB.UserRepository.UpdateProfile(userId, user.Name, user.Phone, &date)

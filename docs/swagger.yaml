@@ -348,12 +348,16 @@ definitions:
     type: object
   routes.UserProfileRequest:
     properties:
-      dot:
+      date_of_birth:
         type: string
       name:
         type: string
       phone:
         type: string
+    required:
+    - date_of_birth
+    - name
+    - phone
     type: object
   routes.UserProfileResponse:
     properties:

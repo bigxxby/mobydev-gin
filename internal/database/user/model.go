@@ -20,6 +20,11 @@ type User struct {
 	UpdatedAt   sql.NullTime   `json:"updated_at"`
 	DeletedAt   sql.NullTime   `json:"deleted_at"`
 }
+type UserShort struct {
+	Name        string `json:"name" binding:"required"`
+	Phone       string `json:"phone" binding:"required"`
+	DateOfBirth string `json:"date_of_birth" binding:"required"`
+}
 type UserJson struct {
 	Id          int       `json:"id"`
 	Email       string    `json:"email"`

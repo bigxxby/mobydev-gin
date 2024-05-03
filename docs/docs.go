@@ -2979,8 +2979,13 @@ const docTemplate = `{
         },
         "routes.UserProfileRequest": {
             "type": "object",
+            "required": [
+                "date_of_birth",
+                "name",
+                "phone"
+            ],
             "properties": {
-                "dot": {
+                "date_of_birth": {
                     "type": "string"
                 },
                 "name": {

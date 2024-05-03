@@ -95,9 +95,9 @@ type UserProfileResponse struct {
 	Dot   time.Time `json:"dot"`
 }
 type UserProfileRequest struct {
-	Name  string    `json:"name"`
-	Phone string    `json:"phone"`
-	Dot   time.Time `json:"dot"`
+	Name  string `json:"name" binding:"required"`
+	Phone string `json:"phone"binding:"required"`
+	Dot   string `json:"date_of_birth" binding:"required"`
 }
 type SeasonBodyRequest struct {
 	SeasonNumber int    `json:"season_number" binding:"required"`
