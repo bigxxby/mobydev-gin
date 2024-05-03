@@ -1,6 +1,12 @@
-# ozinshe-test-app
+# ozinshe-backend-app v1.0
 
-This project is a movie streaming platform that allows users to browse, search, and watch movies. It also provides features for administrators to manage movies, categories, and user profiles.
+This project is a RESTful movie streaming platform that allows users to browse, search, and watch movies. It also provides features for administrators to manage movies, categories, and user profiles and etc.
+
+## Technologies Used
+
+- Backend: GoLang (Gin framework)
+- Database: PostgreSQL
+- Authentication: JWT
 
 ## Running the Application
 
@@ -16,11 +22,24 @@ cd .
 go run ./server
 ```
 
-## Entry point
+## Project Structure
 
-```
-http://localhost:8080/docs/index.html
-```
+- **Internal**: Internal components of the application.
+  - **Database**: Files for interacting with the database.
+  - **Utils**: Utility functions such as authentication, encryption, random number generation, and validation.
+
+## Packages
+
+- **pkg/middleware**: Middleware components such as authentication.
+- **pkg/routes**: API routes divided by application entities like age, categories, episodes, etc.
+
+## HTTP Handlers
+
+HTTP request handlers for various entities (e.g., age, categories, episodes, etc.) are located in the `pkg/routes/api` package, organized by request methods (GET, POST, PUT, DELETE) and corresponding entities.
+
+## API Documentation
+
+For detailed information on available endpoints and requests, please refer to the API swagger documentation at [http://localhost:8080/docs/index.html](http://localhost:8080/docs/index.html) when launching the app.
 
 ## Admin Credentials
 
@@ -43,173 +62,3 @@ Use the following credentials to log in as an admin:
 
 You must include a valid authentication token in the request headers if its a route that require admin privilege or user auth.
 Admin routes are indicated where only administrators have access. Admin token saved in local storage after login.
-
-```
-.
-├── checklist
-├── docker-compose.yml
-├── dockerfile
-├── docs
-│   ├── docs.go
-│   ├── swagger.json
-│   └── swagger.yaml
-├── go.mod
-├── go.sum
-├── internal
-│   ├── database
-│   │   ├── age
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   ├── model.go
-│   │   │   └── update.go
-│   │   ├── categories
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   ├── model.go
-│   │   │   └── update.go
-│   │   ├── datasets
-│   │   │   ├── createTables.go
-│   │   │   ├── createTestData.go
-│   │   │   ├── data.go
-│   │   │   ├── drop.go
-│   │   │   ├── init.go
-│   │   │   └── tables.go
-│   │   ├── episode
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   ├── model.go
-│   │   │   └── update.go
-│   │   ├── favorites
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   └── model.go
-│   │   ├── genres
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   ├── model.go
-│   │   │   └── update.go
-│   │   ├── modelRepositories.go
-│   │   ├── movie
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   ├── getOptions.go
-│   │   │   ├── model.go
-│   │   │   ├── search.go
-│   │   │   └── update.go
-│   │   ├── posters
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   └── model.go
-│   │   ├── season
-│   │   │   ├── check.go
-│   │   │   ├── create.go
-│   │   │   ├── delete.go
-│   │   │   ├── get.go
-│   │   │   ├── model.go
-│   │   │   └── update.go
-│   │   └── user
-│   │       ├── check.go
-│   │       ├── create.go
-│   │       ├── delete.go
-│   │       ├── get.go
-│   │       ├── model.go
-│   │       └── update.go
-│   ├── init
-│   │   └── initDb.go
-│   └── utils
-│       ├── auth.go
-│       ├── codes.go
-│       ├── encryption.go
-│       ├── mapping
-│       │   └── mapping.go
-│       ├── random.go
-│       ├── smtp.go
-│       └── validation.go
-├── pkg
-│   ├── middleware
-│   │   └── auth.go
-│   └── routes
-│       ├── api
-│       │   ├── age
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   ├── POST.go
-│       │   │   └── PUT.go
-│       │   ├── auth
-│       │   │   ├── changePassword.go
-│       │   │   ├── model.go
-│       │   │   ├── old
-│       │   │   │   └── restorePassword.go
-│       │   │   ├── signIn.go
-│       │   │   └── signUp.go
-│       │   ├── categories
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   ├── POST.go
-│       │   │   └── PUT.go
-│       │   ├── episodes
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   ├── POST.go
-│       │   │   └── PUT.go
-│       │   ├── favorites
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   └── POST.go
-│       │   ├── genres
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   ├── POST.go
-│       │   │   └── PUT.go
-│       │   ├── movies
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   ├── POST.go
-│       │   │   ├── PUT_ageCategory.go
-│       │   │   ├── PUT_categoires.go
-│       │   │   ├── PUT_data.go
-│       │   │   ├── PUT_genres.go
-│       │   │   └── query.go
-│       │   ├── posters
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   └── POST.go
-│       │   ├── seasons
-│       │   │   ├── DELETE.go
-│       │   │   ├── GET.go
-│       │   │   ├── model.go
-│       │   │   ├── POST.go
-│       │   │   └── PUT.go
-│       │   └── users
-│       │       ├── GET.go
-│       │       ├── model.go
-│       │       └── PUT.go
-│       ├── routeManager.go
-│       └── swaggerModels.go
-├── README.md
-└── server
-    └── main.go
-
-32 directories, 132 files
-```
