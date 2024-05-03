@@ -9,6 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//	@Tags			favorites
+//	@Summary		Deletes favorite movie
+//	@Description	Deletes favorite movie from auth. user's favorites
+//	@Accepts		json
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			id	path		int								true	"ID фильма"
+//	@Success		200	{object}	routes.DefaultMessageResponse	"Favorite Deleted"
+//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
+//	@Failure		404	{object}	routes.DefaultMessageResponse	"No such movie added to favorites"
+//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/favorites/{id} [DELETE]
 func (m *FavoritesRoute) DELETE_Favorite(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -66,6 +79,9 @@ func (m *FavoritesRoute) DELETE_Favorite(c *gin.Context) {
 	})
 
 }
+
+//	@Tags	favorites
+//	@Router	/api/favorites/{id}/clear [post]
 func (m *FavoritesRoute) DELETE_Favorites(c *gin.Context) {
 	userId := c.GetInt("userId")
 	if userId == 0 {

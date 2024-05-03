@@ -813,6 +813,65 @@ const docTemplate = `{
                     }
                 }
             },
+            "put": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Updates episode by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "episodes"
+                ],
+                "summary": "Updates episode",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Episode ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Episode data",
+                        "name": "episode",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.EpisodeRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Episode updated",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Episode not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -878,21 +937,18 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Delete a movie from user's favorites by movie ID",
-                "consumes": [
-                    "application/json"
-                ],
+                "description": "Deletes an episode with the specified ID",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "favorites"
+                    "episodes"
                 ],
-                "summary": "Delete favorite movie",
+                "summary": "Delete an episode",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Movie ID",
+                        "type": "integer",
+                        "description": "Episode ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -900,7 +956,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Favorite Deleted",
+                        "description": "Episode deleted",
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
@@ -918,7 +974,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "No such movie added to favorites",
+                        "description": "Episode Not Found",
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
@@ -991,6 +1047,72 @@ const docTemplate = `{
                         }
                     }
                 }
+            }
+        },
+        "/api/favorites/{id}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes favorite movie from auth. user's favorites",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorites"
+                ],
+                "summary": "Deletes favorite movie",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID фильма",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Favorite Deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "No such movie added to favorites",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/favorites/{id}/clear": {
+            "post": {
+                "tags": [
+                    "favorites"
+                ],
+                "responses": {}
             }
         },
         "/api/movies": {

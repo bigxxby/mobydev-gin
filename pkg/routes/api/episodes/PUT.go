@@ -10,20 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// DELETE_Favorite godoc
-//	@Summary		Delete favorite movie
-//	@Description	Delete a movie from user's favorites by movie ID
-//	@Tags			favorites
-//	@Accept			json
+//	@Tags			episodes
+//	@Summary		Updates episode
+//	@Description	Updates episode by its ID
 //	@Produce		json
-//	@Param			id	path	string	true	"Movie ID"
+//	@Param			id	path	int	true	"Episode ID"
 //	@Security		ApiKeyAuth
-//	@Success		200	{object}	routes.DefaultMessageResponse	"Favorite Deleted"
-//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		404	{object}	routes.DefaultMessageResponse	"No such movie added to favorites"
-//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/episodes/{id} [delete]
+//	@Param			episode	body		routes.EpisodeRequest			true	"Episode data"
+//	@Success		200		{object}	routes.DefaultMessageResponse	"Episode updated"
+//	@Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		404		{object}	routes.DefaultMessageResponse	"Episode not found"
+//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal Server Error"
+//	@Router			/api/episodes/{id} [put]
 func (m *EpisodesRoute) PUT_Episode(c *gin.Context) {
 	episodeId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -63,7 +61,7 @@ func (m *EpisodesRoute) PUT_Episode(c *gin.Context) {
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(400, gin.H{
-			"message": "Bad request",
+			"message": "Invalid date please use format `2006-01-02`",
 		})
 		return
 	}

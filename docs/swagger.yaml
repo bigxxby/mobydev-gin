@@ -771,20 +771,18 @@ paths:
       - authentication
   /api/episodes/{id}:
     delete:
-      consumes:
-      - application/json
-      description: Delete a movie from user's favorites by movie ID
+      description: Deletes an episode with the specified ID
       parameters:
-      - description: Movie ID
+      - description: Episode ID
         in: path
         name: id
         required: true
-        type: string
+        type: integer
       produces:
       - application/json
       responses:
         "200":
-          description: Favorite Deleted
+          description: Episode deleted
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "400":
@@ -796,7 +794,7 @@ paths:
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "404":
-          description: No such movie added to favorites
+          description: Episode Not Found
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "500":
@@ -805,9 +803,9 @@ paths:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       security:
       - ApiKeyAuth: []
-      summary: Delete favorite movie
+      summary: Delete an episode
       tags:
-      - favorites
+      - episodes
     get:
       description: Retrieves an episode with the specified ID
       parameters:
@@ -874,6 +872,44 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create episode
+      tags:
+      - episodes
+    put:
+      description: Updates episode by its ID
+      parameters:
+      - description: Episode ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Episode data
+        in: body
+        name: episode
+        required: true
+        schema:
+          $ref: '#/definitions/routes.EpisodeRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Episode updated
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Episode not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Updates episode
       tags:
       - episodes
   /api/episodes/{id}/multiple:
@@ -987,6 +1023,48 @@ paths:
       summary: Delete all episodes of a season
       tags:
       - episodes
+  /api/favorites/{id}:
+    delete:
+      description: Deletes favorite movie from auth. user's favorites
+      parameters:
+      - description: ID фильма
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Favorite Deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorised
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: No such movie added to favorites
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes favorite movie
+      tags:
+      - favorites
+  /api/favorites/{id}/clear:
+    post:
+      responses: {}
+      tags:
+      - favorites
   /api/movies:
     get:
       description: Retrieves movies for a user
