@@ -56,18 +56,16 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 	})
 }
 
-// GET_Movie retrieves details of a specific movie
-//
-//	@Tags			movies
-//	@Summary		Get movie details
-//	@Description	Retrieves details of a specific movie including its seasons and similar movies
-//	@Produce		json
-//	@Param			id	path		string							true	"Movie ID"
-//	@Success		200	{object}	routes.MovieResponse			"OK"
-//	@Failure		400	{object}	routes.DefaultMessageResponse	"Invalid movie ID"
-//	@Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
-//	@Failure		500	{object}	routes.DefaultMessageResponse"Internal server error"
-//	@Router			/api/movies/{id} [get]
+// @Tags			movies
+// @Summary		Get movie details
+// @Description	Retrieves details of a specific movie including its seasons and similar movies
+// @Produce		json
+// @Param			id	path		string							true	"Movie ID"
+// @Success		200	{object}	routes.MovieResponse			"OK"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"Invalid movie ID"
+// @Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
+// @Failure		500	{object}	routes.DefaultMessageResponse"Internal server error"
+// @Router			/api/movies/{id} [get]
 func (m *MoviesRoute) GET_Movie(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")

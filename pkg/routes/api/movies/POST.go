@@ -132,6 +132,18 @@ func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 }
 
 // +1 watch by authorised user
+// @Summary Watch a movie
+// @Description Records a user watching a movie
+// @Tags movies
+// @Produce json
+// @Security ApiKeyAuth
+// @Param id path int true "Movie ID"
+// @Success 200 {object} routes.DefaultMessageResponse "Successful operation"
+// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
+// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
+// @Failure 404 {object} routes.DefaultMessageResponse "Movie not found"
+// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
+// @Router /api/movies/watch/{id} [post]
 func (m *MoviesRoute) POST_Watch(c *gin.Context) {
 	userId := c.GetInt("userId")
 	movieId := c.Param("id")

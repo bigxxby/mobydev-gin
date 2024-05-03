@@ -1790,6 +1790,43 @@ paths:
       summary: Search movies
       tags:
       - query
+  /api/movies/watch/{id}:
+    post:
+      description: Records a user watching a movie
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Watch a movie
+      tags:
+      - movies
   /api/posters/{id}:
     delete:
       description: Delete a poster by its ID

@@ -10,19 +10,18 @@ import (
 )
 
 // DELETE_Movie deletes a movie
-//
-//	@Tags			movies
-//	@Summary		Delete a movie
-//	@Description	Deletes a movie with the specified ID
-//	@Produce		json
-//	@Param			id	path	string	true	"Movie ID"
-//	@Security		ApiKeyAuth
-//	@Success		200	{object}	routes.DefaultMessageResponse	"Movie Deleted"
-//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
-//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/movies/{id} [delete]
+// @Tags			movies
+// @Summary		Delete a movie
+// @Description	Deletes a movie with the specified ID
+// @Produce		json
+// @Param			id	path	string	true	"Movie ID"
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"Movie Deleted"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
+// @Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/movies/{id} [delete]
 func (m *MoviesRoute) DELETE_Movie(c *gin.Context) {
 	movieId := c.Param("id")
 	userRole := c.GetString("role")
