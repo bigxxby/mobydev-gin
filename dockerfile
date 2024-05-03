@@ -1,12 +1,11 @@
-FROM golang:1.20
+FROM golang:latest
 
 WORKDIR /app
 
 COPY go.mod go.sum ./
 
-# Скачиваем зависимости
 RUN go mod download
 
 COPY . .
 
-CMD ["go", "run", "./app/"]
+CMD ["go", "run", "./server"]

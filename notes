@@ -1,0 +1,12 @@
+?not done
+// filter by genres , age , categories not working properly
+/filtes by watches etc.
+
+
+//NOTES 
+// Updated_at timestamp of movie struct works not on everything(add posters , add genres)
+//can add episode number not structered (multiple episode on number on the same number)
+//can add season number not structered (multiple seasons on number on the same number)
+// ? movie search and simular movies searches movie by keywords, and it works only if keywords have spaces after ","  if like this -> "thiriller,drama" will not work.
+// adding large number on CRUD opreations will give 500 error, need to fix
+// fix episode docs, not needed struct used

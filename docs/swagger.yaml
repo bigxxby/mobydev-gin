@@ -1,3 +1,4 @@
+basePath: /
 definitions:
   age.AgeCategory:
     properties:
@@ -424,8 +425,14 @@ definitions:
     - code
     - email
     type: object
+host: localhost:8080
 info:
-  contact: {}
+  contact:
+    email: bigxxby@yandex.ru
+    name: Adilhan
+  description: This is a test-backend-RESTful-API for managing movies, seasons, episodes
+    and etc.
+  title: ozinshe-api-test
 paths:
   /api/age-categories:
     get:
@@ -2456,9 +2463,6 @@ paths:
       summary: Verify verification code
       tags:
       - passwordChange
-securityDefinitions:
-  ApiKeyAuth:
-    in: header
-    name: Authorization
-    type: apiKey
+schemes:
+- http
 swagger: "2.0"

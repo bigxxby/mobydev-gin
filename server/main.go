@@ -13,11 +13,13 @@ import (
 	swagger "github.com/swaggo/gin-swagger"
 )
 
-// @securityDefinitions.apikey	ApiKeyAuth
-// @in							header
-// @name						Authorization
-// @title						ozinshe-api
-// @version					1.0
+// @title                    ozinshe-api-test
+// @description              This is a test-backend-RESTful-API for managing movies, seasons, episodes and etc.
+// @contact.name             Adilhan
+// @contact.email            bigxxby@yandex.ru
+// @host                     localhost:8080
+// @BasePath                 /
+// @schemes                  http
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	//env
@@ -42,30 +44,6 @@ func main() {
 
 	// add swagger
 	router.GET("/docs/*any", swagger.WrapHandler(swaggerFiles.Handler))
-
-	router.LoadHTMLGlob("ui/templates/*")
-
-	router.Static("/static", "./ui/static")
-	// HTML
-	htmlRoutes := router.Group("/")
-	{
-		htmlRoutes.GET("/", main.GET_HTML_Index)
-		htmlRoutes.GET("/reg", main.GET_HTML_Reg)
-		htmlRoutes.GET("/login", main.GET_HTML_Login)
-		htmlRoutes.GET("/base", main.GET_HTML_Base)
-		htmlRoutes.GET("/profile", main.GET_HTML_Profile)
-		// htmlRoutes.GET("/profile", main.GET_HTML_Profile)
-
-		//CHANGE PASSWORD LOGIC ->
-		//sends verification code to the given email ->
-		htmlRoutes.GET("/send-code", main.GET_HTML_SendRestoreCode) //
-		//auth.POST("/send-code", main.AuthRoute.POST_Restore) // sends restore code to the users email
-		//auth.POST("/verify", main.AuthRoute.POST_Verify)   // gets code from user and verifies it,  if -
-		//- valid sends to the email the link with token for resetting the password and to the frontend to redirect the user,
-		htmlRoutes.GET("/change-password", main.GET_ChangePassword) // if token and email is valid gives perm. to change the password
-		//auth.POST("/reset-password", main.AuthRoute.POST_ResetPassword) // gets new password from user and change it
-
-	}
 
 	// API
 	apiRoutes := router.Group("/api")

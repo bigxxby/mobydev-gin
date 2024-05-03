@@ -9,7 +9,10 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "contact": {},
+        "contact": {
+            "name": "Adilhan",
+            "email": "bigxxby@yandex.ru"
+        },
         "version": "{{.Version}}"
     },
     "host": "{{.Host}}",
@@ -3788,24 +3791,17 @@ const docTemplate = `{
                 }
             }
         }
-    },
-    "securityDefinitions": {
-        "ApiKeyAuth": {
-            "type": "apiKey",
-            "name": "Authorization",
-            "in": "header"
-        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "",
-	Host:             "",
-	BasePath:         "",
-	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Host:             "localhost:8080",
+	BasePath:         "/",
+	Schemes:          []string{"http"},
+	Title:            "ozinshe-api-test",
+	Description:      "This is a test-backend-RESTful-API for managing movies, seasons, episodes and etc.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

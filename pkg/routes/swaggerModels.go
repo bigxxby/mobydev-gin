@@ -96,7 +96,7 @@ type UserProfileResponse struct {
 }
 type UserProfileRequest struct {
 	Name  string `json:"name" binding:"required"`
-	Phone string `json:"phone"binding:"required"`
+	Phone string `json:"phone" binding:"required"`
 	Dot   string `json:"date_of_birth" binding:"required"`
 }
 type SeasonBodyRequest struct {
@@ -110,10 +110,4 @@ type SeasonsBodyRequest struct {
 }
 type PostersBodyRequest struct {
 	Posters [5]string `json:"posters" binding:"required"`
-}
-type Genre struct {
-	ID          int    `json:"id"`
-	UserID      int    `json:"user_id"`
-	Name        string `json:"name"`
-	Description string `json:"description" binding:"required"`
 }
