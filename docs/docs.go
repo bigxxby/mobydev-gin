@@ -1049,7 +1049,143 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/favorites/": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Get all favorite movies of an auth. user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorites"
+                ],
+                "summary": "Get favorite movies",
+                "responses": {
+                    "200": {
+                        "description": "Favorites",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/favorites/clear": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes all favorite movies from auth. user's favorites",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorites"
+                ],
+                "summary": "Deletes all favorite movies",
+                "responses": {
+                    "200": {
+                        "description": "Favorites Cleared",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/favorites/{id}": {
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Adds a movie with the specified ID to the favorites list of the authenticated user",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "favorites"
+                ],
+                "summary": "Adds a movie to favorites",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID of the movie to add to favorites",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Movie added to favorites",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorised",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "409": {
+                        "description": "Movie already added to favorites by this user",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -1063,11 +1199,11 @@ const docTemplate = `{
                 "tags": [
                     "favorites"
                 ],
-                "summary": "Deletes favorite movie",
+                "summary": "Deletes favorite movie by favorite ID",
                 "parameters": [
                     {
                         "type": "integer",
-                        "description": "ID фильма",
+                        "description": "Movie id",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1105,14 +1241,6 @@ const docTemplate = `{
                         }
                     }
                 }
-            }
-        },
-        "/api/favorites/{id}/clear": {
-            "post": {
-                "tags": [
-                    "favorites"
-                ],
-                "responses": {}
             }
         },
         "/api/movies": {

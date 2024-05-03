@@ -1023,11 +1023,34 @@ paths:
       summary: Delete all episodes of a season
       tags:
       - episodes
+  /api/favorites/:
+    get:
+      description: Get all favorite movies of an auth. user
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Favorites
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorised
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get favorite movies
+      tags:
+      - favorites
   /api/favorites/{id}:
     delete:
       description: Deletes favorite movie from auth. user's favorites
       parameters:
-      - description: ID фильма
+      - description: Movie id
         in: path
         name: id
         required: true
@@ -1057,12 +1080,71 @@ paths:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       security:
       - ApiKeyAuth: []
-      summary: Deletes favorite movie
+      summary: Deletes favorite movie by favorite ID
       tags:
       - favorites
-  /api/favorites/{id}/clear:
     post:
-      responses: {}
+      description: Adds a movie with the specified ID to the favorites list of the
+        authenticated user
+      parameters:
+      - description: ID of the movie to add to favorites
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Movie added to favorites
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorised
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: Movie not found
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "409":
+          description: Movie already added to favorites by this user
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Adds a movie to favorites
+      tags:
+      - favorites
+  /api/favorites/clear:
+    delete:
+      description: Deletes all favorite movies from auth. user's favorites
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Favorites Cleared
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorised
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes all favorite movies
       tags:
       - favorites
   /api/movies:

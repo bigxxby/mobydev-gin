@@ -9,19 +9,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			favorites
-//	@Summary		Deletes favorite movie
-//	@Description	Deletes favorite movie from auth. user's favorites
-//	@Accepts		json
-//	@Produce		json
-//	@Security		ApiKeyAuth
-//	@Param			id	path		int								true	"ID фильма"
-//	@Success		200	{object}	routes.DefaultMessageResponse	"Favorite Deleted"
-//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
-//	@Failure		404	{object}	routes.DefaultMessageResponse	"No such movie added to favorites"
-//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/favorites/{id} [DELETE]
+// @Tags			favorites
+// @Summary		Deletes favorite movie by favorite ID
+// @Description	Deletes favorite movie from auth. user's favorites
+// @Accepts		json
+// @Produce		json
+// @Security		ApiKeyAuth
+// @Param			id	path		int								true	"Movie id"
+// @Success		200	{object}	routes.DefaultMessageResponse	"Favorite Deleted"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
+// @Failure		404	{object}	routes.DefaultMessageResponse	"No such movie added to favorites"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/favorites/{id} [DELETE]
 func (m *FavoritesRoute) DELETE_Favorite(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -66,7 +66,7 @@ func (m *FavoritesRoute) DELETE_Favorite(c *gin.Context) {
 		})
 		return
 	}
-	err = m.DB.FavoritesRepository.DeleteFavoritesById(favId)
+	err = m.DB.FavoritesRepository.DeleteFavoritesByMovieId(userId, movieIdNum)
 	if err != nil {
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
@@ -80,8 +80,16 @@ func (m *FavoritesRoute) DELETE_Favorite(c *gin.Context) {
 
 }
 
-//	@Tags	favorites
-//	@Router	/api/favorites/{id}/clear [post]
+// @Tags			favorites
+// @Summary		Deletes all favorite movies
+// @Description	Deletes all favorite movies from auth. user's favorites
+// @Accepts		json
+// @Produce		json
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"Favorites Cleared"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/favorites/clear [DELETE]
 func (m *FavoritesRoute) DELETE_Favorites(c *gin.Context) {
 	userId := c.GetInt("userId")
 	if userId == 0 {

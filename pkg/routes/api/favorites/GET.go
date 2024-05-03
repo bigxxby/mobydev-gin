@@ -1,14 +1,21 @@
 package favorites
 
 import (
-	"database/sql"
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-// get all favorites
+// @Tags			favorites
+// @Summary		Get favorite movies
+// @Description	Get all favorite movies of an auth. user
+// @Produce		json
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"Favorites"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/favorites/ [get]
 func (m *FavoritesRoute) GET_Favorites(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	userId := c.GetInt("userId")
@@ -20,15 +27,15 @@ func (m *FavoritesRoute) GET_Favorites(c *gin.Context) {
 	}
 	favorites, err := m.DB.FavoritesRepository.GetFavoritesByUserId(userId)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			c.JSON(404, gin.H{
-				"message": "No favorites added",
-			})
-			return
-		}
 		log.Println(err.Error())
 		c.JSON(500, gin.H{
 			"message": "Internal server error",
+		})
+		return
+	}
+	if favorites == nil {
+		c.JSON(404, gin.H{
+			"message": "No favorite movies added",
 		})
 		return
 	}
