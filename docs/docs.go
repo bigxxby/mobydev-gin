@@ -296,6 +296,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "categories"
+                ],
                 "summary": "Get all categories",
                 "responses": {
                     "200": {
@@ -450,6 +453,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "categories"
+                ],
                 "summary": "Update a category",
                 "parameters": [
                     {
@@ -517,6 +523,9 @@ const docTemplate = `{
                 "description": "Deletes a category with the specified ID",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "categories"
                 ],
                 "summary": "Delete a category",
                 "parameters": [
@@ -647,6 +656,117 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/episodes/season/{id}/clear": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes all episodes belonging to the specified season",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "episodes"
+                ],
+                "summary": "Delete all episodes of a season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All episodes of selected season deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/episodes/season/{id}/{episodeNumber}": {
+            "delete": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Deletes an episode with the specified number from the current season. (NOTE: deletes ALL episodes of selected number, including duplicates)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "episodes"
+                ],
+                "summary": "Delete an episode of the current season",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Season ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Episode number",
+                        "name": "episodeNumber",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Episode numbers of selected season deleted",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/episodes/{id}": {
             "get": {
                 "description": "Retrieves an episode with the specified ID",
@@ -687,71 +807,6 @@ const docTemplate = `{
                     },
                     "500": {
                         "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    }
-                }
-            },
-            "put": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
-                "description": "Updates an existing episode",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "episodes"
-                ],
-                "summary": "Update episode",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Episode ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Episode",
-                        "name": "episode",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/routes.EpisodeRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Episode updated",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Episode not found",
-                        "schema": {
-                            "$ref": "#/definitions/routes.DefaultMessageResponse"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
@@ -823,18 +878,21 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Deletes an episode with the specified ID",
+                "description": "Delete a movie from user's favorites by movie ID",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
-                    "episodes"
+                    "favorites"
                 ],
-                "summary": "Delete an episode",
+                "summary": "Delete favorite movie",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "description": "Episode ID",
+                        "type": "string",
+                        "description": "Movie ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -842,7 +900,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Episode deleted",
+                        "description": "Favorite Deleted",
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
@@ -860,7 +918,7 @@ const docTemplate = `{
                         }
                     },
                     "404": {
-                        "description": "Episode Not Found",
+                        "description": "No such movie added to favorites",
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
@@ -884,6 +942,9 @@ const docTemplate = `{
                 "description": "Creates multiple episodes for the specified season",
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "episodes"
                 ],
                 "summary": "Create episodes",
                 "parameters": [

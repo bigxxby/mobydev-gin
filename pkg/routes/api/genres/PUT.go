@@ -9,14 +9,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// type Genre struct {
-// 	ID          int    `json:"id"`
-// 	UserID      int    `json:"user_id"` // created by
-// 	Name        string `json:"genre_name"`
-// 	Description string `json:"description"`
-// 	Created_at  string `json:"created_at"`
-// }
-
 func (m *GenreRoute) PUT_Genre(c *gin.Context) {
 	genreId := c.Param("id")
 	userRole := c.GetString("role")

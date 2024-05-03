@@ -9,15 +9,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GET_AgeCategories retrieves all age categories
-//	@Tags			ageCategory
-//	@Summary		Get all age categories
-//	@Description	Retrieves all age categories
-//	@Produce		json
-//	@Success		200	{object}	[]AgeCategory					"OK"
-//	@Failure		404	{objects}	routes.DefaultMessageResponse	"Age categories not found"
-//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal Server Error"
-//	@Router			/api/age-categories [get]
+// @Tags			ageCategory
+// @Summary		Get all age categories
+// @Description	Retrieves all age categories
+// @Produce		json
+// @Success		200	{object}	[]AgeCategory					"OK"
+// @Failure		404	{objects}	routes.DefaultMessageResponse	"Age categories not found"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal Server Error"
+// @Router			/api/age-categories [get]
 func (m *AgeRoute) GET_AgeCategories(c *gin.Context) {
 	ageCategories, err := m.DB.AgeRepository.GetAllAgeCategories()
 	if err != nil {
@@ -37,6 +36,7 @@ func (m *AgeRoute) GET_AgeCategories(c *gin.Context) {
 }
 
 // GET_AgeCategory retrieves an age category by ID
+//
 //	@Summary		Get an age category by ID
 //	@Description	Retrieves an age category with the specified ID
 //	@Produce		json

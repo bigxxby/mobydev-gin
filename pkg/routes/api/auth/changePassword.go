@@ -10,19 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			passwordChange
-// POST_ChangePassword changes current users password
-//	@Summary		Change user password
-//	@Description	Changes the password of the authenticated user
-//	@Accept			json
-//	@Produce		json
-//	@Param			data	body	routes.ChangePasswordRequest	true	"Password change data"
-//	@Security		ApiKeyAuth
-//	@Success		200	{object}	routes.DefaultMessageResponse	"Password updated"
-//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/change-password [post]
+// @Tags			passwordChange
+// @Summary		Change user password
+// @Description	Changes the password of the authenticated user
+// @Accept			json
+// @Produce		json
+// @Param			data	body	routes.ChangePasswordRequest	true	"Password change data"
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"Password updated"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/change-password [post]
 func (m *AuthRoute) POST_ChangePassword(c *gin.Context) {
 	userId := c.GetInt("userId")
 	if userId == 0 {
@@ -89,7 +88,9 @@ func (m *AuthRoute) POST_ChangePassword(c *gin.Context) {
 }
 
 //	@Tags			passwordChange
+//
 // POST_SendCode sends verification code
+//
 //	@Summary		Send verification code
 //	@Description	Sends a verification code to the provided email address
 //	@Accept			json
@@ -159,7 +160,9 @@ func (m *AuthRoute) POST_SendCode(c *gin.Context) {
 }
 
 //	@Tags			passwordChange
+//
 // POST_VerifyCode verifies verification code
+//
 //	@Summary		Verify verification code
 //	@Description	Verifies the verification code for the provided email address and generates a temporary password
 //	@Accept			json

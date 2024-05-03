@@ -10,21 +10,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			episodes
-// PUT_Episode updates an episode
-//
-//	@Summary		Update episode
-//	@Description	Updates an existing episode
+// DELETE_Favorite godoc
+//	@Summary		Delete favorite movie
+//	@Description	Delete a movie from user's favorites by movie ID
+//	@Tags			favorites
+//	@Accept			json
 //	@Produce		json
-//	@Param			id	path	int	true	"Episode ID"
+//	@Param			id	path	string	true	"Movie ID"
 //	@Security		ApiKeyAuth
-//	@Param			episode	body		routes.EpisodeRequest			true	"Episode"
-//	@Success		200		{object}	routes.DefaultMessageResponse	"Episode updated"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401		{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		404		{object}	routes.DefaultMessageResponse	"Episode not found"
-//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/episodes/{id} [put]
+//	@Success		200	{object}	routes.DefaultMessageResponse	"Favorite Deleted"
+//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404	{object}	routes.DefaultMessageResponse	"No such movie added to favorites"
+//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/episodes/{id} [delete]
 func (m *EpisodesRoute) PUT_Episode(c *gin.Context) {
 	episodeId := c.Param("id")
 	userId := c.GetInt("userId")

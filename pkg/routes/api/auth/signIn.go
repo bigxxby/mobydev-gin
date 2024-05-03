@@ -11,9 +11,7 @@ import (
 
 //	@Tags			authentication
 //	@Summary		Sign in
-//
 //	@Description	Sign in with email and password to obtain JWT token. Creditnails for sign in "email": "big@example.com",  "password": "Aa12345678#"
-//
 //	@Accept			json
 //	@Produce		json
 //	@Param			body	body		routes.SignInRequest			true	"Email and password"

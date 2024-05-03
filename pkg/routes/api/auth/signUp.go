@@ -8,19 +8,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			authentication
-//	@Summary		Sign up
-//	@Description	Register a new user
-//	@Accept			json
-//	@Produce		json
-//	@Param			body	body		routes.SignUpRequest			true	"Email, password, and confirm password"
-//	@Success		200		{object}	routes.DefaultMessageResponse	"Successfully registered"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"Invalid request format or passwords don't match"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"Passwords don't match"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"User with specified email already exists"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"Invalid email or password format"
-//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/signUp [post]
+// @Tags			authentication
+// @Summary		Sign up
+// @Description	Register a new user
+// @Accept			json
+// @Produce		json
+// @Param			body	body		routes.SignUpRequest			true	"Email, password, and confirm password"
+// @Success		200		{object}	routes.DefaultMessageResponse	"Successfully registered"
+// @Failure		400		{object}	routes.DefaultMessageResponse	"Invalid request format or passwords don't match"
+// @Failure		400		{object}	routes.DefaultMessageResponse	"Passwords don't match"
+// @Failure		400		{object}	routes.DefaultMessageResponse	"User with specified email already exists"
+// @Failure		400		{object}	routes.DefaultMessageResponse	"Invalid email or password format"
+// @Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/signUp [post]
 func (m *AuthRoute) POST_SignUp(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 

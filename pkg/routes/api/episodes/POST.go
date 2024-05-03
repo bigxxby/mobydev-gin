@@ -10,20 +10,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			episodes
-// POST_Episode creates a single episode for a season
-//
-//	@Summary		Create episode
-//	@Description	Creates a single episode for the specified season
-//	@Produce		json
-//	@Param			id	path	int	true	"Season ID"
-//	@Security		ApiKeyAuth
-//	@Param			episode	body		routes.EpisodeRequest			true	"Episode"
-//	@Success		200		{object}	routes.DefaultMessageResponse	"Episode added"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		404		{object}	routes.DefaultMessageResponse	"Season not found"
-//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal Server Error"
-//	@Router			/api/episodes/{id} [post]
+// @Tags			episodes
+// @Summary		Create episode
+// @Description	Creates a single episode for the specified season
+// @Produce		json
+// @Param			id	path	int	true	"Season ID"
+// @Security		ApiKeyAuth
+// @Param			episode	body		routes.EpisodeRequest			true	"Episode"
+// @Success		200		{object}	routes.DefaultMessageResponse	"Episode added"
+// @Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		404		{object}	routes.DefaultMessageResponse	"Season not found"
+// @Failure		500		{object}	routes.DefaultMessageResponse	"Internal Server Error"
+// @Router			/api/episodes/{id} [post]
 func (m *EpisodesRoute) POST_Episode(c *gin.Context) {
 	seasonId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -92,19 +90,18 @@ type EpisodeRequest struct {
 	Description     string `json:"description"`
 }
 
-// POST_Episodes creates multiple episodes for a season
-//
-//	@Summary		Create episodes
-//	@Description	Creates multiple episodes for the specified season
-//	@Produce		json
-//	@Param			id	path	int	true	"Season ID"
-//	@Security		ApiKeyAuth
-//	@Param			episodes	body		EpisodeRequestBody				true	"Episodes"
-//	@Success		200			{object}	routes.DefaultMessageResponse	"Multiple Episodes added"
-//	@Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		404			{object}	routes.DefaultMessageResponse	"Season not found"
-//	@Failure		500			{object}	routes.DefaultMessageResponse	"Internal Server Error"
-//	@Router			/api/episodes/{id}/multiple [post]
+// @Tags			episodes
+// @Summary		Create episodes
+// @Description	Creates multiple episodes for the specified season
+// @Produce		json
+// @Param			id	path	int	true	"Season ID"
+// @Security		ApiKeyAuth
+// @Param			episodes	body		EpisodeRequestBody				true	"Episodes"
+// @Success		200			{object}	routes.DefaultMessageResponse	"Multiple Episodes added"
+// @Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		404			{object}	routes.DefaultMessageResponse	"Season not found"
+// @Failure		500			{object}	routes.DefaultMessageResponse	"Internal Server Error"
+// @Router			/api/episodes/{id}/multiple [post]
 func (m *EpisodesRoute) POST_Episodes(c *gin.Context) {
 	seasonId := c.Param("id")
 	userId := c.GetInt("userId")

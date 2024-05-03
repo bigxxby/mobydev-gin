@@ -49,10 +49,10 @@ not done docs -
 -favorites
 -update pass
 -search
+-filters
 
 
 
-NOT DONE 
 
 
 
@@ -62,7 +62,6 @@ NOT DONE
 //can add season number not structered (multiple seasons on number on the same number)
 // ? movie search and simular movies searches movie by keywords, and it works only if keywords have spaces after ","  if like this -> "thiriller,drama" will not work.
 // adding large number on CRUD opreations will give 500 error, need to fix
-// finish password and search, make docs for them
 // fix episode docs, not needed struct used
 
 //swag init -g server/main.go

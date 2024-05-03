@@ -10,19 +10,17 @@ import (
 )
 
 // @Tags			ageCategory
-// POST_AgeCategory creates a new age category
-//
-//	@Summary		Create a new age category
-//	@Description	Creates a new age category
-//	@Produce		json
-//	@Security		ApiKeyAuth
-//	@Param			ageCategory	body		routes.AgeCategoryRequest		true	"Age Category"
-//	@Success		200			{object}	routes.DefaultMessageResponse	"Age category created"
-//	@Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		409			{object}	routes.DefaultMessageResponse	"Age category already exists"
-//	@Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/age-categories [post]
+// @Summary		Create a new age category
+// @Description	Creates a new age category
+// @Produce		json
+// @Security		ApiKeyAuth
+// @Param			ageCategory	body		routes.AgeCategoryRequest		true	"Age Category"
+// @Success		200			{object}	routes.DefaultMessageResponse	"Age category created"
+// @Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
+// @Failure		409			{object}	routes.DefaultMessageResponse	"Age category already exists"
+// @Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/age-categories [post]
 func (m *AgeRoute) POST_AgeCategory(c *gin.Context) {
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")

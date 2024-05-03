@@ -558,6 +558,8 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Get all categories
+      tags:
+      - categories
     post:
       description: Creates a new category
       parameters:
@@ -630,6 +632,8 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Delete a category
+      tags:
+      - categories
     get:
       description: Retrieves the category with the specified ID
       parameters:
@@ -710,6 +714,8 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Update a category
+      tags:
+      - categories
   /api/change-password:
     post:
       consumes:
@@ -765,18 +771,20 @@ paths:
       - authentication
   /api/episodes/{id}:
     delete:
-      description: Deletes an episode with the specified ID
+      consumes:
+      - application/json
+      description: Delete a movie from user's favorites by movie ID
       parameters:
-      - description: Episode ID
+      - description: Movie ID
         in: path
         name: id
         required: true
-        type: integer
+        type: string
       produces:
       - application/json
       responses:
         "200":
-          description: Episode deleted
+          description: Favorite Deleted
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "400":
@@ -788,7 +796,7 @@ paths:
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "404":
-          description: Episode Not Found
+          description: No such movie added to favorites
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "500":
@@ -797,9 +805,9 @@ paths:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       security:
       - ApiKeyAuth: []
-      summary: Delete an episode
+      summary: Delete favorite movie
       tags:
-      - episodes
+      - favorites
     get:
       description: Retrieves an episode with the specified ID
       parameters:
@@ -868,48 +876,6 @@ paths:
       summary: Create episode
       tags:
       - episodes
-    put:
-      description: Updates an existing episode
-      parameters:
-      - description: Episode ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: Episode
-        in: body
-        name: episode
-        required: true
-        schema:
-          $ref: '#/definitions/routes.EpisodeRequest'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Episode updated
-          schema:
-            $ref: '#/definitions/routes.DefaultMessageResponse'
-        "400":
-          description: Bad request
-          schema:
-            $ref: '#/definitions/routes.DefaultMessageResponse'
-        "401":
-          description: Unauthorized
-          schema:
-            $ref: '#/definitions/routes.DefaultMessageResponse'
-        "404":
-          description: Episode not found
-          schema:
-            $ref: '#/definitions/routes.DefaultMessageResponse'
-        "500":
-          description: Internal server error
-          schema:
-            $ref: '#/definitions/routes.DefaultMessageResponse'
-      security:
-      - ApiKeyAuth: []
-      summary: Update episode
-      tags:
-      - episodes
   /api/episodes/{id}/multiple:
     post:
       description: Creates multiple episodes for the specified season
@@ -947,6 +913,80 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: Create episodes
+      tags:
+      - episodes
+  /api/episodes/season/{id}/{episodeNumber}:
+    delete:
+      description: 'Deletes an episode with the specified number from the current
+        season. (NOTE: deletes ALL episodes of selected number, including duplicates)'
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Episode number
+        in: path
+        name: episodeNumber
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Episode numbers of selected season deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete an episode of the current season
+      tags:
+      - episodes
+  /api/episodes/season/{id}/clear:
+    delete:
+      description: Deletes all episodes belonging to the specified season
+      parameters:
+      - description: Season ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: All episodes of selected season deleted
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Delete all episodes of a season
+      tags:
+      - episodes
   /api/movies:
     get:
       description: Retrieves movies for a user

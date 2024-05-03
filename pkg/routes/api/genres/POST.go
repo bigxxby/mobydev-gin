@@ -8,13 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	type Category struct {
-//		ID          int    `json:"id"`
-//		UserID      int    `json:"user_id"` // created by
-//		Name        string `json:"category_name"`
-//		Description string `json:"description"`
-//		Created_at  string `json:"created_at"`
-//	}
 func (m *GenreRoute) POST_Genre(c *gin.Context) {
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")

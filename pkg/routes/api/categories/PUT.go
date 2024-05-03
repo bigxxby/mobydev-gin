@@ -9,9 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// PUT_Category updates a category
-//	@Tags	categories
-
+//	@Tags			categories
 //	@Summary		Update a category
 //	@Description	Updates an existing category
 //	@Produce		json
