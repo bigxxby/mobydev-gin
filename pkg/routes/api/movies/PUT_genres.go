@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags			Movies
+// @Tags			movies
 //
 //	@Summary		Update movie genres
 //	@Description	Updates the genres of a movie with the specified ID

@@ -73,7 +73,6 @@ func (m *PosterRoute) DELETE_Posters(c *gin.Context) {
 	})
 }
 
-// @Tags	Posters
 // @Summary		Deletes a poster of a movie
 // @Description	Delete a poster by movie ID
 // @Tags			posters

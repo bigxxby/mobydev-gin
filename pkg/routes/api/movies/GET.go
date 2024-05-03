@@ -8,15 +8,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			Movies
-//	@Summary		Get all movies
-//	@Description	Retrieves movies for a user
-//	@Produce		json
-//	@Param			limit	query		int							false	"Limit"
-//	@Success		200		{object}	routes.ManyMoviesResponse	"OK"
-//	@Failure		400		{object}	routes.DefaultMessageResponse"Invalid limit parameter"
-//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/movies [get]
+// @Tags			movies
+// @Summary		Get all movies
+// @Description	Retrieves movies for a user
+// @Produce		json
+// @Param			limit	query		int							false	"Limit"
+// @Success		200		{object}	routes.ManyMoviesResponse	"OK"
+// @Failure		400		{object}	routes.DefaultMessageResponse"Invalid limit parameter"
+// @Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/movies [get]
 func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 	userId := c.GetInt("userId")
 	limit := c.Query("limit")
@@ -57,7 +57,8 @@ func (m *MoviesRoute) GET_Movies(c *gin.Context) {
 }
 
 // GET_Movie retrieves details of a specific movie
-//	@Tags			Movies
+//
+//	@Tags			movies
 //	@Summary		Get movie details
 //	@Description	Retrieves details of a specific movie including its seasons and similar movies
 //	@Produce		json

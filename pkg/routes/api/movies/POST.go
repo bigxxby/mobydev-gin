@@ -11,20 +11,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			Movies
-//	@Summary		Create a new movie
-//	@Description	Creates a new movie with provided details
-//	@Produce		json
-//	@Security		ApiKeyAuth
-//	@Param			movie	body		routes.MovieCreateRequest		true	"Movie object"
-//	@Success		200		{object}	routes.DefaultMessageResponse	"Movie Created"
-//	@Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401		{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		404		{object}	routes.DefaultMessageResponse	"Genre not found"
-//	@Failure		404		{object}	routes.DefaultMessageResponse	"Age category not found"
-//	@Failure		404		{object}	routes.DefaultMessageResponse	"Category not found"
-//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/movies [post]
+// @Tags			movies
+// @Summary		Create a new movie
+// @Description	Creates a new movie with provided details
+// @Produce		json
+// @Security		ApiKeyAuth
+// @Param			movie	body		routes.MovieCreateRequest		true	"Movie object"
+// @Success		200		{object}	routes.DefaultMessageResponse	"Movie Created"
+// @Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401		{object}	routes.DefaultMessageResponse	"Unauthorized"
+// @Failure		404		{object}	routes.DefaultMessageResponse	"Genre not found"
+// @Failure		404		{object}	routes.DefaultMessageResponse	"Age category not found"
+// @Failure		404		{object}	routes.DefaultMessageResponse	"Category not found"
+// @Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/movies [post]
 func (m *MoviesRoute) POST_Movie(c *gin.Context) {
 	userRole := c.GetString("role")
 	userId := c.GetInt("userId")

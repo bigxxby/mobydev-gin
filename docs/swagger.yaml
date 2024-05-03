@@ -137,6 +137,15 @@ definitions:
     - producer
     - year
     type: object
+  movie.MovieShort:
+    properties:
+      id:
+        type: integer
+      mainPoster:
+        type: string
+      name:
+        type: string
+    type: object
   routes.AgeCategoryRequest:
     properties:
       max_age:
@@ -1212,7 +1221,7 @@ paths:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       summary: Get all movies
       tags:
-      - Movies
+      - movies
     post:
       description: Creates a new movie with provided details
       parameters:
@@ -1249,7 +1258,7 @@ paths:
       - ApiKeyAuth: []
       summary: Create a new movie
       tags:
-      - Movies
+      - movies
   /api/movies/{id}:
     delete:
       description: Deletes a movie with the specified ID
@@ -1286,7 +1295,7 @@ paths:
       - ApiKeyAuth: []
       summary: Delete a movie
       tags:
-      - Movies
+      - movies
     get:
       description: Retrieves details of a specific movie including its seasons and
         similar movies
@@ -1317,7 +1326,7 @@ paths:
             $ref: '#/definitions/routes.DefaultMessageResponse'
       summary: Get movie details
       tags:
-      - Movies
+      - movies
   /api/movies/age-category/{id}:
     put:
       description: Updates the age category of a movie with the specified ID
@@ -1360,7 +1369,70 @@ paths:
       - ApiKeyAuth: []
       summary: Update movie age category
       tags:
-      - Movies
+      - movies
+  /api/movies/by-age-category:
+    get:
+      description: Retrieves every movie categorized by age category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            additionalProperties:
+              items:
+                $ref: '#/definitions/movie.MovieShort'
+              type: array
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get every movie by age category
+      tags:
+      - query
+  /api/movies/by-category:
+    get:
+      description: Retrieves every movie categorized by category
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            additionalProperties:
+              items:
+                $ref: '#/definitions/movie.MovieShort'
+              type: array
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get every movie by category
+      tags:
+      - query
+  /api/movies/by-genre:
+    get:
+      description: Retrieves every movie categorized by genre
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            additionalProperties:
+              items:
+                $ref: '#/definitions/movie.MovieShort'
+              type: array
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      summary: Get every movie by genre
+      tags:
+      - query
   /api/movies/category/{id}:
     put:
       description: Updates the category of a movie with the specified ID
@@ -1403,7 +1475,7 @@ paths:
       - ApiKeyAuth: []
       summary: Update movie category
       tags:
-      - Movies
+      - movies
   /api/movies/data/{id}:
     put:
       description: Updates the data of a movie with the specified ID
@@ -1446,7 +1518,7 @@ paths:
       - ApiKeyAuth: []
       summary: Update movie data
       tags:
-      - Movies
+      - movies
   /api/movies/genres/{id}:
     put:
       description: Updates the genres of a movie with the specified ID
@@ -1489,7 +1561,32 @@ paths:
       - ApiKeyAuth: []
       summary: Update movie genres
       tags:
-      - Movies
+      - movies
+  /api/movies/search:
+    get:
+      description: Search movies based on a query string, (searches by name and keywords)
+      parameters:
+      - description: Search query
+        in: query
+        name: query
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+          schema:
+            $ref: '#/definitions/routes.ManyMoviesResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Search movies
+      tags:
+      - query
   /api/posters/{id}:
     delete:
       description: Delete a poster by its ID
@@ -1560,7 +1657,8 @@ paths:
       tags:
       - posters
     post:
-      description: Creates posters for Movie Id
+      description: Creates posters for Movie Id (Only 5, next posters after 5 will
+        be ignored)
       parameters:
       - description: Movie ID
         in: path
@@ -1629,7 +1727,6 @@ paths:
       - ApiKeyAuth: []
       summary: Deletes a poster of a movie
       tags:
-      - Posters
       - posters
   /api/profile:
     get:

@@ -1253,7 +1253,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Get all movies",
                 "parameters": [
@@ -1296,7 +1296,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Create a new movie",
                 "parameters": [
@@ -1356,7 +1356,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Update movie age category",
                 "parameters": [
@@ -1411,6 +1411,102 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/movies/by-age-category": {
+            "get": {
+                "description": "Retrieves every movie categorized by age category",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "query"
+                ],
+                "summary": "Get every movie by age category",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/movie.MovieShort"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/by-category": {
+            "get": {
+                "description": "Retrieves every movie categorized by category",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "query"
+                ],
+                "summary": "Get every movie by category",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/movie.MovieShort"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/movies/by-genre": {
+            "get": {
+                "description": "Retrieves every movie categorized by genre",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "query"
+                ],
+                "summary": "Get every movie by genre",
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/definitions/movie.MovieShort"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/movies/category/{id}": {
             "put": {
                 "security": [
@@ -1423,7 +1519,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Update movie category",
                 "parameters": [
@@ -1490,7 +1586,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Update movie data",
                 "parameters": [
@@ -1557,7 +1653,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Update movie genres",
                 "parameters": [
@@ -1612,6 +1708,46 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/movies/search": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Search movies based on a query string, (searches by name and keywords)",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "query"
+                ],
+                "summary": "Search movies",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Search query",
+                        "name": "query",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "schema": {
+                            "$ref": "#/definitions/routes.ManyMoviesResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/api/movies/{id}": {
             "get": {
                 "description": "Retrieves details of a specific movie including its seasons and similar movies",
@@ -1619,7 +1755,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Get movie details",
                 "parameters": [
@@ -1669,7 +1805,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Movies"
+                    "movies"
                 ],
                 "summary": "Delete a movie",
                 "parameters": [
@@ -1727,7 +1863,6 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Posters",
                     "posters"
                 ],
                 "summary": "Deletes a poster of a movie",
@@ -1825,7 +1960,7 @@ const docTemplate = `{
                         "ApiKeyAuth": []
                     }
                 ],
-                "description": "Creates posters for Movie Id",
+                "description": "Creates posters for Movie Id (Only 5, next posters after 5 will be ignored)",
                 "produces": [
                     "application/json"
                 ],
@@ -2888,6 +3023,20 @@ const docTemplate = `{
                 },
                 "year": {
                     "type": "integer"
+                }
+            }
+        },
+        "movie.MovieShort": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "mainPoster": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
                 }
             }
         },

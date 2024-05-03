@@ -9,8 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags			Movies
-//
+// @Tags			movies
 // @Summary		Update movie data
 // @Description	Updates the data of a movie with the specified ID
 // @Produce		json

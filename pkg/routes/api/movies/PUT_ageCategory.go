@@ -9,20 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//	@Tags			Movies
-//	@Summary		Update movie age category
-//	@Description	Updates the age category of a movie with the specified ID
-//	@Produce		json
-//	@Param			id	path	int	true	"Movie ID"
-//	@Security		ApiKeyAuth
-//	@Param			ageCategoryName	body		string							true	"Age Category Name"
-//	@Success		200				{object}	routes.DefaultMessageResponse	"Movie ageCategory updated"
-//	@Failure		400				{object}	routes.DefaultMessageResponse	"Bad request"
-//	@Failure		401				{object}	routes.DefaultMessageResponse	"Unauthorized"
-//	@Failure		404				{object}	routes.DefaultMessageResponse	"Age category not found"
-//	@Failure		404				{object}	routes.DefaultMessageResponse	"Movie not found"
-//	@Failure		500				{object}	routes.DefaultMessageResponse	"Internal server error"
-//	@Router			/api/movies/age-category/{id} [put]
+// @Tags			movies
+// @Summary		Update movie age category
+// @Description	Updates the age category of a movie with the specified ID
+// @Produce		json
+// @Param			id	path	int	true	"Movie ID"
+// @Security		ApiKeyAuth
+// @Param			ageCategoryName	body		string							true	"Age Category Name"
+// @Success		200				{object}	routes.DefaultMessageResponse	"Movie ageCategory updated"
+// @Failure		400				{object}	routes.DefaultMessageResponse	"Bad request"
+// @Failure		401				{object}	routes.DefaultMessageResponse	"Unauthorized"
+// @Failure		404				{object}	routes.DefaultMessageResponse	"Age category not found"
+// @Failure		404				{object}	routes.DefaultMessageResponse	"Movie not found"
+// @Failure		500				{object}	routes.DefaultMessageResponse	"Internal server error"
+// @Router			/api/movies/age-category/{id} [put]
 func (m *MoviesRoute) PUT_MovieAgeCategory(c *gin.Context) {
 	movieId := c.Param("id")
 	userRole := c.GetString("role")
