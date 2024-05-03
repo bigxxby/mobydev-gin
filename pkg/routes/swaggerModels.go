@@ -108,3 +108,6 @@ type SeasonBodyRequest struct {
 type SeasonsBodyRequest struct {
 	Seasons []SeasonBodyRequest `json:"seasons" binding:"required"`
 }
+type PostersBodyRequest struct {
+	Posters [5]string `json:"posters" binding:"required"`
+}

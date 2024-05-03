@@ -76,7 +76,7 @@ func (m *PosterRoute) DELETE_Posters(c *gin.Context) {
 // @Tags	Posters
 // @Summary		Deletes a poster of a movie
 // @Description	Delete a poster by movie ID
-// @Tags			Posters
+// @Tags			posters
 // @Produce		json
 // @Param			id	path	string	true	"Movie ID"
 // @Security		ApiKeyAuth

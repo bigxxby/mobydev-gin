@@ -284,6 +284,15 @@ definitions:
       movie:
         $ref: '#/definitions/movie.Movie'
     type: object
+  routes.PostersBodyRequest:
+    properties:
+      posters:
+        items:
+          type: string
+        type: array
+    required:
+    - posters
+    type: object
   routes.SeasonBodyRequest:
     properties:
       description:
@@ -1518,11 +1527,10 @@ paths:
       summary: Deletes a poster
       tags:
       - Posters
-  /api/posters/movie/{id}:
-    delete:
-      description: Delete a poster by movie ID
+    get:
+      description: Gets posters by Movie Id
       parameters:
-      - description: Poster ID
+      - description: Movie ID
         in: path
         name: id
         required: true
@@ -1531,7 +1539,78 @@ paths:
       - application/json
       responses:
         "200":
-          description: 'message": "Posters Deleted'
+          description: 'message": "Posters'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: 'message": "Bad request'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: 'message": "Poster not found'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: 'message": "Internal server error'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Get posters
+      tags:
+      - posters
+    post:
+      description: Creates posters for Movie Id
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Posters
+        in: body
+        name: poster
+        required: true
+        schema:
+          $ref: '#/definitions/routes.PostersBodyRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": "Posters added'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: 'message": "Bad request'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: 'message": "Movie not found'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: 'message": "Internal server error'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Create posters
+      tags:
+      - posters
+  /api/posters/movie/{id}:
+    delete:
+      description: Delete a poster by movie ID
+      parameters:
+      - description: Movie ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": "Posters of a Movie Deleted'
           schema:
             $ref: '#/definitions/routes.DefaultMessageResponse'
         "400":
@@ -1551,7 +1630,7 @@ paths:
       summary: Deletes a poster of a movie
       tags:
       - Posters
-      - Posters
+      - posters
   /api/profile:
     get:
       description: Retrieves the profile of the authenticated user

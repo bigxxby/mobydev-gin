@@ -1728,13 +1728,13 @@ const docTemplate = `{
                 ],
                 "tags": [
                     "Posters",
-                    "Posters"
+                    "posters"
                 ],
                 "summary": "Deletes a poster of a movie",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Poster ID",
+                        "description": "Movie ID",
                         "name": "id",
                         "in": "path",
                         "required": true
@@ -1742,7 +1742,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "message\": \"Posters Deleted",
+                        "description": "message\": \"Posters of a Movie Deleted",
                         "schema": {
                             "$ref": "#/definitions/routes.DefaultMessageResponse"
                         }
@@ -1769,6 +1769,115 @@ const docTemplate = `{
             }
         },
         "/api/posters/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Gets posters by Movie Id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "posters"
+                ],
+                "summary": "Get posters",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message\": \"Posters",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "message\": \"Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "message\": \"Poster not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "message\": \"Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "description": "Creates posters for Movie Id",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "posters"
+                ],
+                "summary": "Create posters",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Movie ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Posters",
+                        "name": "poster",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/routes.PostersBodyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "message\": \"Posters added",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "message\": \"Bad request",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "message\": \"Movie not found",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "message\": \"Internal server error",
+                        "schema": {
+                            "$ref": "#/definitions/routes.DefaultMessageResponse"
+                        }
+                    }
+                }
+            },
             "delete": {
                 "security": [
                     {
@@ -2992,6 +3101,20 @@ const docTemplate = `{
             "properties": {
                 "movie": {
                     "$ref": "#/definitions/movie.Movie"
+                }
+            }
+        },
+        "routes.PostersBodyRequest": {
+            "type": "object",
+            "required": [
+                "posters"
+            ],
+            "properties": {
+                "posters": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },

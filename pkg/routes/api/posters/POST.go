@@ -8,8 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// adds posters to he movie by array of 5 (CAN ACCEPT only 5 ulrs)
-// @Tags Posters
+// @Summary		Create posters
+// @Description Creates posters for Movie Id (Only 5, next posters after 5 will be ignored)
+// @Tags			posters
+// @Produce		json
+// @Param			id	path	string	true	"Movie ID"
+// @Param			poster	body  routes.PostersBodyRequest	true	"Posters"
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"message": "Posters added"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"message": "Bad request"
+// @Failure		404	{object}	routes.DefaultMessageResponse	"message": "Movie not found"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"message": "Internal server error"
+// @Router			/api/posters/{id}   [post]
 func (m *PosterRoute) POST_PostersOfMoive(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
