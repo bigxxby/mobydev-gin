@@ -8,7 +8,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags Posters
+// @Summary		Deletes a poster
+// @Description	Delete a poster by its ID
+// @Tags			Posters
+// @Produce		json
+// @Param			id	path	string	true	"Poster ID"
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"message": "Posters Deleted"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"message": "Bad request"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"message": "Unauthorized"
+// @Failure		404	{object}	routes.DefaultMessageResponse	"message": "Poster not found"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"message": "Internal server error"
+// @Router			/api/posters/{id}   [delete]
 func (m *PosterRoute) DELETE_Posters(c *gin.Context) {
 	posterId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -62,7 +73,18 @@ func (m *PosterRoute) DELETE_Posters(c *gin.Context) {
 	})
 }
 
-// @Tags Posters
+// @Tags	Posters
+// @Summary		Deletes a poster of a movie
+// @Description	Delete a poster by movie ID
+// @Tags			Posters
+// @Produce		json
+// @Param			id	path	string	true	"Movie ID"
+// @Security		ApiKeyAuth
+// @Success		200	{object}	routes.DefaultMessageResponse	"message": "Posters of a Movie Deleted"
+// @Failure		400	{object}	routes.DefaultMessageResponse	"message": "Bad request"
+// @Failure		401	{object}	routes.DefaultMessageResponse	"message": "Unauthorized"
+// @Failure		500	{object}	routes.DefaultMessageResponse	"message": "Internal server error"
+// @Router			/api/posters/movie/{id}   [delete]
 func (m *PosterRoute) DELETE_PostersMovie(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -76,12 +98,6 @@ func (m *PosterRoute) DELETE_PostersMovie(c *gin.Context) {
 	valid, movieIdNum := utils.IsValidNum(movieId)
 	if !valid {
 		c.JSON(400, gin.H{
-			"messsage": "Bad request",
-		})
-		return
-	}
-	if !valid {
-		c.JSON(http.StatusBadRequest, gin.H{
 			"messsage": "Bad request",
 		})
 		return

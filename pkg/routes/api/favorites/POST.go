@@ -9,20 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags			favorites
-// @Summary		Adds a movie to favorites
-// @Description	Adds a movie with the specified ID to the favorites list of the authenticated user
-// @Accepts		json
-// @Produce		json
-// @Security		ApiKeyAuth
-// @Param			id	path		int		true	"ID of the movie to add to favorites"
-// @Success		200	{object}	routes.DefaultMessageResponse	"Movie added to favorites"
-// @Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
-// @Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
-// @Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
-// @Failure		409	{object}	routes.DefaultMessageResponse	"Movie already added to favorites by this user"
-// @Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
-// @Router			/api/favorites/{id} [POST]
+//	@Tags			favorites
+//	@Summary		Adds a movie to favorites
+//	@Description	Adds a movie with the specified ID to the favorites list of the authenticated user
+//	@Accepts		json
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			id	path		int								true	"ID of the movie to add to favorites"
+//	@Success		200	{object}	routes.DefaultMessageResponse	"Movie added to favorites"
+//	@Failure		400	{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401	{object}	routes.DefaultMessageResponse	"Unauthorised"
+//	@Failure		404	{object}	routes.DefaultMessageResponse	"Movie not found"
+//	@Failure		409	{object}	routes.DefaultMessageResponse	"Movie already added to favorites by this user"
+//	@Failure		500	{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/favorites/{id} [POST]
 func (m *FavoritesRoute) POST_Favorite(c *gin.Context) {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 

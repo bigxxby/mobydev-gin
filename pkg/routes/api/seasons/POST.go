@@ -10,20 +10,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags seasons
-// @Summary Creates a new season
-// @Description Creates a new season for the specified movie
-// @Param id path int true "Movie ID"
-// @Accept json
-// @Produce json
-// @Security ApiKeyAuth
-// @Param			seasonData	body		routes.SeasonBodyRequest			true	"Season Data"
-// @Success 200 {object} routes.DefaultMessageResponse "Season Added"
-// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
-// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
-// @Failure 404 {object} routes.DefaultMessageResponse "Movie not found"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/seasons/{id} [POST]
+//	@Tags			seasons
+//	@Summary		Creates a new season
+//	@Description	Creates a new season for the specified movie
+//	@Param			id	path	int	true	"Movie ID"
+//	@Accept			json
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			seasonData	body		routes.SeasonBodyRequest		true	"Season Data"
+//	@Success		200			{object}	routes.DefaultMessageResponse	"Season Added"
+//	@Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404			{object}	routes.DefaultMessageResponse	"Movie not found"
+//	@Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/seasons/{id} [POST]
 func (m *SeasonsRoute) POST_CreateSeason(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")
@@ -82,20 +82,20 @@ func (m *SeasonsRoute) POST_CreateSeason(c *gin.Context) {
 	})
 }
 
-// @Tags seasons
-// @Summary Creates multiple seasons
-// @Description Creates multiple seasons for the specified movie
-// @Param id path int true "Movie ID"
-// @Accept json
-// @Produce json
-// @Security ApiKeyAuth
-// @Param			seasonsData	body		routes.SeasonsBodyRequest			true	"Seasons"
-// @Success 200 {object} routes.DefaultMessageResponse "Season Added"
-// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
-// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
-// @Failure 404 {object} routes.DefaultMessageResponse "Movie not found"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/seasons/{id}/multiple [POST]
+//	@Tags			seasons
+//	@Summary		Creates multiple seasons
+//	@Description	Creates multiple seasons for the specified movie
+//	@Param			id	path	int	true	"Movie ID"
+//	@Accept			json
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			seasonsData	body		routes.SeasonsBodyRequest		true	"Seasons"
+//	@Success		200			{object}	routes.DefaultMessageResponse	"Season Added"
+//	@Failure		400			{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401			{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404			{object}	routes.DefaultMessageResponse	"Movie not found"
+//	@Failure		500			{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/seasons/{id}/multiple [POST]
 func (m *SeasonsRoute) POST_CreateSeasons(c *gin.Context) {
 	movieId := c.Param("id")
 	userId := c.GetInt("userId")

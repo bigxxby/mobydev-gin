@@ -1481,6 +1481,77 @@ paths:
       summary: Update movie genres
       tags:
       - Movies
+  /api/posters/{id}:
+    delete:
+      description: Delete a poster by its ID
+      parameters:
+      - description: Poster ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": "Posters Deleted'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: 'message": "Bad request'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: 'message": "Unauthorized'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "404":
+          description: 'message": "Poster not found'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: 'message": "Internal server error'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes a poster
+      tags:
+      - Posters
+  /api/posters/movie/{id}:
+    delete:
+      description: Delete a poster by movie ID
+      parameters:
+      - description: Poster ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'message": "Posters Deleted'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "400":
+          description: 'message": "Bad request'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "401":
+          description: 'message": "Unauthorized'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+        "500":
+          description: 'message": "Internal server error'
+          schema:
+            $ref: '#/definitions/routes.DefaultMessageResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: Deletes a poster of a movie
+      tags:
+      - Posters
+      - Posters
   /api/profile:
     get:
       description: Retrieves the profile of the authenticated user

@@ -10,20 +10,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Tags seasons
-// @Summary Updates a season
-// @Description Updates the details of a season with the specified ID
-// @Param id path int true "Season ID"
-// @Accept json
-// @Produce json
-// @Security ApiKeyAuth
-// @Param season body routes.SeasonBodyRequest true "Updated season information"
-// @Success 200 {object} routes.DefaultMessageResponse "Season updated"
-// @Failure 400 {object} routes.DefaultMessageResponse "Bad request"
-// @Failure 401 {object} routes.DefaultMessageResponse "Unauthorized"
-// @Failure 404 {object} routes.DefaultMessageResponse "Season not found"
-// @Failure 500 {object} routes.DefaultMessageResponse "Internal server error"
-// @Router /api/seasons/{id} [PUT]
+//	@Tags			seasons
+//	@Summary		Updates a season
+//	@Description	Updates the details of a season with the specified ID
+//	@Param			id	path	int	true	"Season ID"
+//	@Accept			json
+//	@Produce		json
+//	@Security		ApiKeyAuth
+//	@Param			season	body		routes.SeasonBodyRequest		true	"Updated season information"
+//	@Success		200		{object}	routes.DefaultMessageResponse	"Season updated"
+//	@Failure		400		{object}	routes.DefaultMessageResponse	"Bad request"
+//	@Failure		401		{object}	routes.DefaultMessageResponse	"Unauthorized"
+//	@Failure		404		{object}	routes.DefaultMessageResponse	"Season not found"
+//	@Failure		500		{object}	routes.DefaultMessageResponse	"Internal server error"
+//	@Router			/api/seasons/{id} [PUT]
 func (m *SeasonsRoute) PUT_Season(c *gin.Context) {
 	seasonId := c.Param("id")
 	userId := c.GetInt("userId")
